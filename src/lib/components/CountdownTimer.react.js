@@ -11,7 +11,8 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
  
  
  /*
- *  TODO:   *  
+ *  TODO:
+ *
  *
  */
  
@@ -74,7 +75,7 @@ export default class CountdownTimer extends Component {
     }
 
     componentDidMount() {
-        this.handleTimer(this.props);
+        this.resetTimer(this.props);
     }
 
     componentDidUpdate(prevProps) {    
@@ -131,9 +132,11 @@ CountdownTimer.propTypes = {
     setProps: PropTypes.func,
 };
 
+
+
 CountdownTimer.defaultProps = {    
     n_seconds: 0,
-    starting_duration: 0,
+    starting_duration: 60,
     remaining_duration:0,
 };
 

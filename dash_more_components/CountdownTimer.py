@@ -12,7 +12,7 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- starting_duration (number; default 0): The amount of time to count down in seconds
+- starting_duration (number; default 60): The amount of time to count down in seconds
 - pause (boolean; optional): If True, the counter will no longer update. If False, the timer will resume.
 - n_seconds (number; default 0): Number of seconds elapsed
 - remaining_duration (number; default 0): remaining time left on countdown timer in seconds"""

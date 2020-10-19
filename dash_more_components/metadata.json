@@ -57,7 +57,7 @@
         "required": false,
         "description": "The amount of time to count down in seconds",
         "defaultValue": {
-          "value": "0",
+          "value": "60",
           "computed": false
         }
       },

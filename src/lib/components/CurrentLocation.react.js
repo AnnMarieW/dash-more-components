@@ -13,17 +13,17 @@ import PropTypes from 'prop-types';
  *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
  *        - How make an object a prop?  Currently position object is  {} in usage.py
  *               success(pos) seems really dopey.  How to update position vars properly?
- *        - make date available as a datetime object rather than string? *
+ *        - format of datetime returned
  *        - error handling and time-out.  Timeout currently set to 5 secs and all errors sent as alerts
   *               to be handled by browser
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
- *        - what causes: "Warning: Cannot update a component from inside the function body of a different component."
+ *
  *        - - figure out what WrappedComponent does in react-geolocated
  *             https://github.com/no23reason/react-geolocated/blob/master/src/index.js
  *
- *         - driving check:accuracy was variable.  Sometimes 30 meters, sometimes 100KM!  THere have been some
+ *         - driving check:accuracy was variable.  Sometimes 30 meters, sometimes 100KM!  There have been some
  *              reports that it's flakey.
  *         - remember to do npx prettier --write before commit
  */
