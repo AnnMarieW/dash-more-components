@@ -1,0 +1,375 @@
+{
+  "src/lib/components/CountdownTimer.react.js": {
+    "description": "This component is a countdown timer.  All times (starting duration, \n    remaining duration and countdown interval) are in seconds",
+    "displayName": "CountdownTimer",
+    "methods": [
+      {
+        "name": "handleTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "resetTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "clearTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "reportInterval",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+      },
+      "starting_duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The amount of time to count down in seconds",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "pause": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If True, the counter will no longer update. If False, the timer will resume."
+      },
+      "n_seconds": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of seconds elapsed",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "remaining_duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "remaining time left on countdown timer in seconds",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash assigned callback"
+      }
+    }
+  },
+  "src/lib/components/CurrentLocation.react.js": {
+    "description": "The CurrentLocation component gets geolocation of device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
+    "displayName": "CurrentLocation",
+    "methods": [
+      {
+        "name": "updatePosition",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "success",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "pos",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "error",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "err",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "date": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The local date and time that the device position was updated"
+      },
+      "latitude": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The latitude of the device"
+      },
+      "longitude": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The longitude of the device"
+      },
+      "accuracy": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The accuracy of the position in meters"
+      },
+      "position": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "latitude": {
+              "name": "number",
+              "required": false
+            },
+            "longitude": {
+              "name": "number",
+              "required": false
+            },
+            "altitude": {
+              "name": "number",
+              "required": false
+            },
+            "accuracy": {
+              "name": "number",
+              "required": false
+            },
+            "altitudeAccuracy": {
+              "name": "number",
+              "required": false
+            },
+            "heading": {
+              "name": "number",
+              "required": false
+            },
+            "speed": {
+              "name": "number",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "The position of the device"
+      },
+      "position_error": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "code": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "1",
+                  "computed": false
+                },
+                {
+                  "value": "2",
+                  "computed": false
+                },
+                {
+                  "value": "3",
+                  "computed": false
+                }
+              ],
+              "required": false
+            },
+            "message": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Position error"
+      },
+      "watch_position": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data\nis updated when either the location changes or more accurate information becomes available",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "update_now": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser\n  will update the position data and reset update_now back to False.  This can, for example, to update the position\n with a button click or an interval timer.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "high_accuracy": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can take\n the liberty to save resources by responding more quickly and/or using less power.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  },
+  "src/lib/components/Timepicker.react.js": {
+    "description": "TODO:  Remove https://github.com/arqex/react-datetime - it takes a lot of space. \n\n           necessary to add className?  if sim test array of strings - classname\n           how to use{...}  ?\n           necessary to specify all vars in div in return?",
+    "displayName": "Timepicker",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "value": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "value is the selected time"
+      },
+      "format": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Input format based on Unicode Technical Standard #35. Supported values are: H, HH, h, hh, m, mm, s, ss, a.\n     example: h:m:s a"
+      },
+      "maxDetail": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'hour'",
+              "computed": false
+            },
+            {
+              "value": "'minute'",
+              "computed": false
+            },
+            {
+              "value": "'second'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "(string, one of 'hour', 'minute', 'second, Default: 'minute')\n  The level of detail to show on the time picker."
+      },
+      "maxTime": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Maximum time the user can select"
+      },
+      "minTime": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Minimum time the user can select"
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the time picker should be disables"
+      },
+      "disableClock": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When set to true will remove the clock and the button toggling its visibility"
+      },
+      "locale": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Locale that should be used by the time picker and the clock.  Can be any\nIEFE language tag. https://en.wikipedia.org/wiki/IETF_language_tag\nDefault from User's browser settings."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  }
+}
