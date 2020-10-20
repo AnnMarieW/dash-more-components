@@ -15,11 +15,10 @@ app.layout = html.Div(
         dmc.CountdownTimer(id="countdown", pause=True, starting_duration=10),
         dbc.RadioItems(
             id="pause",
-            options=[
-                {"label": "Start", "value": "False"},
-                {"label": "Pause", "value": "True"},
+            options=[ {"label": "Start Timer", "value": "start"},
+                {"label": "Pause", "value": "pause"},
             ],
-            value="True",
+            value="pause",
         ),
         html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
         html.H3(id="timer_end_text"),
@@ -36,15 +35,15 @@ app.layout = html.Div(
     Input("countdown", "n_seconds"),
     State("countdown", "remaining_duration"),
 )
-def display_badge(pause, n, remaining_time):
-    pause = True if pause == "True" else False
+def update_display(pause, n, remaining_time):
+    pause = True if pause == "pause" else False
 
     badge_text = (
         f"Checking for updates in {str(dt.timedelta(seconds=remaining_time))}"
         if remaining_time
         else ""
     )
-    timer_end_text = "You Win!!" if (n) and (remaining_time == 0) else ""
+    timer_end_text = "Results are in!" if (n) and (remaining_time == 0) else ""
     return badge_text, timer_end_text, pause
 
 
