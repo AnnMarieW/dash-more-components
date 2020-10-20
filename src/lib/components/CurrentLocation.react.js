@@ -13,9 +13,9 @@ import PropTypes from 'prop-types';
  *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
  *        - How make an object a prop?  Currently position object is  {} in usage.py
  *               success(pos) seems really dopey.  How to update position vars properly?
- *        - format of datetime returned
+ *        - format of datetime returned.  Currently formatted as local time. Add a field for datetime?
  *        - error handling and time-out.  Timeout currently set to 5 secs and all errors sent as alerts
-  *               to be handled by browser
+  *               to be handled by browser.  Should it be a prop instead?
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
@@ -25,7 +25,7 @@ import PropTypes from 'prop-types';
  *
  *         - driving check:accuracy was variable.  Sometimes 30 meters, sometimes 100KM!  There have been some
  *              reports that it's flakey.
- *         - remember to do npx prettier --write before commit
+ *
  */
 
 
@@ -87,23 +87,16 @@ export default class CurrentLocation extends Component {
 
 
   success(pos) {
-    const lat =pos.coords.latitude;
-    const lon =pos.coords.longitude;
-    const acc =pos.coords.accuracy;
+    const crd = pos.coords
+    const lat = crd.latitude;
+    const lon = crd.longitude;
+    const acc = crd.accuracy;
 
     this.props.setProps({
       latitude: lat,
       longitude: lon,
       accuracy: acc,
     });
-
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-    console.log(`crd${crd}`);
-
-
   }
 
 
@@ -163,12 +156,14 @@ CurrentLocation.propTypes = {
     }),
 
     /**
-    *  Position error
-    */
+    *  Position error  ** Add this prop? ***
+
     position_error: PropTypes.shape({
         code: PropTypes.oneOf([1, 2, 3]),
         message: PropTypes.string,
     }),
+    */
+
 
     /**
     *  (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data

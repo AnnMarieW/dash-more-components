@@ -23,10 +23,6 @@ Those keys have the following types:
   - altitudeAccuracy (number; optional)
   - heading (number; optional)
   - speed (number; optional)
-- position_error (dict; optional): Position error. position_error has the following type: dict containing keys 'code', 'message'.
-Those keys have the following types:
-  - code (a value equal to: 1, 2, 3; optional)
-  - message (string; optional)
 - watch_position (boolean; default False): (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
 is updated when either the location changes or more accurate information becomes available
 - update_now (boolean; default False): (boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser
@@ -37,12 +33,12 @@ is updated when either the location changes or more accurate information becomes
  chip on a mobile device for example). If false (the default value), the device can take
  the liberty to save resources by responding more quickly and/or using less power."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, date=Component.UNDEFINED, latitude=Component.UNDEFINED, longitude=Component.UNDEFINED, accuracy=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'date', 'latitude', 'longitude', 'accuracy', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy']
+    def __init__(self, id=Component.UNDEFINED, date=Component.UNDEFINED, latitude=Component.UNDEFINED, longitude=Component.UNDEFINED, accuracy=Component.UNDEFINED, position=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'date', 'latitude', 'longitude', 'accuracy', 'position', 'watch_position', 'update_now', 'high_accuracy']
         self._type = 'CurrentLocation'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'date', 'latitude', 'longitude', 'accuracy', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy']
+        self.available_properties = ['id', 'date', 'latitude', 'longitude', 'accuracy', 'position', 'watch_position', 'update_now', 'high_accuracy']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

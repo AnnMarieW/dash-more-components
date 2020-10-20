@@ -208,37 +208,6 @@
         "required": false,
         "description": "The position of the device"
       },
-      "position_error": {
-        "type": {
-          "name": "shape",
-          "value": {
-            "code": {
-              "name": "enum",
-              "value": [
-                {
-                  "value": "1",
-                  "computed": false
-                },
-                {
-                  "value": "2",
-                  "computed": false
-                },
-                {
-                  "value": "3",
-                  "computed": false
-                }
-              ],
-              "required": false
-            },
-            "message": {
-              "name": "string",
-              "required": false
-            }
-          }
-        },
-        "required": false,
-        "description": "Position error"
-      },
       "watch_position": {
         "type": {
           "name": "bool"

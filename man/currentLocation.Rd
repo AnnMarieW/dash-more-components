@@ -11,8 +11,8 @@ The CurrentLocation component gets geolocation of device from the web browser.  
 
 \usage{
 currentLocation(id=NULL, date=NULL, latitude=NULL, longitude=NULL,
-accuracy=NULL, position=NULL, position_error=NULL,
-watch_position=NULL, update_now=NULL, high_accuracy=NULL)
+accuracy=NULL, position=NULL, watch_position=NULL,
+update_now=NULL, high_accuracy=NULL)
 }
 
 \arguments{
@@ -35,11 +35,6 @@ those elements have the following types:
   - altitudeaccuracy (numeric; optional)
   - heading (numeric; optional)
   - speed (numeric; optional). The position of the device}
-
-\item{position_error}{Lists containing elements 'code', 'message'.
-those elements have the following types:
-  - code (a value equal to: 1, 2, 3; optional)
-  - message (character; optional). Position error}
 
 \item{watch_position}{Logical. (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
 is updated when either the location changes or more accurate information becomes available}
