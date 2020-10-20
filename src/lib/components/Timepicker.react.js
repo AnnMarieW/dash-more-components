@@ -6,7 +6,7 @@ import TimePicker from 'react-time-picker'
 
 
 /**
- * A time picker for Dash. Also allow selection of milliseconds. 
+ * A time picker for Dash.
  * This is a wrapper for react component: https://github.com/wojtekmaj/react-time-picker
  */
  
@@ -122,70 +122,4 @@ Timepicker.propTypes = {
     setProps: PropTypes.func,    
 };
 
-
-/**********************************************************************************************
-
-
-    /**
-    * (string or array of strings)  Class name(s) that will be added along with "react-time-picker"
-    * to the main React-Time-Picker <div> element.
-    */
-   // className: PropTypes.string,
-  
-  
-    
-    /* (boolean or string,  default: True)  Defines the format for the date. It accepts any 
-     * Moment.js date format (not in localized format). https://momentjs.com/docs/#/displaying/format/
-     * If true the date will be displayed using the defaults for the current locale. 
-     * If false the datepicker is disabled and the component can be used as timepicker
-    */
-  //  dateFormat: PropTypes.oneOfType([
-  //    PropTypes.string,
-  //    PropTypes.bool,    
-  //  ]),
-
-/*
-
-amPmAriaLabel	aria-label for the AM/PM select input.	n/a	"Select AM/PM"
-autoFocus	Automatically focuses the input on mount.	n/a	true
-className	Class name(s) that will be added along with "react-time-picker" to the main React-Time-Picker <div> element.	n/a	
-String: "class1 class2"
-Array of strings: ["class1", "class2 class3"]
-clearAriaLabel	aria-label for the clear button.	n/a	"Clear value"
-clearIcon	Content of the clear button. Setting the value explicitly to null will hide the icon.	(default icon)	
-String: "Clear"
-React element: <ClearIcon />
-clockAriaLabel	aria-label for the clock button.	n/a	"Toggle clock"
-clockClassName	Class name(s) that will be added along with "react-clock" to the main React-Clock <time> element.	n/a	
-String: "class1 class2"
-Array of strings: ["class1", "class2 class3"]
-clockIcon	Content of the clock button. Setting the value explicitly to null will hide the icon.	(default icon)	
-String: "Clock"
-React element: <ClockIcon />
-closeClock	Whether to close the clock on value selection.	true	false
-disabled	Whether the time picker should be disabled.	false	true
-disableClock	When set to true, will remove the clock and the button toggling its visibility.	false	true
-
-hourAriaLabel	aria-label for the hour input.	n/a	"Hour"
-hourPlaceholder	placeholder for the hour input.	"--"	"hh"
-isOpen	Whether the clock should be opened.	false	true
-locale	Locale that should be used by the time picker and the clock. Can be any IETF language tag.	User's browser settings	"hu-HU"
-maxDetail	How detailed time picking shall be. Can be "hour", "minute" or "second".	"minute"	"second"
-maxTime	Maximum time that the user can select.	n/a	
-Date: new Date()
-String: "22:15:00"
-minTime	Minimum date that the user can select.	n/a	
-Date: new Date()
-String: "22:15:00"
-minuteAriaLabel	aria-label for the minute input.	n/a	"Minute"
-minutePlaceholder	placeholder for the minute input.	"--"	"mm"
-name	Input name.	"time"	"myCustomName"
-nativeInputAriaLabel	aria-label for the native time input.	n/a	"Time"
-onChange	Function called when the user picks a valid time.	n/a	(value) => alert('New time is: ', value)
-onClockClose	Function called when the clock closes.	n/a	() => alert('Clock closed')
-onClockOpen	Function called when the clock opens.	n/a	() => alert('Clock opened')
-required	Whether date input should be required.	false	true
-secondAriaLabel	aria-label for the second input.	n/a	"Second"
-secondPlaceholder	placeholder for the second input.	"--"	"ss"
-**********************************************************************************************/
 

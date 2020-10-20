@@ -313,6 +313,157 @@
       }
     }
   },
+  "src/lib/components/Datetimepicker.react.js": {
+    "description": "TODO:",
+    "displayName": "Datetimepicker",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "value": {
+        "type": {
+          "name": "any"
+        },
+        "required": false,
+        "description": "value is the selected time"
+      },
+      "format": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Input format based on Unicode Technical Standard #35. \nSupported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a\n     \n     example:  y-MM-dd h:mm:ss a"
+      },
+      "maxDetail": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'hour'",
+              "computed": false
+            },
+            {
+              "value": "'minute'",
+              "computed": false
+            },
+            {
+              "value": "'second'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "(string, one of 'hour', 'minute', 'second, Default: 'minute')\n  The level of detail to show on the datetime picker. View defined here also becomes the one on which\n  clicking an item in the calendar will select a date."
+      },
+      "minDetail": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"month\"",
+              "computed": false
+            },
+            {
+              "value": "\"year\"",
+              "computed": false
+            },
+            {
+              "value": "\"decade\"",
+              "computed": false
+            },
+            {
+              "value": "\"century\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The least detailed calendar view that the user shall see."
+      },
+      "maxTime": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Maximum time the user can select"
+      },
+      "minTime": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Minimum time the user can select"
+      },
+      "maxDate": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "minDate": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the time picker should be disables"
+      },
+      "disableClock": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When set to true will remove the clock and the button toggling its visibility"
+      },
+      "locale": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Locale that should be used by the time picker and the clock.  Can be any\nIEFE language tag. https://en.wikipedia.org/wiki/IETF_language_tag\nDefault from User's browser settings."
+      },
+      "returnValue": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"start\"",
+              "computed": false
+            },
+            {
+              "value": "\"end\"",
+              "computed": false
+            },
+            {
+              "value": "\"range\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.\nCan be \"start\", \"end\" or \"range\". The latter will cause an array with start and end values to be passed."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  },
   "src/lib/components/Timepicker.react.js": {
     "description": "TODO:  Remove https://github.com/arqex/react-datetime - it takes a lot of space. \n\n           necessary to add className?  if sim test array of strings - classname\n           how to use{...}  ?\n           necessary to specify all vars in div in return?",
     "displayName": "Timepicker",

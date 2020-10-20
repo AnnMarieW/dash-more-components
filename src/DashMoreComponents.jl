@@ -8,6 +8,7 @@ const version = "0.0.1"
 include("countdowntimer.jl")
 include("creditcard.jl")
 include("currentlocation.jl")
+include("datetimepicker.jl")
 include("timepicker.jl")
 
 function __init__()
