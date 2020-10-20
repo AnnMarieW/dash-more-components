@@ -6,6 +6,7 @@ const resources_path = realpath(joinpath( @__DIR__, "..", "deps"))
 const version = "0.0.1"
 
 include("countdowntimer.jl")
+include("creditcard.jl")
 include("currentlocation.jl")
 include("timepicker.jl")
 

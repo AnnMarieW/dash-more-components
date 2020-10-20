@@ -99,6 +99,69 @@
       }
     }
   },
+  "src/lib/components/CreditCard.react.js": {
+    "description": "CreditCard component provides Beautiful credit cards for your payment forms\nSee react component here: https://github.com/amarofashion/react-credit-cards",
+    "displayName": "CreditCard",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      },
+      "cvc": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "CSV on credit card."
+      },
+      "expiry": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "expiry date on credit card."
+      },
+      "focus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "focus on credit card entry"
+      },
+      "name": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Name as it appears on credit card"
+      },
+      "number": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "account number credit card"
+      },
+      "locale": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "localization text - like the words 'valid thru' on card"
+      }
+    }
+  },
   "src/lib/components/CurrentLocation.react.js": {
     "description": "The CurrentLocation component gets geolocation of device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
     "displayName": "CurrentLocation",

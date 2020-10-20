@@ -1,9 +1,11 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 export(CountdownTimer)
+export(CreditCard)
 export(CurrentLocation)
 export(Timepicker)
 export(dashMoreComponents)
+export(creditCard)
 export(currentLocation)
 export(timepicker)
 export(countdownTimer)
