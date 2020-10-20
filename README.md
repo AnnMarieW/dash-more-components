@@ -303,6 +303,18 @@ if __name__ == "__main__":
 CreditCard component provides beautiful credit cards for your payment forms.  Based on the react component here: https://github.com/amarofashion/react-credit-cards
 
 
+#### Component Properties
+
+|Prop name|Description|Default value|Example values|
+|----|----|----|----|
+| id| id of component used to identify dash components in callbacks|
+|cvs| CVS on credit card.  Typically 3-4 digits on the back of card|
+|expiry| expiry date|
+|focus| which field has focus for data entry|
+|name| name on the card|
+|number| credit card account number|
+|locale| localization text - like 'valid tru' on the card|
+
 ![](./examples/images/creditcard.gif)
 
 
