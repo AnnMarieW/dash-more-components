@@ -12,31 +12,40 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div(
     [
         html.H3("Examples from datetimepicker.py"),
-        html.P(
+        html.Div(
             [
-                "Default datetimepicker with initial time set:",
-                dmc.Datetimepicker(id="example1", value=dt.datetime.now()),
+                "Default datetimepicker no initial time set:",
+                dmc.Datetimepicker(id="example1"),
                 html.Div(id="output1"),
             ]
+        ),
+        html.Div(
+            [
+                "Default datetimepicker with initial time set:",
+                dmc.Datetimepicker(id="example2", value=dt.datetime.now(), maxDetail='hour'),
+                html.Div(id="output2"),
+            ], className='mt-4'
         ),
     ],
     className="m-5",
 )
 
-#
-# @app.callback(
-#     Output("output1", "children"),
-#     Output("output2", "children"),
-#     Input("example1", "value"),
-#     Input("example2", "value"),
-# )
-# def update_output(time1, time2):
-#     msg_a = "Please select a time"
-#     msg_b = "You have selected: "
-#
-#     clock1 = msg_b + time1 if time1 else msg_a
-#     clock2 = msg_b + time2 if time2 else msg_a
-#     return clock1, clock2
+
+@app.callback(
+    Output("output1", "children"),
+    Output("output2", "children"),
+    Input("example1", "value"),
+    Input("example2", "value"),
+)
+def update_output(time1, time2):
+    msg_a = "Please select a date  and time"
+    msg_b = "You have selected: "
+    print(time1, time2)
+    print(type(time1), type(time2))
+
+    clock1 = msg_b + time1 if time1 else msg_a
+    clock2 = msg_b + time2 if time2 else msg_a
+    return clock1, clock2
 
 
 if __name__ == "__main__":

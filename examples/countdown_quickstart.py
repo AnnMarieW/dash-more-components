@@ -1,9 +1,8 @@
-import dash_more_components as dmc
 import dash
+import dash_more_components as dmc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-
 import datetime as dt
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
@@ -15,9 +14,7 @@ app.layout = html.Div(
         dmc.CountdownTimer(id="countdown", pause=True, starting_duration=10),
         dbc.RadioItems(
             id="pause",
-            options=[ {"label": "Start Timer", "value": "start"},
-                {"label": "Pause", "value": "pause"},
-            ],
+            options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
             value="pause",
         ),
         html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
@@ -35,8 +32,8 @@ app.layout = html.Div(
     Input("countdown", "n_seconds"),
     State("countdown", "remaining_duration"),
 )
-def update_display(pause, n, remaining_time):
-    pause = True if pause == "pause" else False
+def update_display(pause_selected, n, remaining_time):
+    pause = True if pause_selected == "Pause" else False
 
     badge_text = (
         f"Checking for updates in {str(dt.timedelta(seconds=remaining_time))}"

@@ -39,7 +39,7 @@ to call navigator.geolocation; this will cause the user's browser to ask them fo
 |high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If falsethe device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
 
 
-####CurrentLocation quickstart:
+#### CurrentLocation quickstart:
 
 ```
 import dash_more_components as dmc
@@ -121,12 +121,11 @@ but it counts down to zero from a starting time.  All times are in seconds.
 
 
 ```
-import dash_more_components as dmc
 import dash
+import dash_more_components as dmc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-
 import datetime as dt
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
@@ -138,9 +137,7 @@ app.layout = html.Div(
         dmc.CountdownTimer(id="countdown", pause=True, starting_duration=10),
         dbc.RadioItems(
             id="pause",
-            options=[ {"label": "Start Timer", "value": "start"},
-                {"label": "Pause", "value": "pause"},
-            ],
+            options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
             value="pause",
         ),
         html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
@@ -158,8 +155,8 @@ app.layout = html.Div(
     Input("countdown", "n_seconds"),
     State("countdown", "remaining_duration"),
 )
-def update_display(pause, n, remaining_time):
-    pause = True if pause == "pause" else False
+def update_display(pause_selected, n, remaining_time):
+    pause = True if pause_selected == "Pause" else False
 
     badge_text = (
         f"Checking for updates in {str(dt.timedelta(seconds=remaining_time))}"
@@ -171,8 +168,7 @@ def update_display(pause, n, remaining_time):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
-```
+    app.run_server(debug=True)```
 
 #### See more examples with countdown.py:
 
