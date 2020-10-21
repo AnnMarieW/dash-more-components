@@ -138,7 +138,7 @@ app.layout = html.Div(
         dbc.RadioItems(
             id="pause",
             options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
-            value="pause",
+            value="Pause",
         ),
         html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
         html.H3(id="timer_end_text"),
@@ -169,7 +169,7 @@ def update_display(pause_selected, n, remaining_time):
 
 if __name__ == "__main__":
     app.run_server(debug=True)```
-
+```
 #### See more examples with countdown.py:
 
 ![](./examples/images/countdown.png)
