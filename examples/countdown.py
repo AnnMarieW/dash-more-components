@@ -93,10 +93,7 @@ countdown_input_card = html.Div(
                     dbc.InputGroupAddon("", addon_type="prepend"),
                     dbc.RadioItems(
                         id="pause",
-                        options=[
-                            {"label": "Start", "value": "False"},
-                            {"label": "Pause", "value": "True"},
-                        ],
+                        options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
                         value="True",
                     ),
                 ],
@@ -300,8 +297,8 @@ callbacks
     Input("seconds", "value"),
     Input("pause", "value"),
 )
-def set_timer(days, hours, minutes, seconds, pause):
-    pause = True if pause == "True" else False
+def set_timer(days, hours, minutes, seconds, pause_selected):
+    pause = True if pause_selected == "Pause" else False
     return days * 86400 + hours * 3600 + minutes * 60 + seconds, pause
 
 

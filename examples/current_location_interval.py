@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 app = dash.Dash(__name__, prevent_initial_callbacks=True)
 
 
-def make_map(lat, lon, zoom):
+def make_map(lat, lon):
     fig = go.Figure(
         go.Scattermapbox(
             lat=[lat],
@@ -25,8 +25,9 @@ def make_map(lat, lon, zoom):
             bearing=0,
             center=go.layout.mapbox.Center(lat=lat, lon=lon),
             pitch=0,
-            zoom=zoom,
+            zoom=8,
         ),
+        uirevision='hold'
     )
     return fig
 
@@ -35,10 +36,6 @@ app.layout = html.Div(
     [
         html.Div("Enter the time between updates in milliseconds"),
         dcc.Input(id="interval_input", placeholder=1000, type="number"),
-        html.Div("Enter map zoom", style={"margin-top": 10}),
-        dcc.Input(
-            id="zoom_input", placeholder=8, value=8, min=0, max=23, type="number"
-        ),
         dcc.Interval(id="interval_component"),
         dmc.CurrentLocation(
             id="current_loc",
@@ -68,7 +65,6 @@ def update_interval(time):
 @app.callback(
     Output("text_position", "children"),
     Output("map", "figure"),
-    Input("zoom_input", "value"),
     Input("current_loc", "date"),
     Input("current_loc", "latitude"),
     Input("current_loc", "longitude"),
@@ -76,7 +72,7 @@ def update_interval(time):
     Input("current_loc", "position"),
     prevent_initial_call=True
 )
-def display_output(zoom, date, lat, lon, acc, pos):
+def display_output(date, lat, lon, acc, pos):
 
     if lat:
         position = html.Div(
@@ -88,7 +84,7 @@ def display_output(zoom, date, lat, lon, acc, pos):
                 ),
             ]
         )
-        return position, make_map(lat, lon, zoom)
+        return position, make_map(lat, lon)
     else:
         return "No position data available", dash.no_update
 

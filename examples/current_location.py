@@ -18,7 +18,7 @@ def get_address(lat, lon):
         return "address unavailable"
 
 
-def make_map(lat, lon, zoom):
+def make_map(lat, lon):
     fig = go.Figure(
         go.Scattermapbox(
             lat=[lat],
@@ -36,8 +36,9 @@ def make_map(lat, lon, zoom):
             bearing=0,
             center=go.layout.mapbox.Center(lat=lat, lon=lon),
             pitch=0,
-            zoom=zoom,
+            zoom=8,
         ),
+        uirevision='hold'
     )
     return fig
 
@@ -51,10 +52,6 @@ app.layout = html.Div(
                 {"label": "Watch Position", "value": "watch"},
                 {"label": "Enable High Accuracy", "value": "high_accuracy"},
             ],
-        ),
-        html.Div("Enter map zoom", style={"margin-top": 10}),
-        dcc.Input(
-            id="zoom_input", placeholder=8, value=8, min=0, max=23, type="number"
         ),
         dmc.CurrentLocation(
             id="current_loc",
@@ -90,7 +87,6 @@ def update_now(click):
 @app.callback(
     Output("text_position", "children"),
     Output("map", "figure"),
-    Input("zoom_input", "value"),
     Input("current_loc", "date"),
     Input("current_loc", "latitude"),
     Input("current_loc", "longitude"),
@@ -98,7 +94,7 @@ def update_now(click):
     Input("current_loc", "position"),
     prevent_initial_call=True
 )
-def display_output(zoom, date, lat, lon, acc, pos):
+def display_output(date, lat, lon, acc, pos):
     print(pos)  # need to figure out why this is {}
 
     if lat:
@@ -112,7 +108,7 @@ def display_output(zoom, date, lat, lon, acc, pos):
                 ),
             ]
         )
-        return position, make_map(lat, lon, zoom)
+        return position, make_map(lat, lon)
     else:
         return "No position data available", dash.no_update
 
