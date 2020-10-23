@@ -3,13 +3,13 @@
 Dash More Components is library of additional components to use in Plotly Dash apps
 
 
-1.  __CurrentLocation__:  Uses the browsers geolocation to get the current lat/lon of the device running a Dash app.
+1.  __CurrentLocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
 
 2. __CountdownTimer__:  Counts down from a starting number of seconds to zero. It counts down by seconds and may be
 paused during the countdown.  This is ideal for triggering a callback after a certain amount of time or at a selected
  date or time.
 
-3.  __Timepicker__:  Gives the user the ability to select a time. Ideal for use with the CountdownTimer
+3.  __Timepicker__:  Gives the user the ability to select a time. 
 
 4.  Datetimepicker: Coming soon!
 
@@ -20,7 +20,7 @@ paused during the countdown.  This is ideal for triggering a callback after a ce
 ## CurrentLocation 
 
 The CurrentLocation component uses the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) 
-to call navigator.geolocation; this will cause the user's browser to ask them for permission to access their location data.
+to call navigator.geolocation.  This will cause the user's browser to ask them for permission to access their location data.
  If they accept, then the browser will use the best available functionality on the device to access this information 
  (for example, GPS).
 
@@ -31,18 +31,17 @@ to call navigator.geolocation; this will cause the user's browser to ask them fo
 |----|----|----|----|
 | id| id of component|n/a
 |date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
-|latitude| The latitdue of the device|n/a|45.527810|
-|longitude| The longitude of the device|n/a|-73.597390|
+|position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading<br>in degrees<br>speed in meters per sec|n/a||
 |accuracy| The accuracy of the lat/lon in meters| n/a|30
 |watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
 |update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
 |high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If falsethe device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
 
 
+
 #### CurrentLocation quickstart:
 
-```
-import dash_more_components as dmc
+```import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
@@ -58,7 +57,7 @@ app.layout = html.Div(
 )
 
 
-@app.callback(Output("current_loc", "update_now"),Input("update_btn", "n_clicks"))
+@app.callback(Output("current_loc", "update_now"), Input("update_btn", "n_clicks"))
 def update_now(click):
     return True if click and click > 0 else False
 
@@ -66,20 +65,19 @@ def update_now(click):
 @app.callback(
     Output("text_position", "children"),
     Input("current_loc", "date"),
-    Input("current_loc", "latitude"),
-    Input("current_loc", "longitude"),
-    Input("current_loc", "accuracy"),
+    Input("current_loc", "position"),
 )
-def display_output(date, lat, lon, acc):
-    if lat:
-        return html.P(f"As of {date} your location was: lat {lat}, lon {lon}, with an accuracy of {acc} meters")
+def display_output(date, pos):
+    if pos:
+        return html.P(
+            f"As of {date} your location was: lat {pos['latitude']},lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
+        )
     else:
         return "No position data available"
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
 ```
 
 #### Using CurrentLocation to show address and position on a map

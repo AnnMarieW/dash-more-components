@@ -14,7 +14,7 @@ app.layout = html.Div(
 )
 
 
-@app.callback(Output("current_loc", "update_now"),Input("update_btn", "n_clicks"))
+@app.callback(Output("current_loc", "update_now"), Input("update_btn", "n_clicks"))
 def update_now(click):
     return True if click and click > 0 else False
 
@@ -22,13 +22,13 @@ def update_now(click):
 @app.callback(
     Output("text_position", "children"),
     Input("current_loc", "date"),
-    Input("current_loc", "latitude"),
-    Input("current_loc", "longitude"),
-    Input("current_loc", "accuracy"),
+    Input("current_loc", "position"),
 )
-def display_output(date, lat, lon, acc):
-    if lat:
-        return html.P(f"As of {date} your location was: lat {lat}, lon {lon}, with an accuracy of {acc} meters")
+def display_output(date, pos):
+    if pos:
+        return html.P(
+            f"As of {date} your location was: lat {pos['latitude']},lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
+        )
     else:
         return "No position data available"
 

@@ -213,27 +213,6 @@
         "required": false,
         "description": "The local date and time that the device position was updated"
       },
-      "latitude": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The latitude of the device"
-      },
-      "longitude": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The longitude of the device"
-      },
-      "accuracy": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The accuracy of the position in meters"
-      },
       "position": {
         "type": {
           "name": "shape",
@@ -270,6 +249,27 @@
         },
         "required": false,
         "description": "The position of the device"
+      },
+      "position_error": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "code": {
+              "name": "number",
+              "required": false
+            },
+            "message": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Position error",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       },
       "watch_position": {
         "type": {

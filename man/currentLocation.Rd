@@ -10,21 +10,14 @@ The CurrentLocation component gets geolocation of device from the web browser.  
 }
 
 \usage{
-currentLocation(id=NULL, date=NULL, latitude=NULL, longitude=NULL,
-accuracy=NULL, position=NULL, watch_position=NULL,
-update_now=NULL, high_accuracy=NULL)
+currentLocation(id=NULL, date=NULL, position=NULL, position_error=NULL,
+watch_position=NULL, update_now=NULL, high_accuracy=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID used to identify this component in Dash callbacks.}
 
 \item{date}{Character. The local date and time that the device position was updated}
-
-\item{latitude}{Numeric. The latitude of the device}
-
-\item{longitude}{Numeric. The longitude of the device}
-
-\item{accuracy}{Numeric. The accuracy of the position in meters}
 
 \item{position}{Lists containing elements 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeaccuracy', 'heading', 'speed'.
 those elements have the following types:
@@ -35,6 +28,11 @@ those elements have the following types:
   - altitudeaccuracy (numeric; optional)
   - heading (numeric; optional)
   - speed (numeric; optional). The position of the device}
+
+\item{position_error}{Lists containing elements 'code', 'message'.
+those elements have the following types:
+  - code (numeric; optional)
+  - message (character; optional). Position error}
 
 \item{watch_position}{Logical. (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
 is updated when either the location changes or more accurate information becomes available}

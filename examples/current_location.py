@@ -38,7 +38,7 @@ def make_map(lat, lon):
             pitch=0,
             zoom=8,
         ),
-        uirevision='hold'
+        uirevision="hold",
     )
     return fig
 
@@ -88,27 +88,29 @@ def update_now(click):
     Output("text_position", "children"),
     Output("map", "figure"),
     Input("current_loc", "date"),
-    Input("current_loc", "latitude"),
-    Input("current_loc", "longitude"),
-    Input("current_loc", "accuracy"),
     Input("current_loc", "position"),
-    prevent_initial_call=True
+    Input("current_loc", "position_error"),
+    prevent_initial_call=True,
 )
-def display_output(date, lat, lon, acc, pos):
-    print(pos)  # need to figure out why this is {}
+def display_output(date, pos, err):
+    print("pos", pos)
+    print("error", err)
 
-    if lat:
+    if pos:
         position = html.Div(
             [
                 html.H3(f"As of {date} your location was:"),
-                html.P(get_address(lat, lon), style={"marginLeft": 20}),
                 html.P(
-                    f"lat {lat},   lon {lon}, accuracy {acc} meters",
+                    get_address(pos["latitude"], pos["longitude"]),
+                    style={"marginLeft": 20},
+                ),
+                html.P(
+                    f"lat {pos['latitude']},   lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
                     style={"marginLeft": 20},
                 ),
             ]
         )
-        return position, make_map(lat, lon)
+        return position, make_map(pos["latitude"], pos["longitude"])
     else:
         return "No position data available", dash.no_update
 

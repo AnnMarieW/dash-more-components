@@ -11,21 +11,16 @@ import PropTypes from 'prop-types';
  /*
  *  TODO:
  *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
- *        - How make an object a prop?  Currently position object is  {} in usage.py
- *               success(pos) seems really dopey.  How to update position vars properly?
- *        - format of datetime returned.  Currently formatted as local time. Add a field for datetime?
- *        - error handling and time-out.  Timeout currently set to 5 secs and all errors sent as alerts
-  *               to be handled by browser.  Should it be a prop instead?
+ *
+ *        - success(pos)   How to update position vars properly?
+ *        - format of datetime returned.  Currently formatted as local time. Add a field for datetime? *
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
- *
- *        - - figure out what WrappedComponent does in react-geolocated
- *             https://github.com/no23reason/react-geolocated/blob/master/src/index.js
- *
- *         - driving check:accuracy was variable.  Sometimes 30 meters, sometimes 100KM!  There have been some
- *              reports that it's flakey.
- *
+ *             const target = { a: 1, b: 2 };
+               const source = { b: 4, c: 5 };
+               const returnedTarget = Object.assign(target, source);
+
  */
 
 
@@ -34,6 +29,7 @@ export default class CurrentLocation extends Component {
   constructor(props) {
     super(props);
     this.success = this.success.bind(this);
+    this.error = this.error.bind(this);
     this.updatePosition = this.updatePosition.bind(this);
 
   }
@@ -51,7 +47,7 @@ export default class CurrentLocation extends Component {
         var positionOptions = {
             enableHighAccuracy: this.props.high_accuracy,
             maximumAge: 0,
-            timeout: 10000,
+            timeout: 100000,
         };
 
         this.props.watch_position ? (
@@ -88,21 +84,35 @@ export default class CurrentLocation extends Component {
 
   success(pos) {
     const crd = pos.coords
-    const lat = crd.latitude;
-    const lon = crd.longitude;
-    const acc = crd.accuracy;
-
+    const position_obj = ({
+      latitude: crd.latitude,
+      longitude: crd.longitude,
+      accuracy: crd.accuracy,
+      altitude: crd.altitude,
+      altitudeAccuracy: crd.altitudeAccuracy,
+      speed: crd.speed,
+      heading: crd.heading,
+    })
     this.props.setProps({
-      latitude: lat,
-      longitude: lon,
-      accuracy: acc,
+      position : position_obj,
+      position_error : null
     });
   }
 
-
   error(err) {
-  	alert(`ERROR(${err.code}): ${err.message}`);
-    }
+    alert(`ERROR(${err.code}): ${err.message}`);
+
+    const error_obj = ({
+       code: err.code,
+       message: err.message,
+    });
+    this.props.setProps({
+       position_error: error_obj,
+       position : null
+    });
+
+
+  }
 
   render() {
     return  null;
@@ -114,6 +124,7 @@ CurrentLocation.defaultProps = {
     watch_position : false,
     update_now : false,
     high_accuracy : false,
+    position_error : null,
 };
 
 CurrentLocation.propTypes = {
@@ -126,21 +137,6 @@ CurrentLocation.propTypes = {
      * The local date and time that the device position was updated
      */
     date: PropTypes.string,
-
-    /**
-     * The latitude of the device
-    */
-    latitude: PropTypes.number,
-
-    /**
-     * The longitude of the device
-    */
-    longitude: PropTypes.number,
-
-    /**
-     * The accuracy of the position in meters
-    */
-    accuracy: PropTypes.number,
 
     /**
     * The position of the device
@@ -156,13 +152,13 @@ CurrentLocation.propTypes = {
     }),
 
     /**
-    *  Position error  ** Add this prop? ***
-
+    *  Position error
+    */
     position_error: PropTypes.shape({
-        code: PropTypes.oneOf([1, 2, 3]),
+        code: PropTypes.number,
         message: PropTypes.string,
     }),
-    */
+
 
 
     /**
