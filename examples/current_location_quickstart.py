@@ -34,12 +34,12 @@ def display_output(date, isodate, isolocal, pos):
 
     print(" ")
     print("Demo of creating a datetime object from the date strings:")
-    utc_date = dt.datetime.fromisoformat(isodate).replace(tzinfo=dt.timezone.utc)
-    print("UTC datetime object - time zone aware:", utc_date)
-
-    # convert to local time:
-    local_date = utc_date.astimezone(tz=None)
-    print("UTC datetime object converted to local datetime object:", local_date)
+    if isodate:
+        utc_date = dt.datetime.fromisoformat(isodate).replace(tzinfo=dt.timezone.utc)
+        print("UTC datetime object - time zone aware:", utc_date)
+        # convert to local time:
+        local_date = utc_date.astimezone(tz=None)
+        print("UTC datetime object converted to local datetime object:", local_date)
     print(" ")
 
     if pos:

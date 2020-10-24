@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
  *
  */
 
-
  /*
  *  TODO:
  *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
@@ -20,10 +19,7 @@ import PropTypes from 'prop-types';
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
- *             const target = { a: 1, b: 2 };
-               const source = { b: 4, c: 5 };
-               const returnedTarget = Object.assign(target, source);
-
+ *         - make timeout a prop
  */
 
 
@@ -36,25 +32,29 @@ export default class CurrentLocation extends Component {
     this.updatePosition = this.updatePosition.bind(this);
     this.toIsoFormatLocal = this.toIsoFormatLocal.bind(this);
     this.toIsoFormatUTC = this.toIsoFormatUTC.bind(this);
+    this.pad = this.pad.bind(this);
 
   }
 
+  pad (num) {
+     var norm = Math.floor(Math.abs(num));
+     return (norm < 10 ? '0' : '') + norm;
+  }
   toIsoFormatLocal (date) {
         return date.getFullYear() +
-            '-' + (date.getMonth() + 1) +
-            '-' + (date.getDate()) +
-            ' ' + (date.getHours()) +
-            ':' + (date.getMinutes()) +
-            ':' + (date.getSeconds())
+            '-' + this.pad(date.getMonth() + 1) +
+            '-' + this.pad(date.getDate()) +
+            ' ' + this.pad(date.getHours()) +
+            ':' + this.pad(date.getMinutes()) +
+            ':' + this.pad(date.getSeconds())
   }
-
   toIsoFormatUTC (date) {
       return date.getUTCFullYear() +
-          '-' + (date.getUTCMonth() + 1) +
-          '-' + (date.getUTCDate()) +
-          ' ' + (date.getUTCHours()) +
-          ':' + (date.getUTCMinutes()) +
-          ':' + (date.getUTCSeconds())
+          '-' + this.pad(date.getUTCMonth() + 1) +
+          '-' + this.pad(date.getUTCDate()) +
+          ' ' + this.pad(date.getUTCHours()) +
+          ':' + this.pad(date.getUTCMinutes()) +
+          ':' + this.pad(date.getUTCSeconds())
   }
 
 
@@ -62,27 +62,7 @@ export default class CurrentLocation extends Component {
     if (!navigator.geolocation) {
         alert('Your browser does not support Geolocation');
     } else {
-        const d = new Date()
-
-        // Local date string
-        const local_date_str = d.toLocaleString();
-
-        /* ISO date format - UTC date and time  Format: YYYY-MM-DDThh:mm:ss
-        *       THis has a T in the time. Better to use the toISOFormat function?
-        * const iso = d.toISOString();
-        * const isodate_UTC_str = iso.split('.')[0];
-        */
-        // ISO date format - local date and time  Format: YYYY-MM-DD hh:mm:ss
-        const isodate_UTC_str = this.toIsoFormatUTC(d)
-
-
-        // ISO date format - local date and time Format: YYYY-MM-DD hh:mm:ss
-        const isodate_local_str = this.toIsoFormatLocal(d)
-
         this.props.setProps({
-          local_date: local_date_str,
-          isodate_UTC: isodate_UTC_str,
-          isodate_local: isodate_local_str,
           update_now: false,
         });
 
@@ -109,22 +89,36 @@ export default class CurrentLocation extends Component {
             if (this.props.watch_position) {
                 geolocationProvider.clearWatch(this.watchId);
             }
-        }
+  }
 
   componentDidUpdate(prevProps) {
-     if (prevProps.update_now !== this.props.update_now) {
-        this.updatePosition()
-     }
-     if (prevProps.watch_position !== this.props.watch_position) {
-        this.updatePosition()
-     }
-     if (prevProps.high_accuracy !== this.props.high_accuracy) {
+     if ((prevProps.update_now !== this.props.update_now)
+          || (prevProps.watch_position !== this.props.watch_position)
+          || (prevProps.high_accuracy !== this.props.high_accuracy)) {
         this.updatePosition()
      }
   }
 
 
+
   success(pos) {
+    // Date:  Reformat to local string and ISO formats:
+    //
+    const d= new Date(pos.timestamp)
+    // Local date string
+    const local_date_str = d.toLocaleString();
+    /* ISO date format - UTC date and time  Format: YYYY-MM-DDThh:mm:ss
+     *       THis has a T in the time. Better to use the toISOFormat function?
+     * const iso = d.toISOString();
+     * const isodate_UTC_str = iso.split('.')[0];
+     */
+     // ISO date format - local date and time  Format: YYYY-MM-DD hh:mm:ss
+     const isodate_UTC_str = this.toIsoFormatUTC(d)
+     // ISO date format - local date and time Format: YYYY-MM-DD hh:mm:ss
+     const isodate_local_str = this.toIsoFormatLocal(d)
+
+    // Position data
+    //
     const crd = pos.coords
     const position_obj = ({
       latitude: crd.latitude,
@@ -135,7 +129,11 @@ export default class CurrentLocation extends Component {
       speed: crd.speed,
       heading: crd.heading,
     })
+
     this.props.setProps({
+      local_date: local_date_str,
+      isodate_UTC: isodate_UTC_str,
+      isodate_local: isodate_local_str,
       position : position_obj,
       position_error : null
     });
@@ -152,8 +150,6 @@ export default class CurrentLocation extends Component {
        position_error: error_obj,
        position : null
     });
-
-
   }
 
   render() {

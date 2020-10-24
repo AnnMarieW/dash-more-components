@@ -167,6 +167,18 @@
     "displayName": "CurrentLocation",
     "methods": [
       {
+        "name": "pad",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "num",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "toIsoFormatLocal",
         "docblock": null,
         "modifiers": [],
