@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+//import toIsoFormat from '../utils/toIsoFormat';
+
 /**
  * The CurrentLocation component gets geolocation of device from the web browser.  See more info here:
  * https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
@@ -13,7 +15,8 @@ import PropTypes from 'prop-types';
  *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
  *
  *        - success(pos)   How to update position vars properly?
- *        - format of datetime returned.  Currently formatted as local time. Add a field for datetime? *
+ *
+ *         - decide which date format to use.  Move toIsoFormat to utils
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
@@ -31,16 +34,55 @@ export default class CurrentLocation extends Component {
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
     this.updatePosition = this.updatePosition.bind(this);
+    this.toIsoFormatLocal = this.toIsoFormatLocal.bind(this);
+    this.toIsoFormatUTC = this.toIsoFormatUTC.bind(this);
 
   }
+
+  toIsoFormatLocal (date) {
+        return date.getFullYear() +
+            '-' + (date.getMonth() + 1) +
+            '-' + (date.getDate()) +
+            ' ' + (date.getHours()) +
+            ':' + (date.getMinutes()) +
+            ':' + (date.getSeconds())
+  }
+
+  toIsoFormatUTC (date) {
+      return date.getUTCFullYear() +
+          '-' + (date.getUTCMonth() + 1) +
+          '-' + (date.getUTCDate()) +
+          ' ' + (date.getUTCHours()) +
+          ':' + (date.getUTCMinutes()) +
+          ':' + (date.getUTCSeconds())
+  }
+
 
   updatePosition() {
     if (!navigator.geolocation) {
         alert('Your browser does not support Geolocation');
     } else {
-        const date_str = new Date().toLocaleString();
+        const d = new Date()
+
+        // Local date string
+        const local_date_str = d.toLocaleString();
+
+        /* ISO date format - UTC date and time  Format: YYYY-MM-DDThh:mm:ss
+        *       THis has a T in the time. Better to use the toISOFormat function?
+        * const iso = d.toISOString();
+        * const isodate_UTC_str = iso.split('.')[0];
+        */
+        // ISO date format - local date and time  Format: YYYY-MM-DD hh:mm:ss
+        const isodate_UTC_str = this.toIsoFormatUTC(d)
+
+
+        // ISO date format - local date and time Format: YYYY-MM-DD hh:mm:ss
+        const isodate_local_str = this.toIsoFormatLocal(d)
+
         this.props.setProps({
-          date: date_str,
+          local_date: local_date_str,
+          isodate_UTC: isodate_UTC_str,
+          isodate_local: isodate_local_str,
           update_now: false,
         });
 
@@ -134,9 +176,20 @@ CurrentLocation.propTypes = {
     id: PropTypes.string,
 
     /**
-     * The local date and time that the device position was updated
+     * The local date and time when the device position was updated.
+     * Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
      */
-    date: PropTypes.string,
+    local_date: PropTypes.string,
+
+    /**
+     * The UCT (zulu) time  when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss
+     */
+    isodate_UTC: PropTypes.string,
+
+    /**
+    * The local time when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss
+    */
+    isodate_local: PropTypes.string,
 
     /**
     * The position of the device

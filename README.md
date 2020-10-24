@@ -31,8 +31,7 @@ to call navigator.geolocation.  This will cause the user's browser to ask them f
 |----|----|----|----|
 | id| id of component|n/a
 |date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
-|position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading<br>in degrees<br>speed in meters per sec|n/a||
-|accuracy| The accuracy of the lat/lon in meters| n/a|30
+|position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy of the lat/lon in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading in degrees<br>speed in meters per sec|n/a||
 |watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
 |update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
 |high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If falsethe device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|

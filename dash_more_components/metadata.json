@@ -167,6 +167,30 @@
     "displayName": "CurrentLocation",
     "methods": [
       {
+        "name": "toIsoFormatLocal",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "date",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "toIsoFormatUTC",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "date",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "updatePosition",
         "docblock": null,
         "modifiers": [],
@@ -206,12 +230,26 @@
         "required": false,
         "description": "The ID used to identify this component in Dash callbacks."
       },
-      "date": {
+      "local_date": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The local date and time that the device position was updated"
+        "description": "The local date and time when the device position was updated.\nFormat:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM"
+      },
+      "isodate_UTC": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The UCT (zulu) time  when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss"
+      },
+      "isodate_local": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The local time when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss"
       },
       "position": {
         "type": {

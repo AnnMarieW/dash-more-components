@@ -2,6 +2,7 @@ import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
+import datetime as dt
 
 app = dash.Dash(__name__)
 
@@ -21,10 +22,26 @@ def update_now(click):
 
 @app.callback(
     Output("text_position", "children"),
-    Input("current_loc", "date"),
+    Input("current_loc", "local_date"),
+    Input("current_loc", "isodate_UTC"),
+    Input("current_loc", "isodate_local"),
     Input("current_loc", "position"),
 )
-def display_output(date, pos):
+def display_output(date, isodate, isolocal, pos):
+    print("local date string from component - nice format ready to use in UI:", date)
+    print("iso format of local time", isolocal)
+    print("iso format of UTC time. But it is not time zone aware:", isodate)
+
+    print(" ")
+    print("Demo of creating a datetime object from the date strings:")
+    utc_date = dt.datetime.fromisoformat(isodate).replace(tzinfo=dt.timezone.utc)
+    print("UTC datetime object - time zone aware:", utc_date)
+
+    # convert to local time:
+    local_date = utc_date.astimezone(tz=None)
+    print("UTC datetime object converted to local datetime object:", local_date)
+    print(" ")
+
     if pos:
         return html.P(
             f"As of {date} your location was: lat {pos['latitude']},lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
