@@ -167,42 +167,6 @@
     "displayName": "CurrentLocation",
     "methods": [
       {
-        "name": "pad",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "num",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "toIsoFormatLocal",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "date",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "toIsoFormatUTC",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "date",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
         "name": "updatePosition",
         "docblock": null,
         "modifiers": [],
@@ -249,19 +213,12 @@
         "required": false,
         "description": "The local date and time when the device position was updated.\nFormat:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM"
       },
-      "isodate_UTC": {
+      "timestamp": {
         "type": {
-          "name": "string"
+          "name": "number"
         },
         "required": false,
-        "description": "The UCT (zulu) time  when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss"
-      },
-      "isodate_local": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The local time when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss"
+        "description": "timestamp"
       },
       "position": {
         "type": {

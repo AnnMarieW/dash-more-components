@@ -23,24 +23,16 @@ def update_now(click):
 @app.callback(
     Output("text_position", "children"),
     Input("current_loc", "local_date"),
-    Input("current_loc", "isodate_UTC"),
-    Input("current_loc", "isodate_local"),
+    Input("current_loc", "timestamp"),
     Input("current_loc", "position"),
 )
-def display_output(date, isodate, isolocal, pos):
-    print("local date string from component - nice format ready to use in UI:", date)
-    print("iso format of local time", isolocal)
-    print("iso format of UTC time. But it is not time zone aware:", isodate)
+def display_output(date, timestamp, pos):
 
-    print(" ")
-    print("Demo of creating a datetime object from the date strings:")
-    if isodate:
-        utc_date = dt.datetime.fromisoformat(isodate).replace(tzinfo=dt.timezone.utc)
-        print("UTC datetime object - time zone aware:", utc_date)
-        # convert to local time:
-        local_date = utc_date.astimezone(tz=None)
-        print("UTC datetime object converted to local datetime object:", local_date)
-    print(" ")
+    # example:  how to create datetime object from timestamp
+    if timestamp:
+        datetime_local = dt.datetime.fromtimestamp(timestamp)
+        datetime_utc = dt.datetime.utcfromtimestamp(timestamp)
+        print('local:', datetime_local, 'utc: ', datetime_utc)
 
     if pos:
         return html.P(

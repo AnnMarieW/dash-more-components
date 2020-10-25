@@ -12,8 +12,7 @@ Keyword arguments:
 - `id` (String; optional): The ID used to identify this component in Dash callbacks.
 - `local_date` (String; optional): The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
-- `isodate_UTC` (String; optional): The UCT (zulu) time  when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss
-- `isodate_local` (String; optional): The local time when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss
+- `timestamp` (Real; optional): timestamp
 - `position` (optional): The position of the device. position has the following type: lists containing elements 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeAccuracy', 'heading', 'speed'.
 Those elements have the following types:
   - `latitude` (Real; optional)
@@ -38,7 +37,7 @@ is updated when either the location changes or more accurate information becomes
  the liberty to save resources by responding more quickly and/or using less power.
 """
 function currentlocation(; kwargs...)
-        available_props = Symbol[:id, :local_date, :isodate_UTC, :isodate_local, :position, :position_error, :watch_position, :update_now, :high_accuracy]
+        available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :watch_position, :update_now, :high_accuracy]
         wild_props = Symbol[]
         return Component("currentlocation", "CurrentLocation", "dash_more_components", available_props, wild_props; kwargs...)
 end

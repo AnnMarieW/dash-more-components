@@ -10,9 +10,9 @@ The CurrentLocation component gets geolocation of device from the web browser.  
 }
 
 \usage{
-currentLocation(id=NULL, local_date=NULL, isodate_UTC=NULL,
-isodate_local=NULL, position=NULL, position_error=NULL,
-watch_position=NULL, update_now=NULL, high_accuracy=NULL)
+currentLocation(id=NULL, local_date=NULL, timestamp=NULL, position=NULL,
+position_error=NULL, watch_position=NULL, update_now=NULL,
+high_accuracy=NULL)
 }
 
 \arguments{
@@ -21,9 +21,7 @@ watch_position=NULL, update_now=NULL, high_accuracy=NULL)
 \item{local_date}{Character. The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM}
 
-\item{isodate_UTC}{Character. The UCT (zulu) time  when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss}
-
-\item{isodate_local}{Character. The local time when the device position was updated. ISO Format: YYYY-MM-DDThh:mm:ss}
+\item{timestamp}{Numeric. timestamp}
 
 \item{position}{Lists containing elements 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeaccuracy', 'heading', 'speed'.
 those elements have the following types:
