@@ -65,7 +65,7 @@ def update_interval(time):
 @app.callback(
     Output("text_position", "children"),
     Output("map", "figure"),
-    Input("current_loc", "date"),
+    Input("current_loc", "local_date"),
     Input("current_loc", "position"),
     prevent_initial_call=True,
 )

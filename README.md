@@ -30,7 +30,8 @@ to call navigator.geolocation.  This will cause the user's browser to ask them f
 |Prop name|Description|Default value|Example values|
 |----|----|----|----|
 | id| id of component|n/a
-|date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
+|local_date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
+|timestamp| The timestamp when the date and time was updated||
 |position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy of the lat/lon in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading in degrees<br>speed in meters per sec|n/a||
 |watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
 |update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
@@ -104,8 +105,7 @@ but it counts down to zero from a starting time.  All times are in seconds.
 |Prop name|Description|Default value|Example values|
 |----|----|----|----|
 | id| id of component used to identify dash components in callbacks|n/a
-|starting_duration| The amount of time to count down. In seconds| 0
-|n_seconds| The number of seconds elapsed|0
+|starting_duration| The amount of time to count down in seconds| 0
 |remaining_duration| The amount of time remaining on the count down timer in seconds|0
 |pause| If True, the counter will no longer update.   If False, the timer will resume|True
 
@@ -149,10 +149,9 @@ app.layout = html.Div(
     Output("timer_end_text", "children"),
     Output("countdown", "pause"),
     Input("pause", "value"),
-    Input("countdown", "n_seconds"),
-    State("countdown", "remaining_duration"),
+    Input("countdown", "remaining_duration"),
 )
-def update_display(pause_selected, n, remaining_time):
+def update_display(pause_selected, remaining_time):
     pause = True if pause_selected == "Pause" else False
 
     badge_text = (
@@ -160,12 +159,13 @@ def update_display(pause_selected, n, remaining_time):
         if remaining_time
         else ""
     )
-    timer_end_text = "Results are in!" if (n) and (remaining_time == 0) else ""
+    timer_end_text = "Results are in!" if remaining_time == 0 else ""
     return badge_text, timer_end_text, pause
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)```
+    app.run_server(debug=True)
+
 ```
 #### See more examples with countdown.py:
 

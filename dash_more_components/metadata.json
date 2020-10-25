@@ -1,6 +1,6 @@
 {
   "src/lib/components/CountdownTimer.react.js": {
-    "description": "This component is a countdown timer.  All times (starting duration, \n    remaining duration and countdown interval) are in seconds",
+    "description": "This component is a countdown timer.  The starting duration and\n    remaining duration are in seconds",
     "displayName": "CountdownTimer",
     "methods": [
       {
@@ -57,7 +57,7 @@
         "required": false,
         "description": "The amount of time to count down in seconds",
         "defaultValue": {
-          "value": "60",
+          "value": "0",
           "computed": false
         }
       },
@@ -66,16 +66,9 @@
           "name": "bool"
         },
         "required": false,
-        "description": "If True, the counter will no longer update. If False, the timer will resume."
-      },
-      "n_seconds": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "Number of seconds elapsed",
+        "description": "If True, the counter will no longer update. If False, the timer will resume.",
         "defaultValue": {
-          "value": "0",
+          "value": "true",
           "computed": false
         }
       },

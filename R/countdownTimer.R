@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-countdownTimer <- function(id=NULL, starting_duration=NULL, pause=NULL, n_seconds=NULL, remaining_duration=NULL) {
+countdownTimer <- function(id=NULL, starting_duration=NULL, pause=NULL, remaining_duration=NULL) {
     
-    props <- list(id=id, starting_duration=starting_duration, pause=pause, n_seconds=n_seconds, remaining_duration=remaining_duration)
+    props <- list(id=id, starting_duration=starting_duration, pause=pause, remaining_duration=remaining_duration)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ countdownTimer <- function(id=NULL, starting_duration=NULL, pause=NULL, n_second
         props = props,
         type = 'CountdownTimer',
         namespace = 'dash_more_components',
-        propNames = c('id', 'starting_duration', 'pause', 'n_seconds', 'remaining_duration'),
+        propNames = c('id', 'starting_duration', 'pause', 'remaining_duration'),
         package = 'dashMoreComponents'
         )
 

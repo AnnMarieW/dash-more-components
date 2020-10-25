@@ -305,12 +305,11 @@ def set_timer(days, hours, minutes, seconds, pause_selected):
 @app.callback(
     Output("badge_output", "children"),
     Output("timer_end_text", "children"),
-    Input("countdown", "n_seconds"),
-    State("countdown", "remaining_duration"),
+    Input("countdown", "remaining_duration"),
 )
-def display_badge(n, remaining_time):
+def display_badge(remaining_time):
     badge_text = f"Checking for updates in {str(dt.timedelta(seconds=remaining_time))}"
-    timer_end_text = "You Win!!" if (n) and (remaining_time == 0) else ""
+    timer_end_text = "You Win!!" if remaining_time == 0 else ""
     return badge_text, timer_end_text
 
 
@@ -319,13 +318,12 @@ def display_badge(n, remaining_time):
     Output("hours_left", "children"),
     Output("minutes_left", "children"),
     Output("seconds_left", "children"),
-    Input("countdown", "n_seconds"),
-    State("countdown", "remaining_duration"),
+    Input("countdown", "remaining_duration"),
 )
-def display_time_remaining(n, remaining_time):
+def display_time_remaining(remaining_time):
     days_text=''
     hours, minutes, seconds = 0, 0, 0
-    if n:
+    if remaining_time > 0 :
         time_text = str(dt.timedelta(seconds=remaining_time))
         if "day" in time_text:
             days_text, _, time_text = time_text.partition(", ")

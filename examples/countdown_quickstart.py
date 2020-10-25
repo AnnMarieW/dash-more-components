@@ -15,7 +15,7 @@ app.layout = html.Div(
         dbc.RadioItems(
             id="pause",
             options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
-            value="pause",
+            value="Pause",
         ),
         html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
         html.H3(id="timer_end_text"),
@@ -29,10 +29,9 @@ app.layout = html.Div(
     Output("timer_end_text", "children"),
     Output("countdown", "pause"),
     Input("pause", "value"),
-    Input("countdown", "n_seconds"),
-    State("countdown", "remaining_duration"),
+    Input("countdown", "remaining_duration"),
 )
-def update_display(pause_selected, n, remaining_time):
+def update_display(pause_selected, remaining_time):
     pause = True if pause_selected == "Pause" else False
 
     badge_text = (
@@ -40,7 +39,7 @@ def update_display(pause_selected, n, remaining_time):
         if remaining_time
         else ""
     )
-    timer_end_text = "Results are in!" if (n) and (remaining_time == 0) else ""
+    timer_end_text = "Results are in!" if remaining_time == 0 else ""
     return badge_text, timer_end_text, pause
 
 

@@ -87,7 +87,7 @@ def update_now(click):
 @app.callback(
     Output("text_position", "children"),
     Output("map", "figure"),
-    Input("current_loc", "date"),
+    Input("current_loc", "local_date"),
     Input("current_loc", "position"),
     Input("current_loc", "position_error"),
     prevent_initial_call=True,

@@ -3,8 +3,8 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
 /**
  * 
- *     This component is a countdown timer.  All times (starting duration, 
- *     remaining duration and countdown interval) are in seconds
+ *     This component is a countdown timer.  The starting duration and
+ *     remaining duration are in seconds
  *    
  * 
  */
@@ -68,10 +68,9 @@ export default class CountdownTimer extends Component {
     }
 
     reportInterval() {
-        const {setProps, n_seconds, remaining_duration} = this.props;
-          setProps({n_seconds: n_seconds + 1});
-          setProps({remaining_duration: remaining_duration - this.interval / 1000});
-          console.log(`remaining duration in seconds : ${remaining_duration}`);
+        const {setProps, remaining_duration} = this.props;
+        setProps({remaining_duration: remaining_duration - this.interval / 1000});
+        console.log(`remaining duration in seconds : ${remaining_duration}`);
     }
 
     componentDidMount() {
@@ -115,12 +114,6 @@ CountdownTimer.propTypes = {
      */
     pause: PropTypes.bool,
 
-    /**
-     * Number of seconds elapsed
-     */
-    n_seconds: PropTypes.number,
-
-    
     /** 
     * remaining time left on countdown timer in seconds
     */
@@ -132,12 +125,10 @@ CountdownTimer.propTypes = {
     setProps: PropTypes.func,
 };
 
-
-
-CountdownTimer.defaultProps = {    
-    n_seconds: 0,
-    starting_duration: 60,
-    remaining_duration:0,
+CountdownTimer.defaultProps = {
+  starting_duration : 0,
+  remaining_duration : 0,
+  pause : true,
 };
 
 

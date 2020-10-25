@@ -6,11 +6,11 @@
 \title{CountdownTimer component}
 
 \description{
-This component is a countdown timer.  All times (starting duration,      remaining duration and countdown interval) are in seconds
+This component is a countdown timer.  The starting duration and     remaining duration are in seconds
 }
 
 \usage{
-countdownTimer(id=NULL, starting_duration=NULL, pause=NULL, n_seconds=NULL,
+countdownTimer(id=NULL, starting_duration=NULL, pause=NULL,
 remaining_duration=NULL)
 }
 
@@ -22,8 +22,6 @@ components in an app.}
 \item{starting_duration}{Numeric. The amount of time to count down in seconds}
 
 \item{pause}{Logical. If True, the counter will no longer update. If False, the timer will resume.}
-
-\item{n_seconds}{Numeric. Number of seconds elapsed}
 
 \item{remaining_duration}{Numeric. remaining time left on countdown timer in seconds}
 }
