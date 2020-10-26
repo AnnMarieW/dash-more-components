@@ -12,7 +12,7 @@ The CurrentLocation component gets geolocation of device from the web browser.  
 \usage{
 currentLocation(id=NULL, local_date=NULL, timestamp=NULL, position=NULL,
 position_error=NULL, watch_position=NULL, update_now=NULL,
-high_accuracy=NULL)
+high_accuracy=NULL, maximum_age=NULL, timeout=NULL)
 }
 
 \arguments{
@@ -49,6 +49,10 @@ is updated when either the location changes or more accurate information becomes
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
  chip on a mobile device for example). If false (the default value), the device can take
  the liberty to save resources by responding more quickly and/or using less power.}
+
+\item{maximum_age}{Numeric. }
+
+\item{timeout}{Numeric. }
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

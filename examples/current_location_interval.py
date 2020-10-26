@@ -76,7 +76,7 @@ def display_output(date, pos):
             [
                 html.H3(f"As of {date} your location was:"),
                 html.P(
-                    f"lat {pos['latitude']},   lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
+                    f"within {pos['accuracy']} meters of  lat,lon: ( {pos['latitude']:.2f},  {pos['longitude']:.2f})",
                     style={"marginLeft": 20},
                 ),
             ]

@@ -35,9 +35,11 @@ is updated when either the location changes or more accurate information becomes
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
  chip on a mobile device for example). If false (the default value), the device can take
  the liberty to save resources by responding more quickly and/or using less power.
+- `maximum_age` (Real; optional)
+- `timeout` (Real; optional)
 """
 function currentlocation(; kwargs...)
-        available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :watch_position, :update_now, :high_accuracy]
+        available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :watch_position, :update_now, :high_accuracy, :maximum_age, :timeout]
         wild_props = Symbol[]
         return Component("currentlocation", "CurrentLocation", "dash_more_components", available_props, wild_props; kwargs...)
 end

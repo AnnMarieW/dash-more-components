@@ -34,14 +34,16 @@ is updated when either the location changes or more accurate information becomes
 - high_accuracy (boolean; default False): (boolean; default False).   If true and if the device is able to provide a more accurate position,
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
  chip on a mobile device for example). If false (the default value), the device can take
- the liberty to save resources by responding more quickly and/or using less power."""
+ the liberty to save resources by responding more quickly and/or using less power.
+- maximum_age (number; default 0)
+- timeout (number; default Infinity)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy']
+    def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, maximum_age=Component.UNDEFINED, timeout=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
         self._type = 'CurrentLocation'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy']
+        self.available_properties = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

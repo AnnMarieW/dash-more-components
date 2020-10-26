@@ -1,24 +1,30 @@
+//import * as R from 'ramda';
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 
 
 /**
- * The CurrentLocation component gets geolocation of device from the web browser.  See more info here:
+ * The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:
  * https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
  *
  */
 
  /*
  *  TODO:
- *        - Change name of this component to GeoLocation - or GeoPosition so it's not confused with dcc.Location?
+ *        - Is this the best name for the component?
  *
  *        - success(pos)   How to update position vars properly?
+ *
  *         - timestamp needs to be /1000 for python datetime.  what about julia or R?
+ *
+ *         - best way to handle errors - alert in the browser?
+ *
+ *          - is it necessary to have a timeout for user granting permission to use location?
  *
  *        - anything else to do on  componentWillUnmount() ?
  *
- *         - make timeout a prop
  */
 
 
@@ -39,10 +45,10 @@ export default class CurrentLocation extends Component {
           update_now: false,
         });
 
-        var positionOptions = {
+        const positionOptions = {
             enableHighAccuracy: this.props.high_accuracy,
-            maximumAge: 0,
-            timeout: 100000,
+            maximumAge: this.props.maximum_age,
+            timeout: this.props.timeout,
         };
 
         this.props.watch_position ? (
@@ -67,18 +73,15 @@ export default class CurrentLocation extends Component {
   componentDidUpdate(prevProps) {
      if ((prevProps.update_now !== this.props.update_now)
           || (prevProps.watch_position !== this.props.watch_position)
+          || (prevProps.maximum_age !== this.props.maximum_age)
+          || (prevProps.timeout !== this.props.timeout)
           || (prevProps.high_accuracy !== this.props.high_accuracy)) {
         this.updatePosition()
      }
   }
 
 
-
   success(pos) {
-
-    const timestamp = pos.timestamp / 1000;
-    const local_date_str = new Date(pos.timestamp).toLocaleString();
-
     const crd = pos.coords
     const position_obj = ({
       latitude: crd.latitude,
@@ -89,10 +92,18 @@ export default class CurrentLocation extends Component {
       speed: crd.speed,
       heading: crd.heading,
     })
+    /* why doesn't this work instead?
+    const position_obj = Object.assign({}, pos.coords);
+    or:
+    const position_obj = R.mergeRight(this.position, pos.coords);
+    or:
+    this.props.setProps({ position : pos.coords })
+    */
+
 
     this.props.setProps({
-      local_date: local_date_str,
-      timestamp: timestamp,
+      local_date: new Date(pos.timestamp).toLocaleString(),
+      timestamp: pos.timestamp / 1000,
       position : position_obj,
       position_error : null
     });
@@ -100,14 +111,12 @@ export default class CurrentLocation extends Component {
 
   error(err) {
     alert(`ERROR(${err.code}): ${err.message}`);
-
-    const error_obj = ({
-       code: err.code,
-       message: err.message,
-    });
     this.props.setProps({
-       position_error: error_obj,
-       position : null
+       position : null,
+       position_error: ({
+          code: err.code,
+          message: err.message,
+       }),
     });
   }
 
@@ -122,6 +131,8 @@ CurrentLocation.defaultProps = {
     update_now : false,
     high_accuracy : false,
     position_error : null,
+    maximum_age : 0,
+    timeout : Infinity,
 };
 
 CurrentLocation.propTypes = {
@@ -163,8 +174,6 @@ CurrentLocation.propTypes = {
         message: PropTypes.string,
     }),
 
-
-
     /**
     *  (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
     * is updated when either the location changes or more accurate information becomes available
@@ -181,10 +190,21 @@ CurrentLocation.propTypes = {
     /**
     *  (boolean; default False).   If true and if the device is able to provide a more accurate position,
     *  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
-    *  chip on a mobile device for example). If false (the default value), the device can take
-    *  the liberty to save resources by responding more quickly and/or using less power.
+    *  chip on a mobile device for example). If false (the default value), the device can save resources by
+    *  responding more quickly and/or using less power.
     */
     high_accuracy: PropTypes.bool,
+
+    /* The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,
+     * it means that the device cannot use a cached position and must attempt to retrieve the real current position.
+     * If set to Infinity the device must return a cached position regardless of its age. Default: 0.
+     */
+    maximum_age: PropTypes.number,
+
+    /* The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
+     * The default value is Infinity, meaning that data will not be return until the position is available.
+     */
+    timeout: PropTypes.number,
 
     /**
      * Dash-assigned callback that should be called to report property changes

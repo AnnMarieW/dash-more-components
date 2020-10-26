@@ -304,6 +304,28 @@
           "computed": false
         }
       },
+      "maximum_age": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "timeout": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "Infinity",
+          "computed": true
+        }
+      },
       "setProps": {
         "type": {
           "name": "func"

@@ -36,7 +36,7 @@ def display_output(date, timestamp, pos):
 
     if pos:
         return html.P(
-            f"As of {date} your location was: lat {pos['latitude']},lon {pos['longitude']}, accuracy {pos['accuracy']} meters",
+            f"As of {date} your location was within {pos['accuracy']} meters of  lat,lon: ( {pos['latitude']:.2f},  {pos['longitude']:.2f})",
         )
     else:
         return "No position data available"

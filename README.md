@@ -35,7 +35,10 @@ to call navigator.geolocation.  This will cause the user's browser to ask them f
 |position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy of the lat/lon in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading in degrees<br>speed in meters per sec|n/a||
 |watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
 |update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
-|high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If falsethe device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
+|high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If false the device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
+|maximum_age|The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,it means that the device cannot use a cached position and must attempt to retrieve the real current position.  If set to Infinity the device must return a cached position regardless of its age.| 0|
+|timeout| The maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that data will not be return until the position is available.| Infinity|
+  
 
 
 
