@@ -13,12 +13,12 @@ Keyword arguments:
 - `local_date` (String; optional): The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
 - `timestamp` (Real; optional): timestamp
-- `position` (optional): The position of the device. position has the following type: lists containing elements 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeAccuracy', 'heading', 'speed'.
+- `position` (optional): The position of the device. position has the following type: lists containing elements 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeAccuracy', 'heading', 'speed'.
 Those elements have the following types:
   - `latitude` (Real; optional)
   - `longitude` (Real; optional)
-  - `altitude` (Real; optional)
   - `accuracy` (Real; optional)
+  - `altitude` (Real; optional)
   - `altitudeAccuracy` (Real; optional)
   - `heading` (Real; optional)
   - `speed` (Real; optional)

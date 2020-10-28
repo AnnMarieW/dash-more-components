@@ -13,12 +13,12 @@ Keyword arguments:
 - local_date (string; optional): The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
 - timestamp (number; optional): timestamp
-- position (dict; optional): The position of the device. position has the following type: dict containing keys 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeAccuracy', 'heading', 'speed'.
+- position (dict; optional): The position of the device. position has the following type: dict containing keys 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeAccuracy', 'heading', 'speed'.
 Those keys have the following types:
   - latitude (number; optional)
   - longitude (number; optional)
-  - altitude (number; optional)
   - accuracy (number; optional)
+  - altitude (number; optional)
   - altitudeAccuracy (number; optional)
   - heading (number; optional)
   - speed (number; optional)

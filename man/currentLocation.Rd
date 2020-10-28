@@ -23,12 +23,12 @@ Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM}
 
 \item{timestamp}{Numeric. timestamp}
 
-\item{position}{Lists containing elements 'latitude', 'longitude', 'altitude', 'accuracy', 'altitudeaccuracy', 'heading', 'speed'.
+\item{position}{Lists containing elements 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeaccuracy', 'heading', 'speed'.
 those elements have the following types:
   - latitude (numeric; optional)
   - longitude (numeric; optional)
-  - altitude (numeric; optional)
   - accuracy (numeric; optional)
+  - altitude (numeric; optional)
   - altitudeaccuracy (numeric; optional)
   - heading (numeric; optional)
   - speed (numeric; optional). The position of the device}

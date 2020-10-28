@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
  *          - In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
  *            correctly the first time. When watchPosition is started for the second time I cannot make it stop
  *            without restarting the app.  Is there a way to force the component to re-mount?  (I heard that was an
- *            anti-pattern in React.)
+ *            anti-pattern in React.)   Try it in Firefox
  *
  *
  */
@@ -56,7 +56,7 @@ export default class CurrentLocation extends Component {
             this.watchID = navigator.geolocation.watchPosition(this.success, this.error, positionOptions),
             console.log(`watchID: ${this.watchID}`)
         ) : (
-            console.log(`getpos`),
+            console.log(`getCurrentPosition`),
             navigator.geolocation.getCurrentPosition(this.success, this.error, positionOptions)
         )
     }
@@ -64,12 +64,14 @@ export default class CurrentLocation extends Component {
 
 
   componentDidMount() {
-        this.updatePosition()
+        this.updatePosition();
+        console.log(`in componentDidMount`);
   }
 
   componentWillUnmount() {
             if (this.props.watch_position) {
                 navigator.geolocation.clearWatch(this.watchId);
+                console.log(`clearWatch -unmount ${this.watchID} `);
             }
   }
 
@@ -90,7 +92,7 @@ export default class CurrentLocation extends Component {
 
 
   success(pos) {
-    console.log(`success1`)
+    console.log(`success`)
     const crd = pos.coords
     const position_obj = ({
       latitude: crd.latitude,
@@ -168,8 +170,8 @@ CurrentLocation.propTypes = {
     position: PropTypes.shape({
         latitude: PropTypes.number,
         longitude: PropTypes.number,
-        altitude: PropTypes.number,
         accuracy: PropTypes.number,
+        altitude: PropTypes.number,
         altitudeAccuracy: PropTypes.number,
         heading: PropTypes.number,
         speed: PropTypes.number,

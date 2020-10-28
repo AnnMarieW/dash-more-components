@@ -225,11 +225,11 @@
               "name": "number",
               "required": false
             },
-            "altitude": {
+            "accuracy": {
               "name": "number",
               "required": false
             },
-            "accuracy": {
+            "altitude": {
               "name": "number",
               "required": false
             },
