@@ -36,9 +36,11 @@ Supported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a
 
 \item{minTime}{Character. Minimum time the user can select}
 
-\item{maxDate}{Character. }
+\item{maxDate}{Character. Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable,
+although React-DateTime-Picker will ensure that no later date is selected.}
 
-\item{minDate}{Character. }
+\item{minDate}{Character. Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable,
+although React-DateTime-Picker will ensure that no earlier date is selected.}
 
 \item{disabled}{Logical. Whether the time picker should be disables}
 

@@ -6,7 +6,7 @@
 \title{CurrentLocation component}
 
 \description{
-The CurrentLocation component gets geolocation of device from the web browser.  See more info here: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
+The CurrentLocation component gets geolocation of the device from the web browser.  See more info here: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 }
 
 \usage{
@@ -47,12 +47,15 @@ is updated when either the location changes or more accurate information becomes
 
 \item{high_accuracy}{Logical. (boolean; default False).   If true and if the device is able to provide a more accurate position,
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
- chip on a mobile device for example). If false (the default value), the device can take
- the liberty to save resources by responding more quickly and/or using less power.}
+ chip on a mobile device for example). If false (the default value), the device can save resources by
+ responding more quickly and/or using less power.}
 
-\item{maximum_age}{Numeric. }
+\item{maximum_age}{Numeric. The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,
+it means that the device cannot use a cached position and must attempt to retrieve the real current position.
+If set to Infinity the device must return a cached position regardless of its age. Default: 0.}
 
-\item{timeout}{Numeric. }
+\item{timeout}{Numeric. The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
+The default value is Infinity, meaning that data will not be return until the position is available.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

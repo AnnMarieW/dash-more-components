@@ -113,12 +113,14 @@ Datetimepicker.propTypes = {
     */
     minTime: PropTypes.string,
     
-    /*Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable, 
+    /**
+    * Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable,
     * although React-DateTime-Picker will ensure that no later date is selected.
     */
     maxDate: PropTypes.string,
     
-    /*Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable, 
+    /**
+    * Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable,
     * although React-DateTime-Picker will ensure that no earlier date is selected.
     */
     minDate: PropTypes.string,

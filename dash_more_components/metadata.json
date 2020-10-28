@@ -156,7 +156,7 @@
     }
   },
   "src/lib/components/CurrentLocation.react.js": {
-    "description": "The CurrentLocation component gets geolocation of device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
+    "description": "The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
     "displayName": "CurrentLocation",
     "methods": [
       {
@@ -298,7 +298,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can take\n the liberty to save resources by responding more quickly and/or using less power.",
+        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can save resources by\n responding more quickly and/or using less power.",
         "defaultValue": {
           "value": "false",
           "computed": false
@@ -309,7 +309,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "",
+        "description": "The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,\nit means that the device cannot use a cached position and must attempt to retrieve the real current position.\nIf set to Infinity the device must return a cached position regardless of its age. Default: 0.",
         "defaultValue": {
           "value": "0",
           "computed": false
@@ -320,7 +320,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "",
+        "description": "The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.\nThe default value is Infinity, meaning that data will not be return until the position is available.",
         "defaultValue": {
           "value": "Infinity",
           "computed": true
@@ -426,14 +426,14 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable,\nalthough React-DateTime-Picker will ensure that no later date is selected."
       },
       "minDate": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable,\nalthough React-DateTime-Picker will ensure that no earlier date is selected."
       },
       "disabled": {
         "type": {

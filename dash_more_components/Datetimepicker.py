@@ -20,8 +20,10 @@ Supported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a
 - minDetail (a value equal to: "month", "year", "decade", "century"; optional): The least detailed calendar view that the user shall see.
 - maxTime (string; optional): Maximum time the user can select
 - minTime (string; optional): Minimum time the user can select
-- maxDate (string; optional)
-- minDate (string; optional)
+- maxDate (string; optional): Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable,
+although React-DateTime-Picker will ensure that no later date is selected.
+- minDate (string; optional): Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable,
+although React-DateTime-Picker will ensure that no earlier date is selected.
 - disabled (boolean; optional): Whether the time picker should be disables
 - disableClock (boolean; optional): When set to true will remove the clock and the button toggling its visibility
 - locale (string; optional): Locale that should be used by the time picker and the clock.  Can be any

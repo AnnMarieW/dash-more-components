@@ -5,7 +5,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 class CurrentLocation(Component):
     """A CurrentLocation component.
-The CurrentLocation component gets geolocation of device from the web browser.  See more info here:
+The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:
 https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 
 Keyword arguments:
@@ -33,10 +33,13 @@ is updated when either the location changes or more accurate information becomes
  with a button click or an interval timer.
 - high_accuracy (boolean; default False): (boolean; default False).   If true and if the device is able to provide a more accurate position,
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
- chip on a mobile device for example). If false (the default value), the device can take
- the liberty to save resources by responding more quickly and/or using less power.
-- maximum_age (number; default 0)
-- timeout (number; default Infinity)"""
+ chip on a mobile device for example). If false (the default value), the device can save resources by
+ responding more quickly and/or using less power.
+- maximum_age (number; default 0): The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,
+it means that the device cannot use a cached position and must attempt to retrieve the real current position.
+If set to Infinity the device must return a cached position regardless of its age. Default: 0.
+- timeout (number; default Infinity): The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
+The default value is Infinity, meaning that data will not be return until the position is available."""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, maximum_age=Component.UNDEFINED, timeout=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']

@@ -3,27 +3,28 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-
-
 /**
  * The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:
  * https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
- *
  */
 
  /*
- *  TODO:
+ *  TODO/Questions:
  *        - Is this the best name for the component?
  *
- *        - success(pos)   How to update position vars properly?
+ *         - The position data includes a timestamp, and I did timestamp/1000 to make it easier to convert
+ *           to a datetime object in Python.
+  *               ie:  datetime_obj = dt.datetime.utcfromtimestamp(timestamp)
+  *          But will this cause a  problem in  julia or R?
  *
- *         - timestamp needs to be /1000 for python datetime.  what about julia or R?
+ *         - What is the best way to handle errors? For now, I have both alerts in the browser, and the errors available
+ *           as props
  *
- *         - best way to handle errors - alert in the browser?
+ *          - In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
+ *            correctly the first time. When watchPosition is started for the second time I cannot make it stop
+ *            without restarting the app.  Is there a way to force the component to re-mount?  (I heard that was an
+ *            anti-pattern in React.)
  *
- *          - is it necessary to have a timeout for user granting permission to use location?
- *
- *        - anything else to do on  componentWillUnmount() ?
  *
  */
 
@@ -52,8 +53,10 @@ export default class CurrentLocation extends Component {
         };
 
         this.props.watch_position ? (
-            navigator.geolocation.watchPosition(this.success, this.error, positionOptions)
+            this.watchID = navigator.geolocation.watchPosition(this.success, this.error, positionOptions),
+            console.log(`watchID: ${this.watchID}`)
         ) : (
+            console.log(`getpos`),
             navigator.geolocation.getCurrentPosition(this.success, this.error, positionOptions)
         )
     }
@@ -66,12 +69,17 @@ export default class CurrentLocation extends Component {
 
   componentWillUnmount() {
             if (this.props.watch_position) {
-                geolocationProvider.clearWatch(this.watchId);
+                navigator.geolocation.clearWatch(this.watchId);
             }
   }
 
+
   componentDidUpdate(prevProps) {
-     if ((prevProps.update_now !== this.props.update_now)
+    if (prevProps.watch_position !== this.props.watch_position && prevProps.watch_position) {
+         navigator.geolocation.clearWatch(this.watchId);
+         console.log(`clear ${this.watchID} watch${this.props.watch_position}`);
+    }
+     if ( this.props.update_now
           || (prevProps.watch_position !== this.props.watch_position)
           || (prevProps.maximum_age !== this.props.maximum_age)
           || (prevProps.timeout !== this.props.timeout)
@@ -82,6 +90,7 @@ export default class CurrentLocation extends Component {
 
 
   success(pos) {
+    console.log(`success1`)
     const crd = pos.coords
     const position_obj = ({
       latitude: crd.latitude,
@@ -195,13 +204,15 @@ CurrentLocation.propTypes = {
     */
     high_accuracy: PropTypes.bool,
 
-    /* The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,
+    /**
+     * The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,
      * it means that the device cannot use a cached position and must attempt to retrieve the real current position.
      * If set to Infinity the device must return a cached position regardless of its age. Default: 0.
      */
     maximum_age: PropTypes.number,
 
-    /* The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
+    /**
+     * The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
      * The default value is Infinity, meaning that data will not be return until the position is available.
      */
     timeout: PropTypes.number,
