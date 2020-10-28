@@ -15,15 +15,15 @@ import PropTypes from 'prop-types';
  *         - The position data includes a timestamp, and I did timestamp/1000 to make it easier to convert
  *           to a datetime object in Python.
   *               ie:  datetime_obj = dt.datetime.utcfromtimestamp(timestamp)
-  *          But will this cause a  problem in  julia or R?
+  *          But will this cause a  problem in julia or R?
  *
- *         - What is the best way to handle errors? For now, I have both alerts in the browser, and the errors available
- *           as props
+ *         - What is the best way to handle errors? For now, I have both alerts sent to the browser, and the errors
+ *           available as props.
  *
  *          - In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
  *            correctly the first time. When watchPosition is started for the second time I cannot make it stop
- *            without restarting the app.  Is there a way to force the component to re-mount?  (I heard that was an
- *            anti-pattern in React.)   Try it in Firefox
+ *            without restarting the app. clearWatch() does not work the second time.  Is there a way to force the
+ *            component to re-mount?  (I heard that was an anti-pattern in React.)   It's easiest to see in Firefox.
  *
  *
  */
@@ -159,13 +159,14 @@ CurrentLocation.propTypes = {
     local_date: PropTypes.string,
 
     /**
-     * timestamp
+     * The Unix timestamp from when the position was updated
      */
     timestamp: PropTypes.number,
 
 
     /**
-    * The position of the device
+    * The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+    * when available, otherwise it will be NaN
     */
     position: PropTypes.shape({
         latitude: PropTypes.number,
@@ -193,8 +194,8 @@ CurrentLocation.propTypes = {
 
     /**
     *  (boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser
-    *   will update the position data and reset update_now back to False.  This can, for example, to update the position
-    *  with a button click or an interval timer.
+    *   will update the position data and reset update_now back to False.  This can, for example, be used to update the
+    *  position with a button or an interval timer.
     */
     update_now: PropTypes.bool,
 
