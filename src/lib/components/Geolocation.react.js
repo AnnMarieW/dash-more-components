@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
  /*
  *  TODO/Questions:
- *        - Is this the best name for the component?
+ *
  *
  *         - The position data includes a timestamp, and I did timestamp/1000 to make it easier to convert
  *           to a datetime object in Python.
@@ -30,7 +30,7 @@ import PropTypes from 'prop-types';
 
 
 
-export default class CurrentLocation extends Component {
+export default class Geolocation extends Component {
   constructor(props) {
     super(props);
     this.success = this.success.bind(this);
@@ -95,11 +95,11 @@ export default class CurrentLocation extends Component {
     console.log(`success`)
     const crd = pos.coords
     const position_obj = ({
-      latitude: crd.latitude,
-      longitude: crd.longitude,
+      lat: crd.latitude,
+      lon: crd.longitude,
       accuracy: crd.accuracy,
-      altitude: crd.altitude,
-      altitudeAccuracy: crd.altitudeAccuracy,
+      alt: crd.altitude,
+      altAccuracy: crd.altitudeAccuracy,
       speed: crd.speed,
       heading: crd.heading,
     })
@@ -114,14 +114,14 @@ export default class CurrentLocation extends Component {
 
     this.props.setProps({
       local_date: new Date(pos.timestamp).toLocaleString(),
-      timestamp: pos.timestamp / 1000,
+      timestamp: Math.floor(pos.timestamp / 1000),
       position : position_obj,
       position_error : null
     });
   }
 
   error(err) {
-    alert(`ERROR(${err.code}): ${err.message}`);
+ //   alert(`ERROR(${err.code}): ${err.message}`);
     this.props.setProps({
        position : null,
        position_error: ({
@@ -137,7 +137,7 @@ export default class CurrentLocation extends Component {
 }
 
 
-CurrentLocation.defaultProps = {
+Geolocation.defaultProps = {
     watch_position : false,
     update_now : false,
     high_accuracy : false,
@@ -146,7 +146,7 @@ CurrentLocation.defaultProps = {
     timeout : Infinity,
 };
 
-CurrentLocation.propTypes = {
+Geolocation.propTypes = {
     /**
      * The ID used to identify this component in Dash callbacks.
      */
@@ -159,21 +159,32 @@ CurrentLocation.propTypes = {
     local_date: PropTypes.string,
 
     /**
-     * The Unix timestamp from when the position was updated
+     * The Unix timestamp in seconds from when the position was updated
      */
     timestamp: PropTypes.number,
 
 
     /**
-    * The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
-    * when available, otherwise it will be NaN
+    * (dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+    * when available, otherwise it will be NaN.
+    *A dictionary with the following keys:
+    *       lat:  latitude in degrees,
+    *       lon: longitude in degrees,
+    *       accuracy: accuracy of the lat/lon in meters,
+    *
+    *       When available:
+    *       alt:  altitude above mean sea level in meters,
+    *       altAccuracy:  accuracy of the altitude  in meters,
+    *       heading: compass heading in degrees,
+    *       speed:  speed in meters per sec,
+    *
     */
     position: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
+        lat: PropTypes.number,
+        lon: PropTypes.number,
         accuracy: PropTypes.number,
-        altitude: PropTypes.number,
-        altitudeAccuracy: PropTypes.number,
+        alt: PropTypes.number,
+        altAccuracy: PropTypes.number,
         heading: PropTypes.number,
         speed: PropTypes.number,
     }),

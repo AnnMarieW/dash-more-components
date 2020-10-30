@@ -155,186 +155,6 @@
       }
     }
   },
-  "src/lib/components/CurrentLocation.react.js": {
-    "description": "The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
-    "displayName": "CurrentLocation",
-    "methods": [
-      {
-        "name": "updatePosition",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "success",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "pos",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "error",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "err",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
-    "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID used to identify this component in Dash callbacks."
-      },
-      "local_date": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The local date and time when the device position was updated.\nFormat:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM"
-      },
-      "timestamp": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "timestamp"
-      },
-      "position": {
-        "type": {
-          "name": "shape",
-          "value": {
-            "latitude": {
-              "name": "number",
-              "required": false
-            },
-            "longitude": {
-              "name": "number",
-              "required": false
-            },
-            "accuracy": {
-              "name": "number",
-              "required": false
-            },
-            "altitude": {
-              "name": "number",
-              "required": false
-            },
-            "altitudeAccuracy": {
-              "name": "number",
-              "required": false
-            },
-            "heading": {
-              "name": "number",
-              "required": false
-            },
-            "speed": {
-              "name": "number",
-              "required": false
-            }
-          }
-        },
-        "required": false,
-        "description": "The position of the device"
-      },
-      "position_error": {
-        "type": {
-          "name": "shape",
-          "value": {
-            "code": {
-              "name": "number",
-              "required": false
-            },
-            "message": {
-              "name": "string",
-              "required": false
-            }
-          }
-        },
-        "required": false,
-        "description": "Position error",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "watch_position": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "(boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data\nis updated when either the location changes or more accurate information becomes available",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "update_now": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "(boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser\n  will update the position data and reset update_now back to False.  This can, for example, to update the position\n with a button click or an interval timer.",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "high_accuracy": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can save resources by\n responding more quickly and/or using less power.",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "maximum_age": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,\nit means that the device cannot use a cached position and must attempt to retrieve the real current position.\nIf set to Infinity the device must return a cached position regardless of its age. Default: 0.",
-        "defaultValue": {
-          "value": "0",
-          "computed": false
-        }
-      },
-      "timeout": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.\nThe default value is Infinity, meaning that data will not be return until the position is available.",
-        "defaultValue": {
-          "value": "Infinity",
-          "computed": true
-        }
-      },
-      "setProps": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
-      }
-    }
-  },
   "src/lib/components/Datetimepicker.react.js": {
     "description": "TODO:",
     "displayName": "Datetimepicker",
@@ -476,6 +296,186 @@
         },
         "required": false,
         "description": "Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.\nCan be \"start\", \"end\" or \"range\". The latter will cause an array with start and end values to be passed."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  },
+  "src/lib/components/Geolocation.react.js": {
+    "description": "The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
+    "displayName": "Geolocation",
+    "methods": [
+      {
+        "name": "updatePosition",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "success",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "pos",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "error",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "err",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "local_date": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The local date and time when the device position was updated.\nFormat:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM"
+      },
+      "timestamp": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The Unix timestamp in seconds from when the position was updated"
+      },
+      "position": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "lat": {
+              "name": "number",
+              "required": false
+            },
+            "lon": {
+              "name": "number",
+              "required": false
+            },
+            "accuracy": {
+              "name": "number",
+              "required": false
+            },
+            "alt": {
+              "name": "number",
+              "required": false
+            },
+            "altAccuracy": {
+              "name": "number",
+              "required": false
+            },
+            "heading": {
+              "name": "number",
+              "required": false
+            },
+            "speed": {
+              "name": "number",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "(dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included\nwhen available, otherwise it will be NaN.\nA dictionary with the following keys:\n      lat:  latitude in degrees,\n      lon: longitude in degrees,\n      accuracy: accuracy of the lat/lon in meters,\n\n      When available:\n      alt:  altitude above mean sea level in meters,\n      altAccuracy:  accuracy of the altitude  in meters,\n      heading: compass heading in degrees,\n      speed:  speed in meters per sec,"
+      },
+      "position_error": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "code": {
+              "name": "number",
+              "required": false
+            },
+            "message": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Position error",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "watch_position": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data\nis updated when either the location changes or more accurate information becomes available",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "update_now": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser\n  will update the position data and reset update_now back to False.  This can, for example, be used to update the\n position with a button or an interval timer.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "high_accuracy": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can save resources by\n responding more quickly and/or using less power.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "maximum_age": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,\nit means that the device cannot use a cached position and must attempt to retrieve the real current position.\nIf set to Infinity the device must return a cached position regardless of its age. Default: 0.",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "timeout": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.\nThe default value is Infinity, meaning that data will not be return until the position is available.",
+        "defaultValue": {
+          "value": "Infinity",
+          "computed": true
+        }
       },
       "setProps": {
         "type": {

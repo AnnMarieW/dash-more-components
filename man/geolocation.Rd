@@ -1,16 +1,16 @@
 % Auto-generated: do not edit by hand
-\name{currentLocation}
+\name{geolocation}
 
-\alias{currentLocation}
+\alias{geolocation}
 
-\title{CurrentLocation component}
+\title{Geolocation component}
 
 \description{
 The CurrentLocation component gets geolocation of the device from the web browser.  See more info here: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 }
 
 \usage{
-currentLocation(id=NULL, local_date=NULL, timestamp=NULL, position=NULL,
+geolocation(id=NULL, local_date=NULL, timestamp=NULL, position=NULL,
 position_error=NULL, watch_position=NULL, update_now=NULL,
 high_accuracy=NULL, maximum_age=NULL, timeout=NULL)
 }
@@ -21,18 +21,28 @@ high_accuracy=NULL, maximum_age=NULL, timeout=NULL)
 \item{local_date}{Character. The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM}
 
-\item{timestamp}{Numeric. The Unix timestamp from when the position was updated}
+\item{timestamp}{Numeric. The Unix timestamp in seconds from when the position was updated}
 
-\item{position}{Lists containing elements 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeaccuracy', 'heading', 'speed'.
+\item{position}{Lists containing elements 'lat', 'lon', 'accuracy', 'alt', 'altaccuracy', 'heading', 'speed'.
 those elements have the following types:
-  - latitude (numeric; optional)
-  - longitude (numeric; optional)
+  - lat (numeric; optional)
+  - lon (numeric; optional)
   - accuracy (numeric; optional)
-  - altitude (numeric; optional)
-  - altitudeaccuracy (numeric; optional)
+  - alt (numeric; optional)
+  - altaccuracy (numeric; optional)
   - heading (numeric; optional)
-  - speed (numeric; optional). The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
-when available, otherwise it will be NaN}
+  - speed (numeric; optional). (dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+when available, otherwise it will be NaN.
+A dictionary with the following keys:
+      lat:  latitude in degrees,
+      lon: longitude in degrees,
+      accuracy: accuracy of the lat/lon in meters,
+
+      When available:
+      alt:  altitude above mean sea level in meters,
+      altAccuracy:  accuracy of the altitude  in meters,
+      heading: compass heading in degrees,
+      speed:  speed in meters per sec,}
 
 \item{position_error}{Lists containing elements 'code', 'message'.
 those elements have the following types:

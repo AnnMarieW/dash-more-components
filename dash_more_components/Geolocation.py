@@ -3,8 +3,8 @@
 from dash.development.base_component import Component, _explicitize_args
 
 
-class CurrentLocation(Component):
-    """A CurrentLocation component.
+class Geolocation(Component):
+    """A Geolocation component.
 The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:
 https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 
@@ -12,15 +12,25 @@ Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
 - local_date (string; optional): The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
-- timestamp (number; optional): The Unix timestamp from when the position was updated
-- position (dict; optional): The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
-when available, otherwise it will be NaN. position has the following type: dict containing keys 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeAccuracy', 'heading', 'speed'.
+- timestamp (number; optional): The Unix timestamp in seconds from when the position was updated
+- position (dict; optional): (dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+when available, otherwise it will be NaN.
+A dictionary with the following keys:
+      lat:  latitude in degrees,
+      lon: longitude in degrees,
+      accuracy: accuracy of the lat/lon in meters,
+
+      When available:
+      alt:  altitude above mean sea level in meters,
+      altAccuracy:  accuracy of the altitude  in meters,
+      heading: compass heading in degrees,
+      speed:  speed in meters per sec,. position has the following type: dict containing keys 'lat', 'lon', 'accuracy', 'alt', 'altAccuracy', 'heading', 'speed'.
 Those keys have the following types:
-  - latitude (number; optional)
-  - longitude (number; optional)
+  - lat (number; optional)
+  - lon (number; optional)
   - accuracy (number; optional)
-  - altitude (number; optional)
-  - altitudeAccuracy (number; optional)
+  - alt (number; optional)
+  - altAccuracy (number; optional)
   - heading (number; optional)
   - speed (number; optional)
 - position_error (dict; optional): Position error. position_error has the following type: dict containing keys 'code', 'message'.
@@ -44,7 +54,7 @@ The default value is Infinity, meaning that data will not be return until the po
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, maximum_age=Component.UNDEFINED, timeout=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
-        self._type = 'CurrentLocation'
+        self._type = 'Geolocation'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
@@ -59,4 +69,4 @@ The default value is Infinity, meaning that data will not be return until the po
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
-        super(CurrentLocation, self).__init__(**args)
+        super(Geolocation, self).__init__(**args)

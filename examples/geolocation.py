@@ -7,6 +7,7 @@ import dash_table
 import plotly.graph_objects as go
 from geopy.geocoders import Nominatim
 import pandas as pd
+import datetime as dt
 import dash_bootstrap_components as dbc
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
@@ -17,11 +18,11 @@ app = dash.Dash(
 
 df = pd.DataFrame(
     {
-        "latitude": 0,
-        "longitude": 0,
-        "altitude": 0,
+        "lat": 0,
+        "lon": 0,
+        "alt": 0,
         "accuracy": 0,
-        "altitudeAccuracy": 0,
+        "altAccuracy": 0,
         "heading": 0,
         "speed": 0,
     },
@@ -35,7 +36,7 @@ Markdown
 markdown_card = dbc.Card(
     [
         dbc.CardHeader(
-            "Notes on CurrentLocation component and App settings",
+            "Notes on Geoocation component and App settings",
             className="font-weight-bold",
         ),
         dcc.Markdown(
@@ -47,11 +48,12 @@ markdown_card = dbc.Card(
 is selected, or timeout is very small,  it's better to not have it included.
  
 3. __Watch Position__ will automatically update the position every 5 seconds - or sooner if the position has changed or 
-more accurate data is available.  While using, timeout should not be set to less than 5000 otherwise it will constantly be in a timeout condition.
+more accurate data is available.  While using, timeout should not be set to less than 5000 otherwise it may constantly 
+be in a timeout condition.
 
 4. __Enable High Accuracy__ will use GPS if available, and will also attempt to get the best data possible.  Note - this 
 uses more power and resources .  Also, timeout should be set to a high number or a max age should be provided as GPS 
-sometmes takes longer to update.
+sometimes takes longer to update.
 
 5. __Max Age__ will provide a cached location after specified number of milliseconds if no new position data is 
 available before the timeout.   If set to zero, it will not use a cached data.
@@ -63,6 +65,10 @@ to hold the user settings for pan, zoom etc, so those won't change when the posi
 order for this to update, a new zoom number must be entered, because if it's the same, Dash will not update the map 
 (It thinks no data has changed)
 
+8.  The __dates and times__ are when the position data was obtained.  The date reflects the
+ current system time from the computer running the browser.  The accuracy is dependant on this being set correctly
+ in the user's computer and browser. 
+
         """
         ),
     ]
@@ -73,6 +79,8 @@ order for this to update, a new zoom number must be entered, because if it's the
 ===============================================================================
 Map and address
 """
+
+
 def get_address(lat, lon, show_address):
     address = ""
     if show_address:
@@ -90,8 +98,8 @@ def make_map(
     show_address,
     zoom=12,
 ):
-    lat = position["latitude"]
-    lon = position["longitude"]
+    lat = position["lat"]
+    lon = position["lon"]
     fig = go.Figure(
         go.Scattermapbox(
             lat=[lat],
@@ -153,7 +161,7 @@ input_card = html.Div(
                                 min=0,
                             ),
                         ],
-                        className="m-1",
+                        className="m-2",
                         size="sm",
                     ),
                     dbc.InputGroup(
@@ -164,11 +172,10 @@ input_card = html.Div(
                                 type="number",
                                 debounce=True,
                                 value=10000,
-                                step=1000,
                                 min=0,
                             ),
                         ],
-                        className="m-1",
+                        className="m-2",
                         size="sm",
                     ),
                     dbc.InputGroup(
@@ -187,7 +194,7 @@ input_card = html.Div(
                                 step=1,
                             ),
                         ],
-                        className="m-1",
+                        className="m-2",
                         size="sm",
                     ),
                 ],
@@ -203,11 +210,11 @@ def make_position_card(pos, date, show_address):
         [
             html.H4(f"As of {date} your location:"),
             html.P(
-                f"within {pos['accuracy']} meters of  lat,lon: ( {pos['latitude']:.2f},  {pos['longitude']:.2f})",
+                f"within {pos['accuracy']} meters of  lat,lon: ( {pos['lat']:.2f},  {pos['lon']:.2f})",
                 style={"marginLeft": 20},
             ),
             html.P(
-                get_address(pos["latitude"], pos["longitude"], show_address),
+                get_address(pos["lat"], pos["lon"], show_address),
                 style={"marginLeft": 20},
             ),
         ]
@@ -236,13 +243,14 @@ app.layout = dbc.Container(
             [
                 dbc.Col(
                     [
+                        html.Div(id="iso_date"),
                         html.Div(
                             dash_table.DataTable(
                                 id="position_data",
                                 columns=[{"name": i, "id": i} for i in df.columns],
                                 data=df.to_dict("records"),
                             ),
-                            className="m-4",
+                            className="mb-4",
                         ),
                         html.Div(id="error_data", className="m-4"),
                         html.Div(markdown_card, className="m-4"),
@@ -251,8 +259,8 @@ app.layout = dbc.Container(
                 )
             ]
         ),
-        dmc.CurrentLocation(
-            id="current_loc",
+        dmc.Geolocation(
+            id="geolocation",
         ),
     ],
     className="m-4",
@@ -264,12 +272,11 @@ app.layout = dbc.Container(
 Callbacks
 """
 
-
 @app.callback(
-    Output("current_loc", "watch_position"),
-    Output("current_loc", "high_accuracy"),
-    Output("current_loc", "maximum_age"),
-    Output("current_loc", "timeout"),
+    Output("geolocation", "watch_position"),
+    Output("geolocation", "high_accuracy"),
+    Output("geolocation", "maximum_age"),
+    Output("geolocation", "timeout"),
     Input("options_checklist", "value"),
     Input("max_age", "value"),
     Input("timeout_input", "value"),
@@ -284,7 +291,7 @@ def update_options(checked, max_age, timeout):
 
 
 @app.callback(
-    Output("current_loc", "update_now"),
+    Output("geolocation", "update_now"),
     Input("update_btn", "n_clicks"),
 )
 def update_now(click):
@@ -295,16 +302,18 @@ def update_now(click):
     Output("text_position", "children"),
     Output("map", "figure"),
     Output("position_data", "data"),
+    Output("iso_date", "children"),
     Output("error_data", "children"),
     Input("options_checklist", "value"),
     Input("center", "n_clicks"),
     Input("zoom", "value"),
-    Input("current_loc", "local_date"),
-    Input("current_loc", "position"),
-    Input("current_loc", "position_error"),
+    Input("geolocation", "local_date"),
+    Input("geolocation", "timestamp"),
+    Input("geolocation", "position"),
+    Input("geolocation", "position_error"),
     prevent_initial_call=True,
 )
-def display_output(checklist, center, zoom, date, pos, err):
+def display_output(checklist, center, zoom, date, timestamp, pos, err):
     ctx = dash.callback_context
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
@@ -326,7 +335,12 @@ def display_output(checklist, center, zoom, date, pos, err):
     data = df.to_dict("records")
     err_output = (f"Error {err['code']} : ( {err['message']})") if err else None
 
-    return position, map, data, err_output
+    # display iso dates
+    datetime_local = dt.datetime.fromtimestamp(timestamp)
+    datetime_utc = dt.datetime.utcfromtimestamp(timestamp)
+    iso_date = f"UTC datetime: {datetime_utc}      Local datetime: {datetime_local}"
+
+    return position, map, data, iso_date, err_output
 
 
 if __name__ == "__main__":

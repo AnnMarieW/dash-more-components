@@ -1,26 +1,36 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-export currentlocation
+export geolocation
 
 """
-    currentlocation(;kwargs...)
+    geolocation(;kwargs...)
 
-A CurrentLocation component.
+A Geolocation component.
 The CurrentLocation component gets geolocation of the device from the web browser.  See more info here:
 https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 Keyword arguments:
 - `id` (String; optional): The ID used to identify this component in Dash callbacks.
 - `local_date` (String; optional): The local date and time when the device position was updated.
 Format:  MM/DD/YYYY, hh:mm:ss p   where p is AM or PM
-- `timestamp` (Real; optional): The Unix timestamp from when the position was updated
-- `position` (optional): The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
-when available, otherwise it will be NaN. position has the following type: lists containing elements 'latitude', 'longitude', 'accuracy', 'altitude', 'altitudeAccuracy', 'heading', 'speed'.
+- `timestamp` (Real; optional): The Unix timestamp in seconds from when the position was updated
+- `position` (optional): (dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+when available, otherwise it will be NaN.
+A dictionary with the following keys:
+      lat:  latitude in degrees,
+      lon: longitude in degrees,
+      accuracy: accuracy of the lat/lon in meters,
+
+      When available:
+      alt:  altitude above mean sea level in meters,
+      altAccuracy:  accuracy of the altitude  in meters,
+      heading: compass heading in degrees,
+      speed:  speed in meters per sec,. position has the following type: lists containing elements 'lat', 'lon', 'accuracy', 'alt', 'altAccuracy', 'heading', 'speed'.
 Those elements have the following types:
-  - `latitude` (Real; optional)
-  - `longitude` (Real; optional)
+  - `lat` (Real; optional)
+  - `lon` (Real; optional)
   - `accuracy` (Real; optional)
-  - `altitude` (Real; optional)
-  - `altitudeAccuracy` (Real; optional)
+  - `alt` (Real; optional)
+  - `altAccuracy` (Real; optional)
   - `heading` (Real; optional)
   - `speed` (Real; optional)
 - `position_error` (optional): Position error. position_error has the following type: lists containing elements 'code', 'message'.
@@ -42,9 +52,9 @@ If set to Infinity the device must return a cached position regardless of its ag
 - `timeout` (Real; optional): The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
 The default value is Infinity, meaning that data will not be return until the position is available.
 """
-function currentlocation(; kwargs...)
+function geolocation(; kwargs...)
         available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :watch_position, :update_now, :high_accuracy, :maximum_age, :timeout]
         wild_props = Symbol[]
-        return Component("currentlocation", "CurrentLocation", "dash_more_components", available_props, wild_props; kwargs...)
+        return Component("geolocation", "Geolocation", "dash_more_components", available_props, wild_props; kwargs...)
 end
 
