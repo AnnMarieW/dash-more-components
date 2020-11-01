@@ -1,4 +1,5 @@
 # Dash More Components
+### Note:  This is a pre-release preview - question, comments, suggestions are welcome!
 
 Dash More Components is library of additional components to use in Plotly Dash apps
 
