@@ -92,7 +92,8 @@ This app shows how to plot the location on a map and to get the address.  See ge
 the examples folder.  
 
 
-![](./examples/images/current_location.png)
+![](./examples/images/geolocation.png)
+
 
 
 -------
