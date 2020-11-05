@@ -9,15 +9,7 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
  * 
  */
  
- 
- /*
- *  TODO:
- *
- *
- */
- 
- 
- 
+
  
 export default class CountdownTimer extends Component {
     constructor(props) {
