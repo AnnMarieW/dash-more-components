@@ -6,14 +6,15 @@ export datetimepicker
     datetimepicker(;kwargs...)
 
 A Datetimepicker component.
-TODO:
+TODO:  more checking for valid dates.
 Keyword arguments:
 - `id` (String; optional): The ID used to identify this component in Dash callbacks.
-- `value` (Bool | Real | String | Dict | Array; optional): value is the selected time
-- `format` (String; optional): Input format based on Unicode Technical Standard #35. 
+- `value` (Bool | Real | String | Dict | Array; optional): value is the selected datetime.   type:  datetime objec
+- `setValue` (Bool | Real | String | Dict | Array; optional): string value of date.  from app. need to convert to datetime object
+- `format` (String; optional): Input format based on Unicode Technical Standard #35.  This changes how the date and time is displayed.
 Supported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a
      
-     example:  y-MM-dd h:mm:ss a
+     example:  y-MM-dd h:mm:ss a   isodate:y-MM-dd HH:mm:ss
 - `maxDetail` (a value equal to: 'hour', 'minute', 'second'; optional): (string, one of 'hour', 'minute', 'second, Default: 'minute')
   The level of detail to show on the datetime picker. View defined here also becomes the one on which
   clicking an item in the calendar will select a date.
@@ -33,7 +34,7 @@ Default from User's browser settings.
 Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed.
 """
 function datetimepicker(; kwargs...)
-        available_props = Symbol[:id, :value, :format, :maxDetail, :minDetail, :maxTime, :minTime, :maxDate, :minDate, :disabled, :disableClock, :locale, :returnValue]
+        available_props = Symbol[:id, :value, :setValue, :format, :maxDetail, :minDetail, :maxTime, :minTime, :maxDate, :minDate, :disabled, :disableClock, :locale, :returnValue]
         wild_props = Symbol[]
         return Component("datetimepicker", "Datetimepicker", "dash_more_components", available_props, wild_props; kwargs...)
 end

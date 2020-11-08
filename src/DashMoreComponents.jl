@@ -10,6 +10,7 @@ include("creditcard.jl")
 include("datetimepicker.jl")
 include("geolocation.jl")
 include("timepicker.jl")
+include("timer.jl")
 
 function __init__()
     DashBase.register_package(

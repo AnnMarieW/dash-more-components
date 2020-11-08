@@ -12,7 +12,7 @@ import DateTimePicker from 'react-datetime-picker';
  
  
  /**
- *   TODO:  
+ *   TODO:  more checking for valid dates.
 *
  *          
  *          
@@ -25,38 +25,54 @@ import DateTimePicker from 'react-datetime-picker';
 export default class Datetimepicker extends Component {
 
     constructor(props) {
-        super(props);        
-    }	
-	
+        super(props);
+        this.convertDate = this.convertDate.bind(this);
+    }
+
+    convertDate(value)  {
+        if (value == undefined) {
+           return value
+        } else {
+           return new Date(value)
+        }
+
+    }
+
+
+
 
     render() {
         const {id, value, format, maxDetail,minDetail, maxTime, minTime, disabled, disableClock,
-        minDate, maxDate, disableCalendar, returnValue, setProps,
+        minDate, maxDate, disableCalendar, returnValue, setValue, setProps,
         
-        } = this.props;     
-        
+        } = this.props;
+
+        const newvalue = this.convertDate(value)
+        console.log(`value ${newvalue}`)
+        console.log(typeof newvalue)
+        console.log(new Date(newvalue))
+
         return (
             
-            <div id={id}>                
-                    <DateTimePicker
-        		value={value}    
-        		format={format}
-        		maxDetail={maxDetail} 
-        		minDetail={minDetail}
-        		maxTime={maxTime}
-        		minTime={minTime}
-        		maxDate={maxDate} 
-        		minDate={minDate}
-        		disabled={disabled}
-        		disableClock={disableClock}
-        		disableCalendar={disableCalendar}
-        		returnValue={returnValue}
-        		                   
-                       
-                       onChange={value => setProps({ value})}                      
+            <div
+                id={id}
+            >
+                <DateTimePicker
+                    value={this.convertDate(value)}
+                    format={format}
+                    maxDetail={maxDetail}
+                    minDetail={minDetail}
+                    maxTime={maxTime}
+                    minTime={minTime}
+                    maxDate={maxDate}
+                    minDate={minDate}
+                    disabled={disabled}
+                    disableClock={disableClock}
+                    disableCalendar={disableCalendar}
+                    returnValue={returnValue}
+                    onChange={value => setProps({ value})}
                     
-                    />
-                
+                />
             </div>
  
       
@@ -75,16 +91,22 @@ Datetimepicker.propTypes = {
     id: PropTypes.string,
     
     /**
-    * value is the selected time
+    * value is the selected datetime.   type:  datetime objec
     */
    value: PropTypes.any,
+
+   /**
+   * string value of date.  from app. need to convert to datetime object
+   *
+   */
+   setValue: PropTypes.any,
    
    
     /**
-    * Input format based on Unicode Technical Standard #35. 
+    * Input format based on Unicode Technical Standard #35.  This changes how the date and time is displayed.
     * Supported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a
     *      
-    *      example:  y-MM-dd h:mm:ss a
+    *      example:  y-MM-dd h:mm:ss a   isodate:y-MM-dd HH:mm:ss
     */
    format: PropTypes.string,   
    

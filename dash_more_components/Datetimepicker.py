@@ -5,15 +5,16 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Datetimepicker(Component):
     """A Datetimepicker component.
-TODO:
+TODO:  more checking for valid dates.
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
-- value (boolean | number | string | dict | list; optional): value is the selected time
-- format (string; optional): Input format based on Unicode Technical Standard #35. 
+- value (boolean | number | string | dict | list; optional): value is the selected datetime.   type:  datetime objec
+- setValue (boolean | number | string | dict | list; optional): string value of date.  from app. need to convert to datetime object
+- format (string; optional): Input format based on Unicode Technical Standard #35.  This changes how the date and time is displayed.
 Supported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a
      
-     example:  y-MM-dd h:mm:ss a
+     example:  y-MM-dd h:mm:ss a   isodate:y-MM-dd HH:mm:ss
 - maxDetail (a value equal to: 'hour', 'minute', 'second'; optional): (string, one of 'hour', 'minute', 'second, Default: 'minute')
   The level of detail to show on the datetime picker. View defined here also becomes the one on which
   clicking an item in the calendar will select a date.
@@ -32,12 +33,12 @@ Default from User's browser settings.
 - returnValue (a value equal to: "start", "end", "range"; optional): Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.
 Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, value=Component.UNDEFINED, format=Component.UNDEFINED, maxDetail=Component.UNDEFINED, minDetail=Component.UNDEFINED, maxTime=Component.UNDEFINED, minTime=Component.UNDEFINED, maxDate=Component.UNDEFINED, minDate=Component.UNDEFINED, disabled=Component.UNDEFINED, disableClock=Component.UNDEFINED, locale=Component.UNDEFINED, returnValue=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'value', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
+    def __init__(self, id=Component.UNDEFINED, value=Component.UNDEFINED, setValue=Component.UNDEFINED, format=Component.UNDEFINED, maxDetail=Component.UNDEFINED, minDetail=Component.UNDEFINED, maxTime=Component.UNDEFINED, minTime=Component.UNDEFINED, maxDate=Component.UNDEFINED, minDate=Component.UNDEFINED, disabled=Component.UNDEFINED, disableClock=Component.UNDEFINED, locale=Component.UNDEFINED, returnValue=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
         self._type = 'Datetimepicker'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'value', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
+        self.available_properties = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

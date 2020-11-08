@@ -19,13 +19,19 @@ app.layout = html.Div(
                 html.Div(id="output1"),
             ]
         ),
-        html.Div(
-            [
-                "Default datetimepicker with initial time set:",
-                dmc.Datetimepicker(id="example2", value=dt.datetime.now(), maxDetail='hour'),
-                html.Div(id="output2"),
-            ], className='mt-4'
-        ),
+         html.Div(
+             [
+                 "Default datetimepicker with initial time set:",
+                 dmc.Datetimepicker(
+                     id="example2",
+                 format = 'y-MM-dd HH:mm:ss',
+              #   value ='2010-01-01T01:01',
+                 value=str(dt.datetime.now()),
+                # maxDetail='hour',
+                ),
+                 html.Div(id="output2"),
+             ], className='mt-4'
+         ),
     ],
     className="m-5",
 )
@@ -37,11 +43,11 @@ app.layout = html.Div(
     Input("example1", "value"),
     Input("example2", "value"),
 )
-def update_output(time1, time2):
+def update_output(time1,time2):
     msg_a = "Please select a date  and time"
     msg_b = "You have selected: "
-    print(time1, time2)
-    print(type(time1), type(time2))
+    print(time1)
+    print(type(time1))
 
     clock1 = msg_b + time1 if time1 else msg_a
     clock2 = msg_b + time2 if time2 else msg_a

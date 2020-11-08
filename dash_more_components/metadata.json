@@ -156,9 +156,22 @@
     }
   },
   "src/lib/components/Datetimepicker.react.js": {
-    "description": "TODO:",
+    "description": "TODO:  more checking for valid dates.",
     "displayName": "Datetimepicker",
-    "methods": [],
+    "methods": [
+      {
+        "name": "convertDate",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "id": {
         "type": {
@@ -172,14 +185,21 @@
           "name": "any"
         },
         "required": false,
-        "description": "value is the selected time"
+        "description": "value is the selected datetime.   type:  datetime objec"
+      },
+      "setValue": {
+        "type": {
+          "name": "any"
+        },
+        "required": false,
+        "description": "string value of date.  from app. need to convert to datetime object"
       },
       "format": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Input format based on Unicode Technical Standard #35. \nSupported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a\n     \n     example:  y-MM-dd h:mm:ss a"
+        "description": "Input format based on Unicode Technical Standard #35.  This changes how the date and time is displayed.\nSupported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a\n     \n     example:  y-MM-dd h:mm:ss a   isodate:y-MM-dd HH:mm:ss"
       },
       "maxDetail": {
         "type": {
@@ -574,6 +594,151 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  },
+  "src/lib/components/Timer.react.js": {
+    "description": "A component that repeatedly increments a counter `n_intervals`\nwith a fixed time delay between each increment.\nInterval is good for triggering a component on a recurring basis.\nThe time delay is set with the property \"interval\" in milliseconds.",
+    "displayName": "Timer",
+    "methods": [
+      {
+        "name": "handleTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "initTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "resetTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "clearTimer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "reportInterval",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+      },
+      "interval": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "This component will increment the counter `n_intervals` every\n`interval` milliseconds",
+        "defaultValue": {
+          "value": "1000",
+          "computed": false
+        }
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If True, the n_interval counter  and the remaining_duration no longer updates.  This pauses the timer."
+      },
+      "n_intervals": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of times the interval has passed (read-only)",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "max_intervals": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of times the interval will be fired.\nIf -1, then the interval has no limit (the default)\nand if 0 then the interval stops running.",
+        "defaultValue": {
+          "value": "-1",
+          "computed": false
+        }
+      },
+      "remaining_duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of milliseconds remaining on the timer.  (read-only)",
+        "defaultValue": {
+          "value": "-1",
+          "computed": false
+        }
+      },
+      "duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Sets the number of milliseconds the timer will run.  If -1 the duration has no limit (the default)\nand if 0 then the timer stops running.",
+        "defaultValue": {
+          "value": "-1",
+          "computed": false
+        }
+      },
+      "reset": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "starts the timer at the beginning with the given prop settings.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash assigned callback"
       }
     }
   }

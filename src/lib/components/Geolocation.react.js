@@ -1,4 +1,3 @@
-//import * as R from 'ramda';
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
@@ -12,18 +11,13 @@ import PropTypes from 'prop-types';
  *  TODO/Questions:
  *
  *
- *         - The position data includes a timestamp, and I did timestamp/1000 to make it easier to convert
- *           to a datetime object in Python.
-  *               ie:  datetime_obj = dt.datetime.utcfromtimestamp(timestamp)
-  *          But will this cause a  problem in julia or R?
- *
- *         - What is the best way to handle errors? For now, I have both alerts sent to the browser, and the errors
- *           available as props.
+ *         - What is the best way to handle errors? For now, and the errors available as props, but it could just
+ *           be handled in the component as an alert in the browser.
  *
  *          - In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
  *            correctly the first time. When watchPosition is started for the second time I cannot make it stop
  *            without restarting the app. clearWatch() does not work the second time.  Is there a way to force the
- *            component to re-mount?  (I heard that was an anti-pattern in React.)   It's easiest to see in Firefox.
+ *            component to re-mount?  It's easiest to see in Firefox.
  *
  *
  */
@@ -103,14 +97,6 @@ export default class Geolocation extends Component {
       speed: crd.speed,
       heading: crd.heading,
     })
-    /* why doesn't this work instead?
-    const position_obj = Object.assign({}, pos.coords);
-    or:
-    const position_obj = R.mergeRight(this.position, pos.coords);
-    or:
-    this.props.setProps({ position : pos.coords })
-    */
-
 
     this.props.setProps({
       local_date: new Date(pos.timestamp).toLocaleString(),
