@@ -11,10 +11,9 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
 
  /*
- *     TODO:  change to ComponentDidUpdate
- *            countdown timer precision.  what if set interval to 1 min but 2 sec remain on timer?
+ *     TODO:  change to ComponentDidUpdate *
  *            how to handle time-outs
- *             change name 5 places
+ *             change name 5 places if rename back to Interval
  */
 
 
@@ -31,15 +30,13 @@ export default class Timer extends Component {
 
     handleTimer(props) {
         // Check if timer should stop or shouldn't even start
-        console.log(`duration: ${(props.remaining_duration  === 0 &&
-                props.duration !== -1)}`)
         if (
             props.max_intervals === 0 ||
             props.disabled ||
             (props.n_intervals >= props.max_intervals &&
                 props.max_intervals !== -1) ||
             (props.remaining_duration  === 0 &&
-                props.duration !== -1)
+                props.countdown_duration !== -1)
 
         ) {
             console.log('im here')
@@ -61,7 +58,6 @@ export default class Timer extends Component {
         }
 
         // it hasn't started yet (& it should start)
-
         this.intervalId = window.setInterval(
             this.reportInterval,
             props.interval
@@ -69,10 +65,10 @@ export default class Timer extends Component {
     }
 
    initTimer(props) {
-        const {setProps, duration, remaining_duration, reset, disabled} = this.props;
+        const {setProps, countdown_duration, remaining_duration, reset, disabled} = this.props;
         console.log('inside initTimer')
             setProps({
-                remaining_duration: duration,
+                remaining_duration: countdown_duration,
                 n_intervals : 0,
                 reset: false,
             });
@@ -90,16 +86,16 @@ export default class Timer extends Component {
     }
 
     reportInterval() {
-        const {setProps, n_intervals, interval, remaining_duration, duration, reset} = this.props;
+        const {setProps, n_intervals, interval, remaining_duration, countdown_duration, reset} = this.props;
         if (reset) {
             this.initTimer(this.props)
             return
         }
 
-        // handles the case where the last interval would make the remaining time negative
-        // for example, if interval is set to update every minute, but there is only 5 seconds remaining
-        // the last interval will now be 5 seconds.
-        if (remaining_duration < interval) {
+        // handles the case where the last interval would make the remaining_duration negative
+        // for example, if interval is set to update every minute, but only 5 seconds remains,
+        // then make last interval = 5 seconds.
+        if (remaining_duration < interval && countdown_duration !== -1) {
             this.clearTimer()
             this.intervalId = window.setInterval(
                 this.reportInterval,
@@ -111,8 +107,13 @@ export default class Timer extends Component {
 
         setProps({
             n_intervals: n_intervals + 1,
-            remaining_duration: duration - interval * n_intervals
         });
+
+        if (countdown_duration !== -1) {
+            setProps({
+                remaining_duration: countdown_duration - interval * n_intervals
+            });
+        }
     }
 
 
@@ -124,7 +125,7 @@ export default class Timer extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (
             nextProps.interval !== this.props.interval ||
-            nextProps.duration !== this.props.duration ||
+            nextProps.countdown_duration !== this.props.countdown_durationduration ||
             nextProps.max_intervals !== this.props.max_intervals ||
             nextProps.reset !== this.props.reset ||
             nextProps.disabled !== this.props.disabled
@@ -185,7 +186,7 @@ Timer.propTypes = {
      * Sets the number of milliseconds the timer will run.  If -1 the duration has no limit (the default)
      * and if 0 then the timer stops running.
      */
-    duration: PropTypes.number,
+    countdown_duration: PropTypes.number,
 
     /**
      * starts the timer at the beginning with the given prop settings.
@@ -203,7 +204,7 @@ Timer.defaultProps = {
     interval: 1000,
     n_intervals: 0,
     max_intervals: -1,
-    duration: -1,
+    countdown_duration: -1,
     remaining_duration: -1,
     reset: true,
 

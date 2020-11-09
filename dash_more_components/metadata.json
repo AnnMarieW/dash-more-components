@@ -442,6 +442,17 @@
           "computed": false
         }
       },
+      "show_alert": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, error messages will be displayed as an alert",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
       "watch_position": {
         "type": {
           "name": "bool"
@@ -711,7 +722,7 @@
           "computed": false
         }
       },
-      "duration": {
+      "countdown_duration": {
         "type": {
           "name": "number"
         },

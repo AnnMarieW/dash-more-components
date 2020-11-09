@@ -10,16 +10,11 @@ import PropTypes from 'prop-types';
  /*
  *  TODO/Questions:
  *
- *
- *         - What is the best way to handle errors? For now, and the errors available as props, but it could just
- *           be handled in the component as an alert in the browser.
- *
- *          - In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
+ *            In current_location.py I have a checklist item to turn on or off watchPosition.  However it only works
  *            correctly the first time. When watchPosition is started for the second time I cannot make it stop
  *            without restarting the app. clearWatch() does not work the second time.  Is there a way to force the
  *            component to re-mount?  It's easiest to see in Firefox.
- *
- *
+ * *
  */
 
 
@@ -59,13 +54,11 @@ export default class Geolocation extends Component {
 
   componentDidMount() {
         this.updatePosition();
-        console.log(`in componentDidMount`);
   }
 
   componentWillUnmount() {
             if (this.props.watch_position) {
                 navigator.geolocation.clearWatch(this.watchId);
-                console.log(`clearWatch -unmount ${this.watchID} `);
             }
   }
 
@@ -86,7 +79,6 @@ export default class Geolocation extends Component {
 
 
   success(pos) {
-    console.log(`success`)
     const crd = pos.coords
     const position_obj = ({
       lat: crd.latitude,
@@ -100,14 +92,18 @@ export default class Geolocation extends Component {
 
     this.props.setProps({
       local_date: new Date(pos.timestamp).toLocaleString(),
-      timestamp: Math.floor(pos.timestamp / 1000),
+    //  option:  have the component report is seconds rather than milliseconds:
+   //   timestamp: Math.floor(pos.timestamp / 1000),
+      timestamp: pos.timestamp,
       position : position_obj,
       position_error : null
     });
   }
 
   error(err) {
- //   alert(`ERROR(${err.code}): ${err.message}`);
+    if (this.props.show_alert) {
+      alert(`ERROR(${err.code}): ${err.message}`);
+    }
     this.props.setProps({
        position : null,
        position_error: ({
@@ -130,6 +126,7 @@ Geolocation.defaultProps = {
     position_error : null,
     maximum_age : 0,
     timeout : Infinity,
+    show_alert: false,
 };
 
 Geolocation.propTypes = {
@@ -182,6 +179,11 @@ Geolocation.propTypes = {
         code: PropTypes.number,
         message: PropTypes.string,
     }),
+
+    /** If true, error messages will be displayed as an alert
+     *
+     */
+     show_alert: PropTypes.bool,
 
     /**
     *  (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data

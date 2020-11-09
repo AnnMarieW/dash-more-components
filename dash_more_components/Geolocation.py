@@ -37,6 +37,7 @@ Those keys have the following types:
 Those keys have the following types:
   - code (number; optional)
   - message (string; optional)
+- show_alert (boolean; default False): If true, error messages will be displayed as an alert
 - watch_position (boolean; default False): (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
 is updated when either the location changes or more accurate information becomes available
 - update_now (boolean; default False): (boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser
@@ -52,12 +53,12 @@ If set to Infinity the device must return a cached position regardless of its ag
 - timeout (number; default Infinity): The maximum length of time (in milliseconds) the device is allowed to take in order to return a position.
 The default value is Infinity, meaning that data will not be return until the position is available."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, maximum_age=Component.UNDEFINED, timeout=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
+    def __init__(self, id=Component.UNDEFINED, local_date=Component.UNDEFINED, timestamp=Component.UNDEFINED, position=Component.UNDEFINED, position_error=Component.UNDEFINED, show_alert=Component.UNDEFINED, watch_position=Component.UNDEFINED, update_now=Component.UNDEFINED, high_accuracy=Component.UNDEFINED, maximum_age=Component.UNDEFINED, timeout=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'show_alert', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
         self._type = 'Geolocation'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
+        self.available_properties = ['id', 'local_date', 'timestamp', 'position', 'position_error', 'show_alert', 'watch_position', 'update_now', 'high_accuracy', 'maximum_age', 'timeout']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

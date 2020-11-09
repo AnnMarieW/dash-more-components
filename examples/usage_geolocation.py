@@ -1,4 +1,3 @@
-
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
@@ -47,9 +46,9 @@ markdown_card = dbc.Card(
 2. __Include Address__ is an option to make a call to geopy to get address.  Sometimes it's slow, so if Watch Position 
 is selected, or timeout is very small,  it's better to not have it included.
  
-3. __Watch Position__ will automatically update the position every 5 seconds - or sooner if the position has changed or 
-more accurate data is available.  While using, timeout should not be set to less than 5000 otherwise it may constantly 
-be in a timeout condition.
+3. __Watch Position__ will automatically update if the position has changed or more accurate data is available. 
+ Some browsers (like Firefox) update every 5 seconds.  While using, timeout should not be set to less than 5000
+  otherwise it may constantly be in a timeout condition.
 
 4. __Enable High Accuracy__ will use GPS if available, and will also attempt to get the best data possible.  Note - this 
 uses more power and resources .  Also, timeout should be set to a high number or a max age should be provided as GPS 
@@ -94,9 +93,7 @@ def get_address(lat, lon, show_address):
 
 
 def make_map(
-    position,
-    show_address,
-    zoom=12,
+    position, show_address, zoom=12,
 ):
     lat = position["lat"]
     lon = position["lon"]
@@ -145,6 +142,7 @@ input_card = html.Div(
                             {"label": "Include Address", "value": "address"},
                             {"label": "Watch Position", "value": "watch"},
                             {"label": "Enable High Accuracy", "value": "high_accuracy"},
+                            {"label": "Show errors as alert", "value": "alert"},
                         ],
                         inputClassName="m-1",
                         className="mt-4",
@@ -184,7 +182,7 @@ input_card = html.Div(
                                 dbc.Button("Recenter and zoom to:", id="center"),
                                 addon_type="prepend",
                             ),
-                            dbc.Input(
+                            dcc.Input(
                                 id="zoom",
                                 type="number",
                                 debounce=True,
@@ -231,10 +229,7 @@ app.layout = dbc.Container(
             [
                 dbc.Col(input_card, width=3),
                 dbc.Col(
-                    [
-                        html.Div(id="text_position"),
-                        html.Div(dcc.Graph(id="map")),
-                    ],
+                    [html.Div(id="text_position"), html.Div(dcc.Graph(id="map")),],
                     width=9,
                 ),
             ],
@@ -259,9 +254,7 @@ app.layout = dbc.Container(
                 )
             ]
         ),
-        dcc.Geolocation(
-            id="geolocation",
-        ),
+        dcc.Geolocation(id="geolocation",),
     ],
     className="m-4",
     style={"minWidth": 500},
@@ -272,27 +265,30 @@ app.layout = dbc.Container(
 Callbacks
 """
 
+
 @app.callback(
     Output("geolocation", "watch_position"),
     Output("geolocation", "high_accuracy"),
     Output("geolocation", "maximum_age"),
     Output("geolocation", "timeout"),
+    Output("geolocation", "show_alert"),
     Input("options_checklist", "value"),
     Input("max_age", "value"),
     Input("timeout_input", "value"),
 )
 def update_options(checked, max_age, timeout):
+
     if checked:
         watch = True if "watch" in checked else False
         high_accuracy = True if "high_accuracy" in checked else False
+        alert = True if "alert" in checked else False
     else:
-        watch, high_accuracy = False, False
-    return watch, high_accuracy, max_age, timeout
+        watch, high_accuracy, alert = False, False, False
+    return watch, high_accuracy, max_age, timeout, alert
 
 
 @app.callback(
-    Output("geolocation", "update_now"),
-    Input("update_btn", "n_clicks"),
+    Output("geolocation", "update_now"), Input("update_btn", "n_clicks"),
 )
 def update_now(click):
     return True if click and click > 0 else False
@@ -314,8 +310,6 @@ def update_now(click):
     prevent_initial_call=True,
 )
 def display_output(checklist, center, zoom, date, timestamp, pos, err):
-    ctx = dash.callback_context
-    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
     # update text message
     show_address = True if checklist and "address" in checklist else False
@@ -326,9 +320,8 @@ def display_output(checklist, center, zoom, date, timestamp, pos, err):
     )
 
     # update map
+
     map = make_map(pos, show_address, zoom) if pos else dash.no_update
-    if input_id in ["center", "zoom"]:
-        map = make_map(pos, show_address, zoom)
 
     # update position data and error messages
     df = pd.DataFrame(pos, index=[0])
@@ -336,8 +329,9 @@ def display_output(checklist, center, zoom, date, timestamp, pos, err):
     err_output = (f"Error {err['code']} : ( {err['message']})") if err else None
 
     # display iso dates
-    datetime_local = dt.datetime.fromtimestamp(timestamp)
-    datetime_utc = dt.datetime.utcfromtimestamp(timestamp)
+    timestamp = timestamp if timestamp else 0
+    datetime_local = dt.datetime.fromtimestamp(int(timestamp / 1000))
+    datetime_utc = dt.datetime.utcfromtimestamp(int(timestamp / 1000))
     iso_date = f"UTC datetime: {datetime_utc}      Local datetime: {datetime_local}"
 
     return position, map, data, iso_date, err_output

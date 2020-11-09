@@ -37,6 +37,7 @@ Those elements have the following types:
 Those elements have the following types:
   - `code` (Real; optional)
   - `message` (String; optional)
+- `show_alert` (Bool; optional): If true, error messages will be displayed as an alert
 - `watch_position` (Bool; optional): (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
 is updated when either the location changes or more accurate information becomes available
 - `update_now` (Bool; optional): (boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser
@@ -53,7 +54,7 @@ If set to Infinity the device must return a cached position regardless of its ag
 The default value is Infinity, meaning that data will not be return until the position is available.
 """
 function geolocation(; kwargs...)
-        available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :watch_position, :update_now, :high_accuracy, :maximum_age, :timeout]
+        available_props = Symbol[:id, :local_date, :timestamp, :position, :position_error, :show_alert, :watch_position, :update_now, :high_accuracy, :maximum_age, :timeout]
         wild_props = Symbol[]
         return Component("geolocation", "Geolocation", "dash_more_components", available_props, wild_props; kwargs...)
 end
