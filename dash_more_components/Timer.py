@@ -28,11 +28,27 @@ Number of milliseconds on timer until the target duration (read-only)
 and if 0 then the timer stops running.
 - reset (boolean; default True): starts the timer at the beginning with the given prop settings.
 - repeat (boolean; default False): the timer timer repeats once it reaches zero.
-- messages (dict | string; default ''): messages
-- timer_format (boolean | number | string | dict | list; optional): display_timer:  Formats the timer from milliseconds into human readable formats.  If a dictionary is used
-for messages prop, then no timer will be displayed.
+- messages (dict | string; default ''): timer messages to be displayed by the component. It may be a dictionary in the form of either:
+ { integer: string} where integer is the time in milliseconds to display the string message.
+for example, {10000 : "updating in 10 seconds} will display the message "updating in 10 seconds" when the
+timer equals 10000
+  or
+ string, where string is the message that will be displayed prior to the  timer display.  For example,
+"updating in:"  will display "updating in: 10s".  The timer will update with every interval. See timer_format
+ property for display options.
+- timer_format (dict; optional): display_timer:  Formats the timer which is in milliseconds into human readable formats.
 The default display example: milliseconds: 1337000000 will display as: '15d 11h 23m 20s'.  This may be changed
-using the following options:"""
+using the following options:. timer_format has the following type: dict containing keys 'display', 'compact', 'verbose', 'colonNotation'.
+Those keys have the following types:
+  - display (boolean; optional): if False, then no timer will be displayed.  Default: True
+  - compact (boolean; optional): Shows a compact timer display.  default: False
+If True, it will only show the first unit: 1h 10m → 1h.
+  - verbose (boolean; optional): Verbose will display full-length units. default: False
+ Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
+  - colonNotation (boolean; optional): Display time in a colon notation. default: False
+Example - if true:  5h 1m 45s → 5:01:45.
+Will always shows time in at least minutes: 1s → 0:01
+Useful when you want to display time without the time units, similar to a digital watch."""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, interval=Component.UNDEFINED, disabled=Component.UNDEFINED, n_intervals=Component.UNDEFINED, max_intervals=Component.UNDEFINED, timer=Component.UNDEFINED, mode=Component.UNDEFINED, duration=Component.UNDEFINED, reset=Component.UNDEFINED, repeat=Component.UNDEFINED, messages=Component.UNDEFINED, timer_format=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'repeat', 'messages', 'timer_format']

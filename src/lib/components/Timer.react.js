@@ -75,9 +75,6 @@ export default class Timer extends Component {
             );
         }
 
-
-
-
         // keep the existing timer running
         if (this.intervalId) {
             return;
@@ -128,7 +125,6 @@ export default class Timer extends Component {
         const new_n_intervals = n_intervals + 1
         setProps({n_intervals: new_n_intervals });
 
-
         if (duration !== -1) {
             this.countdown = duration - interval * new_n_intervals
             if  (mode === 'countdown') {
@@ -136,10 +132,7 @@ export default class Timer extends Component {
             } else { // stopwatch
                 setProps({timer: interval * new_n_intervals});
             }
-
             this.handleMessages(this.props);
-
-
         }
     }  // end report interval
 
@@ -153,10 +146,9 @@ export default class Timer extends Component {
 
         this.countdown = duration
 
-
         if  (mode === 'countdown') {
             setProps({ timer: duration})
-        } else {
+        } else { // stopwatch
             setProps({timer: 0});
         }
    }
@@ -202,10 +194,7 @@ export default class Timer extends Component {
 
 
     render() {
-       // return <div>{`${this.props.children}  ${this.d}`}</div>;
-     //   return <div>{this.props.children}</div>;
-     return <div>{this.renderMessage}</div>;
-
+        return <div>{this.renderMessage}</div>;
     }
 }
 
@@ -267,7 +256,15 @@ Timer.propTypes = {
     repeat: PropTypes.bool,
 
     /**
-     * messages
+     * timer messages to be displayed by the component. It may be a dictionary in the form of either:
+     *  { integer: string} where integer is the time in milliseconds to display the string message.
+     * for example, {10000 : "updating in 10 seconds} will display the message "updating in 10 seconds" when the
+     * timer equals 10000
+     *   or
+     *  string, where string is the message that will be displayed prior to the  timer display.  For example,
+     * "updating in:"  will display "updating in: 10s".  The timer will update with every interval. See timer_format
+     *  property for display options.
+
      */
     messages: PropTypes.oneOfType([
         PropTypes.object,
@@ -275,40 +272,39 @@ Timer.propTypes = {
     ]),
 
     /**
-     * display_timer:  Formats the timer from milliseconds into human readable formats.  If a dictionary is used
-     * for messages prop, then no timer will be displayed.
+     * display_timer:  Formats the timer which is in milliseconds into human readable formats.
      * The default display example: milliseconds: 1337000000 will display as: '15d 11h 23m 20s'.  This may be changed
      * using the following options:
      */
 
-     timer_format: PropTypes.any,
+  //   timer_format: PropTypes.any,
 
-//    timer_format: PropTypes.oneOf({
-//        /**
-//        * if False, then no timer will be displayed.  Default: True
-//        */
-//        display: PropTypes.bool,
-//
-//        /**
-//        * Shows a compact timer display.  default: False
-//        * If True, it will only show the first unit: 1h 10m → 1h.
-//        */
-//        compact: PropTypes.bool,
-//
-//        /**
-//        * Verbose will display full-length units. default: False
-//        *  Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
-//        */
-//        verbose: PropTypes.bool,
-//
-//        /**
-//        * Display time in a colon notation. default: False
-//        * Example - if true:  5h 1m 45s → 5:01:45.
-//        * Will always shows time in at least minutes: 1s → 0:01
-//        * Useful when you want to display time without the time units, similar to a digital watch.
-//        */
-//        colonNotation: PropTypes.bool,
-//    }),
+    timer_format: PropTypes.exact({
+        /**
+        * if False, then no timer will be displayed.  Default: True
+        */
+        display: PropTypes.bool,
+
+        /**
+        * Shows a compact timer display.  default: False
+        * If True, it will only show the first unit: 1h 10m → 1h.
+        */
+        compact: PropTypes.bool,
+
+        /**
+        * Verbose will display full-length units. default: False
+        *  Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
+        */
+        verbose: PropTypes.bool,
+
+        /**
+        * Display time in a colon notation. default: False
+        * Example - if true:  5h 1m 45s → 5:01:45.
+        * Will always shows time in at least minutes: 1s → 0:01
+        * Useful when you want to display time without the time units, similar to a digital watch.
+        */
+        colonNotation: PropTypes.bool,
+    }),
 
     /**
      * Dash assigned callback
@@ -329,165 +325,3 @@ Timer.defaultProps = {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-///*==========================================================================================
-//
-//import PropTypes from 'prop-types';
-//import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
-//
-///**
-// *
-// *     This component is a timer timer.  The starting duration and
-// *     remaining duration are in seconds
-// *
-// *
-// */
-//
-//
-//
-//export default class CountdownTimer extends Component {
-//    constructor(props) {
-//        super(props);
-//        this.intervalId = null;
-//        this.interval = 1000;
-//        this.reportInterval = this.reportInterval.bind(this);
-//        this.handleTimer = this.handleTimer.bind(this);
-//    }
-//
-//    handleTimer(props) {
-//        // Check if timer should stop or shouldn't even start
-//        if (
-//            props.pause ||
-//            props.remaining_duration <= 0
-//        ) {
-//            // stop existing timer
-//            if (this.intervalId) {
-//                this.clearTimer();
-//            }
-//            // and don't start a timer
-//            return;
-//        }
-//
-//        // keep the existing timer running
-//        if (this.intervalId) {
-//            return;
-//        }
-//
-//        // it hasn't started yet (& it should start)
-//        this.intervalId = window.setInterval(
-//            this.reportInterval,
-//            this.interval,
-//            props.remaining_duration
-//        );
-//    }
-//
-//    resetTimer(props) {
-//        const {setProps, starting_duration, remaining_duration} = this.props;
-//        this.clearTimer();
-//        setProps({remaining_duration: starting_duration});
-//        this.handleTimer(props);
-//    }
-//
-//    clearTimer() {
-//        window.clearInterval(this.intervalId);
-//        this.intervalId = null;
-//    }
-//
-//    reportInterval() {
-//        const {setProps, remaining_duration} = this.props;
-//        setProps({remaining_duration: remaining_duration - this.interval / 1000});
-//        console.log(`remaining duration in seconds : ${remaining_duration}`);
-//    }
-//
-//    componentDidMount() {
-//        this.resetTimer(this.props);
-//    }
-//
-//    componentDidUpdate(prevProps) {
-//        if (prevProps.starting_duration !== this.props.starting_duration) {
-//            this.resetTimer(this.props);
-//        } else {
-//            this.handleTimer(this.props);
-//        }
-//    }
-//
-//    componentWillUnmount() {
-//        this.clearTimer();
-//    }
-//
-//    render() {
-//        return null;
-//    }
-//}
-//
-//
-//CountdownTimer.propTypes = {
-//    /**
-//     * The ID of this component, used to identify dash components
-//     * in callbacks. The ID needs to be unique across all of the
-//     * components in an app.
-//     */
-//    id: PropTypes.string,
-//    /**
-//     * The amount of time to count down in seconds
-//     *
-//     */
-//    starting_duration: PropTypes.number,
-//
-//    /**
-//     * If True, the counter will no longer update. If False, the timer will resume.
-//     *
-//     */
-//    pause: PropTypes.bool,
-//
-//    /**
-//    * remaining time left on timer timer in seconds
-//    */
-//    remaining_duration: PropTypes.number,
-//
-//    /**
-//     * Dash assigned callback
-//     */
-//    setProps: PropTypes.func,
-//};
-//
-//CountdownTimer.defaultProps = {
-//  starting_duration : 0,
-//  remaining_duration : 0,
-//  pause : true,
-//};
-//
-//
-//*/
-//
-//
-//

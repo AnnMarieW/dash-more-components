@@ -9,23 +9,18 @@ import datetime as dt
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
-#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
-
-
-
-
-
-
-'''
+"""
 ===============================================================================
 control panel
-'''
+"""
 
-intro_text = dcc.Markdown('''
+intro_text = dcc.Markdown(
+    """
 The Timer component adds new props to dcc.Interval to make timer/stopwatch functionality available.
 
  1. __duration__  Sets the number of milliseconds the timer will run.  If -1 the duration has no limit (the default)
@@ -57,82 +52,77 @@ All other props from dcc.Interval are unchanged. Start and Pause options are con
       
             
 
-''')
-
-
-
+"""
+)
 
 
 intro_card = dbc.Card(
-    [
-        dbc.CardHeader(html.H3('Timer Component and App Notes')),
-        intro_text,
-    ], className='p-1 mt-4'
+    [dbc.CardHeader(html.H3("Timer Component and App Notes")), intro_text,],
+    className="p-1 mt-4",
 )
 props_card = dbc.Card(
     [
-        html.H4('Timer props:', className='m-2'),
-
-        html.Button('Reset', id="reset", className='m-4'),
+        html.H4("Timer props:", className="m-2"),
+        html.Button("Reset", id="reset", className="m-4"),
         dcc.RadioItems(
             id="timer_control",
             options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
             value="Pause",
-            className='m-2',
-            inputClassName='m-2'
+            className="m-2",
+            inputClassName="m-2",
         ),
         dcc.RadioItems(
             id="mode",
             options=[{"label": i, "value": i} for i in (["Countdown", "Stopwatch"])],
             value="Countdown",
-            className='m-2',
-            inputClassName='m-2'
+            className="m-2",
+            inputClassName="m-2",
         ),
-
-
-
-        dcc.Checklist(id='repeat', className='mb-2 ml-2',
-                      options=[{'label': 'Repeat', 'value': 'Repeat'}],
-                      inputClassName='m-2'
-                      ),
-
-
+        dcc.Checklist(
+            id="repeat",
+            className="mb-2 ml-2",
+            options=[{"label": "Repeat", "value": "Repeat"}],
+            inputClassName="m-2",
+        ),
         "interval",
-        dcc.Input(id="interval", type="number", value=1000, className='m-2'),
+        dcc.Input(id="interval", type="number", value=1000, className="m-2"),
         "max_intervals",
-        dcc.Input(id='max_intervals', type='number', value=-1,className='m-2'),
+        dcc.Input(id="max_intervals", type="number", value=-1, className="m-2"),
         "duration",
-        dcc.Input(id='duration',type='number', value=30000, debounce=True,className='m-2'),
-
-
-        html.H4('Timer read-only props',className='mt-4'),
+        dcc.Input(
+            id="duration", type="number", value=30000, debounce=True, className="m-2"
+        ),
+        html.H4("Timer read-only props", className="mt-4"),
         html.Div(id="n_intervals_text"),
-        html.Div(id= 'timer_text'),
-
-    ],className='mb-4 p-2'
+        html.Div(id="timer_text"),
+    ],
+    className="mb-4 p-2",
 )
-'''
+"""
 ===============================================================================
 use cases
-'''
+"""
 dash_callback_card = dbc.Card(
     [
         dbc.CardHeader(html.H3("Updated in Dash Callback")),
         dbc.CardBody(
             [
                 html.H5("1.  Countdown timer"),
-                'set props using control panel',
-                html.Div(id="badge_output",
-                className='m-4  bg-success border rounded text-white'),
+                "set props using control panel",
+                html.Div(
+                    id="badge_output",
+                    className="m-4  bg-success border rounded text-white",
+                ),
                 html.H3(id="timer_end_text"),
-
                 html.H5("2.  Stopwatch timer"),
-                'set props using control panel',
-                html.Div(id="timer2",
-                        className='m-4  bg-success border rounded text-white'),
+                "set props using control panel",
+                html.Div(
+                    id="timer2", className="m-4  bg-success border rounded text-white"
+                ),
             ]
-        )
-    ], className='m-1'
+        ),
+    ],
+    className="m-1",
 )
 
 clientside_card = dbc.Card(
@@ -141,48 +131,52 @@ clientside_card = dbc.Card(
         dbc.CardBody(
             [
                 html.H5("1.  Countdown timer"),
-                'set props using control panel',
+                "set props using control panel",
                 html.Div(
-                    dmc.Timer(id="mytimer", duration = 0, timer_format={'verbose': True},
-                              messages='Checking for updates in: '),
-                    className='m-4  bg-success border rounded text-white'
+                    dmc.Timer(
+                        id="mytimer",
+                        duration=0,
+                        timer_format={"colonNotation": True},
+                        messages="Checking for updates in: ",
+                    ),
+                    className="m-4  bg-success border rounded text-white",
                 ),
-
                 html.H5("2.  Count up timer"),
-                'on a 10 second repeat timer',
-
-                 html.Div(
-                     dmc.Timer(id="timer2_timer", duration = 10000, repeat=True, mode = 'stopwatch',
-                               messages="Loading data. This will take around 10 seconds. It has been"),
-
-                     className='m-4  bg-success border rounded text-white'
-                 ),
+                "on a 10 second repeat timer",
+                html.Div(
+                    dmc.Timer(
+                        id="timer2_timer",
+                        duration=10000,
+                        repeat=True,
+                        mode="stopwatch",
+                        messages="Loading data. This will take around 10 seconds. It has been",
+                    ),
+                    className="m-4  bg-success border rounded text-white",
+                ),
             ]
-
-        )
-    ], className='m-1'
+        ),
+    ],
+    className="m-1",
 )
 
 
-
-
-'''
+"""
 ===============================================================================
 Timer with dict
-'''
+"""
 
-five_min_dict={
-        1000: 'Task submitted! This will take around five minutes.',
-        10000: 'Task submitted! This will take around five minutes. It has been 10 seconds.',
-        60000: 'Task submitted! This will take around five minutes. It has been one minute.',
-        120000: 'Task submitted! This will take around five minutes. It has been two minutes.',
-        180000: 'Task submitted! This will take around five minutes. It has been three minutes.',
-        240000: 'Task submitted! This will take around five minutes. It has been four minutes.',
-        300000: 'Task submitted! It has been five minutes - it should be done momentarily!',
-        330000: 'Task submitted! This will take around five minutes. It has been five minutes and 30 seconds. It\'s taking a little longer than expected, hang tight!',
-        360000: 'Task submitted! This should have taken around five minutes. It has been six minutes. Something might\'ve gone wrong. Reach out to eli@acme.corp.',
-        420000: 'Task submitted! This should have taken around five minutes. It is taking much longer than expected. Something might\'ve gone wrong. Reach out to eli@acme.corp.'
-    }
+five_min_dict = {
+    1000: "Task submitted! This will take around five minutes.",
+    10000: "Task submitted! This will take around five minutes. It has been 10 seconds.",
+    60000: "Task submitted! This will take around five minutes. It has been one minute.",
+    120000: "Task submitted! This will take around five minutes. It has been two minutes.",
+    180000: "Task submitted! This will take around five minutes. It has been three minutes.",
+    240000: "Task submitted! This will take around five minutes. It has been four minutes.",
+    300000: "Task submitted! It has been five minutes - it should be done momentarily!",
+    330000: "Task submitted! This will take around five minutes. It has been five minutes and 30 seconds. It's taking a little longer than expected, hang tight!",
+    360000: "Task submitted! This should have taken around five minutes. It has been six minutes. Something might've gone wrong. Reach out to eli@acme.corp.",
+    420000: "Task submitted! This should have taken around five minutes. It is taking much longer than expected. Something might've gone wrong. Reach out to eli@acme.corp.",
+}
 five_min_card = dbc.Card(
     [
         dbc.CardHeader(html.H4("Timer messages updated with dict")),
@@ -190,52 +184,53 @@ five_min_card = dbc.Card(
             [
                 "On a 5 minute repeat timer.  Message updated in Dash callback",
                 html.Div(
-                    dmc.Timer(id="five_min_timer", duration = 420000, repeat=True,
-                              messages=five_min_dict, mode='stopwatch'),
-                    className='m-4  bg-light border rounded'
+                    dmc.Timer(
+                        id="five_min_timer",
+                        duration=420000,
+                        repeat=True,
+                        messages=five_min_dict,
+                        mode="stopwatch",
+                    ),
+                    className="m-4  bg-light border rounded",
                 ),
-                #dash callback div
-                html.Div(id="five_min", className='m-4  bg-light border rounded')
+                # dash callback div
+                html.Div(id="five_min", className="m-4  bg-light border rounded"),
             ]
-        )
-    ], className='m-3'
+        ),
+    ],
+    className="m-3",
 )
 
 
-
-
-'''
+"""
 ===============================================================================
 Timepicker
-'''
+"""
 
 clock_card = dbc.Card(
-        [
-
-            dbc.Row(
-                [
-                    dbc.Col(
-                        dmc.Timepicker(
-                            id="time_picker",
-                            value="12:00:00",
-                            maxDetail="second",
-                        ),
+    [
+        dbc.Row(
+            [
+                dbc.Col(
+                    dmc.Timepicker(
+                        id="time_picker", value="12:00:00", maxDetail="second",
                     ),
-                    dbc.Col(
-                        dbc.Button(
-                            "Start timer timer",
-                            id="start_btn",
-                            n_clicks=0,
-                            color="primary",
-                            size="sm",
-                        ),
+                ),
+                dbc.Col(
+                    dbc.Button(
+                        "Start timer timer",
+                        id="start_btn",
+                        n_clicks=0,
+                        color="primary",
+                        size="sm",
                     ),
-                ]
-            ),
-        ],
-        body=True,
-        className="m-3",
-    )
+                ),
+            ]
+        ),
+    ],
+    body=True,
+    className="m-3",
+)
 
 
 time_input_card = dbc.Card(
@@ -245,27 +240,30 @@ time_input_card = dbc.Card(
             [
                 "Timer messages updated clientside",
                 clock_card,
-                html.Div(# time updated clientside
-                    dmc.Timer(id="time_picker_timer", duration=1000, disabled=True,
-                              messages='Checking for updates in: '),
-                    className='m-4  bg-success border rounded text-white'
+                html.Div(  # time updated clientside
+                    dmc.Timer(
+                        id="time_picker_timer",
+                        duration=1000,
+                        disabled=True,
+                        messages="Checking for updates in: ",
+                    ),
+                    className="m-4  bg-success border rounded text-white",
                 ),
-                html.Div(id="time_input",  #time updated in dash callbak
-                    className='m-4  bg-light border rounded'
+                html.Div(
+                    id="time_input",  # time updated in dash callbak
+                    className="m-4  bg-light border rounded",
                 ),
             ]
-        )
-    ], className='m-3'
+        ),
+    ],
+    className="m-3",
 )
 
 
-
-
-
-'''
+"""
 ===============================================================================
 Layout
-'''
+"""
 app.layout = dbc.Container(
     [
         dbc.Row(
@@ -277,12 +275,10 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-               dbc.Col(
-                   [
-                        five_min_card,
-                        time_input_card
-                   ], width={"size": 6, "order": 1, "offset": 4},
-               )
+                dbc.Col(
+                    [five_min_card, time_input_card],
+                    width={"size": 6, "order": 1, "offset": 4},
+                )
             ]
         ),
         dbc.Row(intro_card),
@@ -291,68 +287,63 @@ app.layout = dbc.Container(
 )
 
 
-
-'''
+"""
 ===============================================================================
 Callbacks
-'''
+"""
+
 
 def formatted(milliseconds):
     return str(dt.timedelta(milliseconds=int(milliseconds)))
 
-#======== timer properties  ===========
+
+# ======== timer properties  ===========
 @app.callback(
     Output("mytimer", "reset"),
-    Output("mytimer", 'disabled'),
-    Output("mytimer", 'repeat'),
-    Output("mytimer", 'interval'),
-    Output("mytimer", 'max_intervals'),
+    Output("mytimer", "disabled"),
+    Output("mytimer", "repeat"),
+    Output("mytimer", "interval"),
+    Output("mytimer", "max_intervals"),
     Output("mytimer", "duration"),
-    Output("mytimer", 'mode'),
-
-    Input("reset", 'n_clicks'),
+    Output("mytimer", "mode"),
+    Input("reset", "n_clicks"),
     Input("timer_control", "value"),
-    Input('repeat', "value"),
-    Input('interval', "value"),
-    Input('max_intervals', "value"),
-    Input('duration', "value"),
-    Input('mode', "value")
+    Input("repeat", "value"),
+    Input("interval", "value"),
+    Input("max_intervals", "value"),
+    Input("duration", "value"),
+    Input("mode", "value"),
 )
 def update_reset(clicks, timer_control, repeat, interval, max_interval, timer, mode):
     ctx = dash.callback_context
-    input_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
     pause = True if timer_control == "Pause" else False
 
     repeat = True if repeat else False
 
-    mode = 'countdown' if mode == 'Countdown' else 'stopwatch'
+    mode = "countdown" if mode == "Countdown" else "stopwatch"
 
-    reset= False
-    if input_id == 'reset':
+    reset = False
+    if input_id == "reset":
         reset = True if clicks and clicks > 0 else False
 
     print(reset, pause, repeat, interval, max_interval, timer, mode)
     return reset, pause, repeat, interval, max_interval, timer, mode
 
 
-
-#======== read only prop output =====================
+# ======== read only prop output =====================
 @app.callback(
-    Output('timer_text',"children"),
-    Output('n_intervals_text',"children"),
+    Output("timer_text", "children"),
+    Output("n_intervals_text", "children"),
     Input("mytimer", "n_intervals"),
     Input("mytimer", "timer"),
 )
 def update_output(n, timer):
-    return (
-        f"n_intervals:  {n}",
-        f"timer: {timer}"
-    )
+    return (f"n_intervals:  {n}", f"timer: {timer}")
 
 
-
-#=======  timer timer  =====
+# =======  timer timer  =====
 @app.callback(
     Output("badge_output", "children"),
     Output("timer_end_text", "children"),
@@ -367,34 +358,34 @@ def display_timer(remaining_time):
     return badge_text, timer_end_text
 
 
-#=======  timer timer  =====
+# =======  timer timer  =====
 @app.callback(
-    Output('timer2', 'children'),
+    Output("timer2", "children"),
     Input("mytimer", "timer"),
-    State('mytimer', 'duration'),
+    State("mytimer", "duration"),
 )
 def display_timer(elapse_time, duration):
-    duration=0 if duration is None else duration
-    return(
+    duration = 0 if duration is None else duration
+    return (
         f"Loading data. This will take around {int(duration/1000)} seconds. It has been {int((elapse_time)/1000)} seconds.",
     )
 
 
-
-#============ 5 min timer with dict ===
+# ============ 5 min timer with dict ===
 @app.callback(
-    Output('five_min', 'children'),
+    Output("five_min", "children"),
     Input("five_min_timer", "timer"),
-    State('five_min_timer', 'duration'),
+    State("five_min_timer", "duration"),
 )
 def five_min(timer, duration):
-    if timer  and (timer in five_min_dict):
+    if timer and (timer in five_min_dict):
         return five_min_dict[timer]
     else:
         return dash.no_update
 
 
-#=======  Timer picker ============
+# =======  Timer picker ============
+
 
 @app.callback(
     Output("time_picker_timer", "duration"),
@@ -412,7 +403,5 @@ def update_date_timer(click, time_selected):
     return duration, False
 
 
-
 if __name__ == "__main__":
     app.run_server(debug=True)
-
