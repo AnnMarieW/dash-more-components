@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-timer <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL, max_intervals=NULL, remaining_duration=NULL, countdown_duration=NULL, reset=NULL) {
+timer <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL, max_intervals=NULL, timer=NULL, mode=NULL, duration=NULL, reset=NULL, messages=NULL, timer_format=NULL) {
     
-    props <- list(id=id, interval=interval, disabled=disabled, n_intervals=n_intervals, max_intervals=max_intervals, remaining_duration=remaining_duration, countdown_duration=countdown_duration, reset=reset)
+    props <- list(id=id, interval=interval, disabled=disabled, n_intervals=n_intervals, max_intervals=max_intervals, timer=timer, mode=mode, duration=duration, reset=reset, messages=messages, timer_format=timer_format)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ timer <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL, max_i
         props = props,
         type = 'Timer',
         namespace = 'dash_more_components',
-        propNames = c('id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'remaining_duration', 'countdown_duration', 'reset'),
+        propNames = c('id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'repeat', 'messages', 'timer_format'),
         package = 'dashMoreComponents'
         )
 

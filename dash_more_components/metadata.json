@@ -625,6 +625,25 @@
         "returns": null
       },
       {
+        "name": "handleMessages",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "reportInterval",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
         "name": "initTimer",
         "docblock": null,
         "modifiers": [],
@@ -654,13 +673,6 @@
         "modifiers": [],
         "params": [],
         "returns": null
-      },
-      {
-        "name": "reportInterval",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
       }
     ],
     "props": {
@@ -676,7 +688,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "This component will increment the counter `n_intervals` every\n`interval` milliseconds",
+        "description": "This component will increment the counter n_intervals every\n`interval` milliseconds",
         "defaultValue": {
           "value": "1000",
           "computed": false
@@ -687,7 +699,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "If True, the n_interval counter  and the remaining_duration no longer updates.  This pauses the timer."
+        "description": "If True, the n_interval counter  and the timer no longer updates.  This pauses the timer."
       },
       "n_intervals": {
         "type": {
@@ -711,18 +723,39 @@
           "computed": false
         }
       },
-      "remaining_duration": {
+      "timer": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "Number of milliseconds remaining on the timer.  (read-only)",
+        "description": "Number of milliseconds remaining on the timer. in countdown mode  or\nNumber of milliseconds on timer until the target duration (read-only)",
         "defaultValue": {
-          "value": "-1",
+          "value": "0",
           "computed": false
         }
       },
-      "countdown_duration": {
+      "mode": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'stopwatch'",
+              "computed": false
+            },
+            {
+              "value": "'countdown'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Whether the timer is a countdown or stopwatch timer",
+        "defaultValue": {
+          "value": "'countdown'",
+          "computed": false
+        }
+      },
+      "duration": {
         "type": {
           "name": "number"
         },
@@ -743,6 +776,43 @@
           "value": "true",
           "computed": false
         }
+      },
+      "repeat": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "the timer timer repeats once it reaches zero.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "messages": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "object"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "messages",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
+      },
+      "timer_format": {
+        "type": {
+          "name": "any"
+        },
+        "required": false,
+        "description": "display_timer:  Formats the timer from milliseconds into human readable formats.  If a dictionary is used\nfor messages prop, then no timer will be displayed.\nThe default display example: milliseconds: 1337000000 will display as: '15d 11h 23m 20s'.  This may be changed\nusing the following options:"
       },
       "setProps": {
         "type": {

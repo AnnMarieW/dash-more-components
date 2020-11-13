@@ -1,8 +1,3 @@
-"""
- TODO -
-
-"""
-
 
 import dash_more_components as dmc
 import dash
@@ -164,7 +159,7 @@ bootstrap_progress_card = html.Div(
     [
         dbc.Card(
             [
-                html.H4("Bootsrap Progress Bar"),
+                html.H4("Bootstrap Progress Bar"),
                 html.Div(dbc.Progress(id="progress")),
             ],
             body=True,

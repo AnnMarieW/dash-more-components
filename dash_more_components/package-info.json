@@ -16,6 +16,7 @@
   "author": "Ann Marie Ward <amward@fastmail.us>",
   "license": "MIT",
   "dependencies": {
+    "pretty-ms": "^7.0.1",
     "ramda": "^0.26.1",
     "react-credit-cards": "^0.8.3",
     "react-datetime-picker": "^3.0.4",

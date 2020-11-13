@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -41,13 +41,13 @@ export default class Geolocation extends Component {
             timeout: this.props.timeout,
         };
 
-        this.props.watch_position ? (
-            this.watchID = navigator.geolocation.watchPosition(this.success, this.error, positionOptions),
-            console.log(`watchID: ${this.watchID}`)
-        ) : (
-            console.log(`getCurrentPosition`),
+        if (this.props.watch_position) {
+            this.watchID = navigator.geolocation.watchPosition(this.success, this.error, positionOptions)
+
+        } else {
+
             navigator.geolocation.getCurrentPosition(this.success, this.error, positionOptions)
-        )
+        }
     }
   }
 
@@ -66,7 +66,7 @@ export default class Geolocation extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.watch_position !== this.props.watch_position && prevProps.watch_position) {
          navigator.geolocation.clearWatch(this.watchId);
-         console.log(`clear ${this.watchID} watch${this.props.watch_position}`);
+
     }
      if ( this.props.update_now
           || (prevProps.watch_position !== this.props.watch_position)
