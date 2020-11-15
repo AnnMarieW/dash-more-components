@@ -1,7 +1,5 @@
-
 import PropTypes from 'prop-types';
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
-
 
 /**
  * A component that repeatedly increments a counter `n_intervals`
@@ -10,8 +8,7 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
  * The time delay is set with the property "interval" in milliseconds.
  */
 
-
- /*
+/*
  *     TODO:  change to ComponentDidUpdate *
  *            how to handle when callbacks take longer than the interval timer
  *             change name 5 places if rename back to Interval
@@ -19,7 +16,6 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
  *             find a different word for repeat
  *
  */
-
 
 export default class Timer extends Component {
     constructor(props) {
@@ -32,24 +28,29 @@ export default class Timer extends Component {
 
         // this.countdown is used to handle the timer within this component.  If it's in stopwatch mode
         //   then the count-up time is calculated just prior to setProps({timer:})
-        this.countdown = 0
+        this.countdown = 0;
     }
 
     handleTimer(props) {
-        const {n_intervals, max_intervals, disabled, duration, reset, repeat, interval} = this.props;
+        const {
+            n_intervals,
+            max_intervals,
+            disabled,
+            reset,
+            repeat,
+            interval,
+        } = this.props;
         if (reset) {
-              this.initTimer(props)
+            this.initTimer(props);
         }
 
         // Check if timer should stop or shouldn't even start
         if (
             max_intervals === 0 ||
             disabled ||
-        //    duration === -1 ||
-            (n_intervals >= max_intervals &&
-                max_intervals !== -1) ||
-            (this.countdown === 0 &&
-            !(repeat)) ||
+            //    duration === -1 ||
+            (n_intervals >= max_intervals && max_intervals !== -1) ||
+            (this.countdown === 0 && !repeat) ||
             (this.countdown > 0 && this.countdown < interval)
         ) {
             // stop existing timer
@@ -60,8 +61,8 @@ export default class Timer extends Component {
             return;
         }
 
-        if (this.countdown === 0 && (repeat)) {
-            this.initTimer(props)
+        if (this.countdown === 0 && repeat) {
+            this.initTimer(props);
         }
 
         // keep the existing timer running
@@ -70,79 +71,73 @@ export default class Timer extends Component {
         }
 
         // it hasn't started yet (& it should start)
-        this.intervalId = window.setInterval(
-            this.reportInterval,
-            interval
-        );
-    }  // end handle timer
-
-
+        this.intervalId = window.setInterval(this.reportInterval, interval);
+    } // end handle timer
 
     handleMessages(props, new_timer) {
-        const {messages, timer_format} = this.props
+        const {messages, timer_format} = this.props;
 
         const messagesObj = Object.assign({}, messages);
         if (new_timer in messagesObj) {
-            this.renderMessage = `${messagesObj[new_timer]}`
-        };
+            this.renderMessage = `${messagesObj[new_timer]}`;
+        }
 
         const prettyMilliseconds = require('pretty-ms');
         const formatObj = Object.assign({}, timer_format);
-        if (formatObj['display'] === true) {
-          this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`;
-        };
-    }// end handleMessages
+        if (formatObj.display === true) {
+            this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`;
+        }
+    } // end handleMessages
 
+    reportInterval() {
+        const {setProps, n_intervals, interval, mode, duration} = this.props;
 
+        const new_n_intervals = n_intervals + 1;
 
- reportInterval() {
-        const {setProps, n_intervals, interval, timer, mode, duration, reset, repeat, messages} = this.props;
-
-        const new_n_intervals = n_intervals + 1
-
-        setProps({n_intervals: new_n_intervals})
+        setProps({n_intervals: new_n_intervals});
 
         if (duration === -1) {
             // no countdown if duration is not set.  Will show elapse time only
-            this.countdown = interval * new_n_intervals
+            this.countdown = interval * new_n_intervals;
         } else {
-            this.countdown = duration - (interval * new_n_intervals)
+            this.countdown = duration - interval * new_n_intervals;
         }
 
-        let new_timer
-        if  (mode === 'countdown') {
-            new_timer = this.countdown
-        } else { // stopwatch
+        let new_timer;
+        if (mode === 'countdown') {
+            new_timer = this.countdown;
+        } else {
+            // stopwatch
             new_timer = interval * new_n_intervals;
         }
         this.handleMessages(this.props, new_timer);
-        setProps({timer: new_timer });
+        setProps({timer: new_timer});
+    } // end report interval
 
-
-    }  // end report interval
-
-
-
-   initTimer(props) {
-        const {setProps, duration, timer, reset,  disabled, mode, messages} = this.props;
+    initTimer(props) {
+        const {setProps, duration, mode} = this.props;
 
         setProps({
-            n_intervals : 0,
+            n_intervals: 0,
             reset: false,
         });
 
-        this.countdown = duration
-
-        let startTime
-        if  (mode === 'countdown') {
-            startTime = duration
-        } else { // stopwatch
-            startTime = 0
+        this.countdown = duration;
+        let startTime;
+        if (mode === 'countdown') {
+            if (duration === -1) {
+                startTime = 0;
+            } else {
+                startTime = duration;
+            }
+        } else {
+            // stopwatch
+            startTime = 0;
         }
 
-        setProps({ timer: startTime})
-        this.handleMessages(props, startTime)
-   }
+        setProps({timer: startTime});
+        this.handleMessages(props, startTime);
+    }
 
     resetTimer(props) {
         this.clearTimer();
@@ -160,7 +155,6 @@ export default class Timer extends Component {
         this.handleTimer(this.props);
     }
 
-
     componentDidUpdate(prevProps) {
         if (
             prevProps.interval !== this.props.interval ||
@@ -177,11 +171,9 @@ export default class Timer extends Component {
         }
     }
 
-
     componentWillUnmount() {
         this.clearTimer();
     }
-
 
     render() {
         return <div>{this.renderMessage}</div>;
@@ -222,7 +214,7 @@ Timer.propTypes = {
      * When in countdown mode, the timer will count down to zero from the starting `duration` and will show the number
      *  of milliseconds remaining.
      *  When in stopwatch mode, the timer will count up from zero and show the number of milliseconds elapsed.
-      *  (read-only)
+     *  (read-only)
      */
     timer: PropTypes.number,
 
@@ -263,28 +255,28 @@ Timer.propTypes = {
      */
     timer_format: PropTypes.exact({
         /**
-        * if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)  Default: False
-        */
+         * if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)  Default: False
+         */
         display: PropTypes.bool,
 
         /**
-        * Shows a compact timer display.  default: False
-        * If True, it will only show the first unit: 1h 10m → 1h.
-        */
+         * Shows a compact timer display.  default: False
+         * If True, it will only show the first unit: 1h 10m → 1h.
+         */
         compact: PropTypes.bool,
 
         /**
-        * Verbose will display full-length units. default: False
-        *  Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
-        */
+         * Verbose will display full-length units. default: False
+         *  Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
+         */
         verbose: PropTypes.bool,
 
         /**
-        * Display time in a colon notation. default: False
-        * Example - if true:  5h 1m 45s → 5:01:45.
-        * Will always shows time in at least minutes: 1s → 0:01
-        * Useful when you want to display time without the time units, similar to a digital watch.
-        */
+         * Display time in a colon notation. default: False
+         * Example - if true:  5h 1m 45s → 5:01:45.
+         * Will always shows time in at least minutes: 1s → 0:01
+         * Useful when you want to display time without the time units, similar to a digital watch.
+         */
         colonNotation: PropTypes.bool,
     }),
 
@@ -305,5 +297,3 @@ Timer.defaultProps = {
     repeat: false,
     messages: {},
 };
-
-
