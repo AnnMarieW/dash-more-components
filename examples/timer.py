@@ -132,13 +132,16 @@ clientside_card = dbc.Card(
             [
                 html.H5("1.  Countdown timer"),
                 "set props using control panel",
-                html.Div(
-                    dmc.Timer(
-                        id="mytimer",
-                        duration=0,
-                        timer_format={"colonNotation": True},
-                        messages="Checking for updates in: ",
-                    ),
+                html.H1(
+                    [
+                        "This is a test",
+                        dmc.Timer(
+                            id="mytimer",
+                            duration=5000,
+                            timer_format={"display": True, "colonNotation": True},
+                            messages={1000: "Checking for updates in: ",}
+                        ),
+                    ],
                     className="m-4  bg-success border rounded text-white",
                 ),
                 html.H5("2.  Count up timer"),
@@ -147,9 +150,11 @@ clientside_card = dbc.Card(
                     dmc.Timer(
                         id="timer2_timer",
                         duration=10000,
+                       # duration=-1,
                         repeat=True,
                         mode="stopwatch",
-                        messages="Loading data. This will take around 10 seconds. It has been",
+                        messages={1000:"Loading data. This will take around 10 seconds. It has been"},
+                        timer_format=({'display': True})
                     ),
                     className="m-4  bg-success border rounded text-white",
                 ),
@@ -187,9 +192,11 @@ five_min_card = dbc.Card(
                     dmc.Timer(
                         id="five_min_timer",
                         duration=420000,
+                    #    duration=-1,
                         repeat=True,
                         messages=five_min_dict,
                         mode="stopwatch",
+                        timer_format={"display": False},
                     ),
                     className="m-4  bg-light border rounded",
                 ),
@@ -213,7 +220,7 @@ clock_card = dbc.Card(
             [
                 dbc.Col(
                     dmc.Timepicker(
-                        id="time_picker", value="12:00:00", maxDetail="second",
+                        id="time_picker", value="12:00:00", maxDetail="second"
                     ),
                 ),
                 dbc.Col(
@@ -244,8 +251,10 @@ time_input_card = dbc.Card(
                     dmc.Timer(
                         id="time_picker_timer",
                         duration=1000,
+                     #   duration=-1,
                         disabled=True,
-                        messages="Checking for updates in: ",
+                        messages={1000:"Checking for updates in: "},
+                        timer_format={'display': True}
                     ),
                     className="m-4  bg-success border rounded text-white",
                 ),
@@ -329,7 +338,7 @@ def update_reset(clicks, timer_control, repeat, interval, max_interval, timer, m
         reset = True if clicks and clicks > 0 else False
 
     print(reset, pause, repeat, interval, max_interval, timer, mode)
-    return reset, pause, repeat, interval, max_interval, timer, mode
+    return reset, pause, repeat, interval, max_interval, timer,  mode
 
 
 # ======== read only prop output =====================
@@ -367,7 +376,7 @@ def display_timer(remaining_time):
 def display_timer(elapse_time, duration):
     duration = 0 if duration is None else duration
     return (
-        f"Loading data. This will take around {int(duration/1000)} seconds. It has been {int((elapse_time)/1000)} seconds.",
+        f"Loading data. This will take around {int(duration / 1000) } seconds. It has been {int(elapse_time/1000)} seconds.",
     )
 
 

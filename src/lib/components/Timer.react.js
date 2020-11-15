@@ -13,12 +13,11 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
  /*
  *     TODO:  change to ComponentDidUpdate *
- *            how to handle time-outs
+ *            how to handle when callbacks take longer than the interval timer
  *             change name 5 places if rename back to Interval
- *             dependancy:  https://github.com/sindresorhus/pretty-ms
- *              why is there a lag in the clientside timer?
+ *             dependency:  https://github.com/sindresorhus/pretty-ms
+ *             find a different word for repeat
  *
-
  */
 
 
@@ -36,43 +35,33 @@ export default class Timer extends Component {
         this.countdown = 0
     }
 
-
     handleTimer(props) {
+        const {n_intervals, max_intervals, disabled, duration, reset, repeat, interval} = this.props;
+        if (reset) {
+              this.initTimer(props)
+        }
+
         // Check if timer should stop or shouldn't even start
         if (
-            props.max_intervals === 0 ||
-            props.disabled ||
-            props.duration === -1 ||
-            (props.n_intervals >= props.max_intervals &&
-                props.max_intervals !== -1) ||
+            max_intervals === 0 ||
+            disabled ||
+        //    duration === -1 ||
+            (n_intervals >= max_intervals &&
+                max_intervals !== -1) ||
             (this.countdown === 0 &&
-            !(props.repeat))
-
+            !(repeat)) ||
+            (this.countdown > 0 && this.countdown < interval)
         ) {
             // stop existing timer
             if (this.intervalId) {
                 this.clearTimer();
             }
             // and don't start a timer
-            if (props.disabled && props.reset) {
-                  this.initTimer(props)
-            }
             return;
         }
 
-        //  This doesn't work yet
-        // handles the case where the last interval would make the countdown negative
-        // for example, if interval is set to update every minute, but only 5 seconds remains,
-        // then make last interval = 5 seconds.
-        if (this.countdown !== 0 && this.countdown < interval && duration !== -1) {
-            console.log(`in orphan`)
-            this.clearTimer()
-            const lastInterval = this.countdown
-            this.countdown = 0
-            this.intervalId = window.setInterval(
-                this.reportInterval,
-                lastInterval
-            );
+        if (this.countdown === 0 && (repeat)) {
+            this.initTimer(props)
         }
 
         // keep the existing timer running
@@ -83,58 +72,56 @@ export default class Timer extends Component {
         // it hasn't started yet (& it should start)
         this.intervalId = window.setInterval(
             this.reportInterval,
-            props.interval
+            interval
         );
     }  // end handle timer
 
 
-    handleMessages(props) {
-        const {messages, timer, timer_format} = this.props
 
-        if (messages === null) {
-            return
+    handleMessages(props, new_timer) {
+        const {messages, timer_format} = this.props
+
+        const messagesObj = Object.assign({}, messages);
+        if (new_timer in messagesObj) {
+            this.renderMessage = `${messagesObj[new_timer]}`
         };
-        if (typeof messages === 'object') {
-                const messagesObj = Object.assign({}, messages);
-                if (timer in messagesObj) {
-                    this.renderMessage = `${messagesObj[timer]}`
-                };
-        } else {
-            const prettyMilliseconds = require('pretty-ms');
-            const formatObj = Object.assign({}, timer_format);
-            if (formatObj['display'] === false) {
-                this.renderMessage = `${messages}`;
-            } else {
-              this.renderMessage = `${messages}  ${prettyMilliseconds(timer, formatObj)}`;
-            };
+
+        const prettyMilliseconds = require('pretty-ms');
+        const formatObj = Object.assign({}, timer_format);
+        if (formatObj['display'] === true) {
+          this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`;
         };
     }// end handleMessages
 
 
-    reportInterval() {
-        const {setProps, id, n_intervals, interval, timer, mode, duration, reset, repeat, messages} = this.props;
 
-        if (
-            reset ||
-            (repeat && this.countdown === 0)
-        ) {
-            this.initTimer(this.props)
-            return
-        }
+ reportInterval() {
+        const {setProps, n_intervals, interval, timer, mode, duration, reset, repeat, messages} = this.props;
 
         const new_n_intervals = n_intervals + 1
-        setProps({n_intervals: new_n_intervals });
 
-        if (duration !== -1) {
-            this.countdown = duration - interval * new_n_intervals
-            if  (mode === 'countdown') {
-                setProps({ timer: this.countdown })
-            } else { // stopwatch
-                setProps({timer: interval * new_n_intervals});
-            }
-            this.handleMessages(this.props);
+        setProps({n_intervals: new_n_intervals})
+
+        if (duration === -1) {
+            // no countdown if duration is not set.  Will show elapse time only
+            this.countdown = interval * new_n_intervals
+        } else {
+            this.countdown = duration - (interval * new_n_intervals)
         }
+
+        let new_timer
+        if  (mode === 'countdown') {
+            new_timer = this.countdown
+        } else { // stopwatch
+            new_timer = interval * new_n_intervals;
+        }
+        this.handleMessages(this.props, new_timer);
+        setProps({timer: new_timer });
+
+
     }  // end report interval
+
+
 
    initTimer(props) {
         const {setProps, duration, timer, reset,  disabled, mode, messages} = this.props;
@@ -146,11 +133,15 @@ export default class Timer extends Component {
 
         this.countdown = duration
 
+        let startTime
         if  (mode === 'countdown') {
-            setProps({ timer: duration})
+            startTime = duration
         } else { // stopwatch
-            setProps({timer: 0});
+            startTime = 0
         }
+
+        setProps({ timer: startTime})
+        this.handleMessages(props, startTime)
    }
 
     resetTimer(props) {
@@ -176,7 +167,6 @@ export default class Timer extends Component {
             prevProps.duration !== this.props.duration ||
             prevProps.max_intervals !== this.props.max_intervals ||
             prevProps.reset !== this.props.reset ||
-            prevProps.disabled !== this.props.disabled ||
             prevProps.repeat !== this.props.repeat ||
             prevProps.messages !== this.props.messages ||
             prevProps.mode !== this.props.mode
@@ -206,7 +196,7 @@ Timer.propTypes = {
      */
     id: PropTypes.string,
     /**
-     * This component will increment the counter n_intervals every
+     * This component will increment the counter `n_intervals` every
      * `interval` milliseconds
      */
     interval: PropTypes.number,
@@ -229,59 +219,51 @@ Timer.propTypes = {
     max_intervals: PropTypes.number,
 
     /**
-     * Number of milliseconds remaining on the timer. in countdown mode  or
-     * Number of milliseconds on timer until the target duration (read-only)
+     * When in countdown mode, the timer will count down to zero from the starting `duration` and will show the number
+     *  of milliseconds remaining.
+     *  When in stopwatch mode, the timer will count up from zero and show the number of milliseconds elapsed.
+      *  (read-only)
      */
     timer: PropTypes.number,
 
     /**
-     * Whether the timer is a countdown or stopwatch timer
+     * The timer will count down to zero in `countdown` mode and count up from zero in `stopwatch` mode
      */
     mode: PropTypes.oneOf(['stopwatch', 'countdown']),
 
     /**
-     * Sets the number of milliseconds the timer will run.  If -1 the duration has no limit (the default)
-     * and if 0 then the timer stops running.
+     * Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration. (the default)
+     * and if 0 then the timer stops running but may be reset.
      */
     duration: PropTypes.number,
 
     /**
-     * starts the timer at the beginning with the given prop settings.
+     * This will start the timer at the beginning with the given prop settings.
      */
     reset: PropTypes.bool,
 
     /**
-     * the timer timer repeats once it reaches zero.
+     * When True, the  timer repeats once it reaches the target.
      */
     repeat: PropTypes.bool,
 
     /**
-     * timer messages to be displayed by the component. It may be a dictionary in the form of either:
-     *  { integer: string} where integer is the time in milliseconds to display the string message.
-     * for example, {10000 : "updating in 10 seconds} will display the message "updating in 10 seconds" when the
+     * Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of:
+     *  { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.
+     * for example, {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the
      * timer equals 10000
-     *   or
-     *  string, where string is the message that will be displayed prior to the  timer display.  For example,
-     * "updating in:"  will display "updating in: 10s".  The timer will update with every interval. See timer_format
-     *  property for display options.
-
+     * Note:  `timer_format` will override `messages`.
      */
-    messages: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string,
-    ]),
+    messages: PropTypes.object,
 
     /**
-     * display_timer:  Formats the timer which is in milliseconds into human readable formats.
-     * The default display example: milliseconds: 1337000000 will display as: '15d 11h 23m 20s'.  This may be changed
+     * If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human
+     * readable formats.  For example: 1337000000 milliseconds will display as: '15d 11h 23m 20s'.  This may be changed
      * using the following options:
      */
-
-  //   timer_format: PropTypes.any,
-
     timer_format: PropTypes.exact({
         /**
-        * if False, then no timer will be displayed.  Default: True
+        * if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)  Default: False
         */
         display: PropTypes.bool,
 
@@ -321,7 +303,7 @@ Timer.defaultProps = {
     mode: 'countdown',
     reset: true,
     repeat: false,
-    messages: '',
+    messages: {},
 };
 
 
