@@ -101,7 +101,7 @@ timer_countdown_card = dbc.Card(
             ],
         ),
     ],
-    className="m-1 d-none",
+    className="m-1",
 )
 
 
@@ -175,7 +175,7 @@ timer_stopwatch_card = dbc.Card(
             ],
         ),
     ],
-    className="m-1 d-none",
+    className="m-1",
 )
 
 """
