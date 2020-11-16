@@ -781,7 +781,32 @@
           "computed": false
         }
       },
-      "repeat": {
+      "fire": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "A list of the time(s) at which to fire a callback.\n This can be used to start a task at a given time without using the timer, which may be\n set at a small interval like one second.  The time must be a multiple of the interval.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "at_interval": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The timer is at one of the interval in the `fire` property.  (Read only)",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "rerun": {
         "type": {
           "name": "bool"
         },
@@ -809,7 +834,7 @@
           "value": {
             "display": {
               "name": "bool",
-              "description": "if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)  Default: False",
+              "description": "if False, then no timer will be displayed.  Timer `messages` will be displayed (if any).\nif True and no other keys are True, then the default display format is used. Default: False",
               "required": false
             },
             "compact": {
@@ -830,7 +855,7 @@
           }
         },
         "required": false,
-        "description": "If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human\nreadable formats.  For example: 1337000000 milliseconds will display as: '15d 11h 23m 20s'.  This may be changed\nusing the following options:"
+        "description": "If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human\nreadable formats.  For example: 1337000000 milliseconds will display the default format: '15d 11h 23m 20s'."
       },
       "setProps": {
         "type": {

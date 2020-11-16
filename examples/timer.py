@@ -28,7 +28,7 @@ The Timer component adds new props to dcc.Interval to make timer/stopwatch funct
  2. __timer:__ Number of milliseconds remaining on the timer.  (read-only) 
  3. __timer:__ Number of milliseconds elapse time (read-only)
  4. __reset:__ starts the timer  with the given prop settings.
- 5. __repeat:__ automatically restarts the timer
+ 5. __rerun:__ automatically restarts the timer
  
 All other props from dcc.Interval are unchanged. Start and Pause options are controlled by the disabled prop
 
@@ -79,7 +79,7 @@ props_card = dbc.Card(
             inputClassName="m-2",
         ),
         dcc.Checklist(
-            id="repeat",
+            id="rerun",
             className="mb-2 ml-2",
             options=[{"label": "Repeat", "value": "Repeat"}],
             inputClassName="m-2",
@@ -151,7 +151,7 @@ clientside_card = dbc.Card(
                         id="timer2_timer",
                         duration=10000,
                        # duration=-1,
-                        repeat=True,
+                        rerun=True,
                         mode="stopwatch",
                         messages={1000:"Loading data. This will take around 10 seconds. It has been"},
                         timer_format=({'display': True})
@@ -193,7 +193,7 @@ five_min_card = dbc.Card(
                         id="five_min_timer",
                         duration=420000,
                     #    duration=-1,
-                        repeat=True,
+                        rerun=True,
                         messages=five_min_dict,
                         mode="stopwatch",
                         timer_format={"display": False},
@@ -310,26 +310,26 @@ def formatted(milliseconds):
 @app.callback(
     Output("mytimer", "reset"),
     Output("mytimer", "disabled"),
-    Output("mytimer", "repeat"),
+    Output("mytimer", "rerun"),
     Output("mytimer", "interval"),
     Output("mytimer", "max_intervals"),
     Output("mytimer", "duration"),
     Output("mytimer", "mode"),
     Input("reset", "n_clicks"),
     Input("timer_control", "value"),
-    Input("repeat", "value"),
+    Input("rerun", "value"),
     Input("interval", "value"),
     Input("max_intervals", "value"),
     Input("duration", "value"),
     Input("mode", "value"),
 )
-def update_reset(clicks, timer_control, repeat, interval, max_interval, timer, mode):
+def update_reset(clicks, timer_control, rerun, interval, max_interval, timer, mode):
     ctx = dash.callback_context
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
     pause = True if timer_control == "Pause" else False
 
-    repeat = True if repeat else False
+    rerun = True if rerun else False
 
     mode = "countdown" if mode == "Countdown" else "stopwatch"
 
@@ -337,8 +337,8 @@ def update_reset(clicks, timer_control, repeat, interval, max_interval, timer, m
     if input_id == "reset":
         reset = True if clicks and clicks > 0 else False
 
-    print(reset, pause, repeat, interval, max_interval, timer, mode)
-    return reset, pause, repeat, interval, max_interval, timer,  mode
+    print(reset, pause, rerun, interval, max_interval, timer, mode)
+    return reset, pause, rerun, interval, max_interval, timer,  mode
 
 
 # ======== read only prop output =====================

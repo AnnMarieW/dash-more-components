@@ -12,7 +12,8 @@ A component that repeatedly increments a counter `n_intervals` with a fixed time
 \usage{
 timer(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL,
 max_intervals=NULL, timer=NULL, mode=NULL, duration=NULL,
-reset=NULL, messages=NULL, timer_format=NULL)
+reset=NULL, fire=NULL, at_interval=NULL, rerun=NULL,
+messages=NULL, timer_format=NULL)
 }
 
 \arguments{
@@ -43,6 +44,14 @@ and if 0 then the timer stops running but may be reset.}
 
 \item{reset}{Logical. This will start the timer at the beginning with the given prop settings.}
 
+\item{fire}{List of numerics. A list of the time(s) at which to fire a callback.
+ This can be used to start a task at a given time without using the timer, which may be
+ set at a small interval like one second.  The time must be a multiple of the interval.}
+
+\item{at_interval}{Numeric. The timer is at one of the interval in the `fire` property.  (Read only)}
+
+\item{rerun}{Logical. When True, the  timer repeats once it reaches the target.}
+
 \item{messages}{Named list. Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of:
  { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.
 for example, {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the
@@ -51,7 +60,8 @@ Note:  `timer_format` will override `messages`.}
 
 \item{timer_format}{Lists containing elements 'display', 'compact', 'verbose', 'colonnotation'.
 those elements have the following types:
-  - display (logical; optional): if false, then no timer will be displayed.  timer `messages` will be displayed (if any)  default: false
+  - display (logical; optional): if false, then no timer will be displayed.  timer `messages` will be displayed (if any).
+if true and no other keys are true, then the default display format is used. default: false
   - compact (logical; optional): shows a compact timer display.  default: false
 if true, it will only show the first unit: 1h 10m → 1h.
   - verbose (logical; optional): verbose will display full-length units. default: false
@@ -60,8 +70,7 @@ if true, it will only show the first unit: 1h 10m → 1h.
 example - if true:  5h 1m 45s → 5:01:45.
 will always shows time in at least minutes: 1s → 0:01
 useful when you want to display time without the time units, similar to a digital watch.. If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human
-readable formats.  For example: 1337000000 milliseconds will display as: '15d 11h 23m 20s'.  This may be changed
-using the following options:}
+readable formats.  For example: 1337000000 milliseconds will display the default format: '15d 11h 23m 20s'.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
