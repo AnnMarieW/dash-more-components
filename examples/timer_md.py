@@ -97,9 +97,9 @@ app.layout = html.Div(
                 duration=51000,
                 fire=[0],
                 messages={
-                    50000: "(T-2 minutes) Orbiter transfers from ground to internal power",
-                    31000: "(T-50 seconds) Ground Launch Sequencer is go for auto sequence start",
-                    16000: "(T-31 secconds) Activate launch pad sound suppression system",
+                    50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
+                    31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
+                    16000: "(T-16 seconds) Activate launch pad sound suppression system",
                     10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
                     6000: "(T-6 seconds) Main engine start",
                     5000: "Five",
@@ -120,25 +120,22 @@ app.layout = html.Div(
     ],
 )
 
+@app.callback(
+    Output("shuttle_countdown", "disabled"),
+    Output("shuttle_countdown", "reset"),
+    Input("start", "n_clicks"),
+)
+def start(btn_clicks):
+    if btn_clicks and btn_clicks >= 0:
+        return False, True
+    else:
+        return dash.no_update
 
 @app.callback(
     Output("modal", "is_open"), Input("shuttle_countdown", "at_interval"),
 )
 def blastoff(at_interval):
     return at_interval == 0
-
-
-@app.callback(
-    Output("shuttle_countdown", "disabled"),
-    Output("shuttle_countdown", "reset"),
-    Input("start", "n_clicks"),
-)
-def start(start):
-    if start and start >= 0:
-        return False, True
-    else:
-        return dash.no_update
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)

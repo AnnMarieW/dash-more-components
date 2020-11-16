@@ -1,14 +1,14 @@
 # Dash More Components
-### Note:  This is a pre-release preview - question, comments, suggestions are welcome!
+### Note:  This is a pre-release preview - question, comments, suggestions are welcome :-)
 
 Dash More Components is library of additional components to use in Plotly Dash apps
 
 
 1.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
 
-2. __CountdownTimer__:  Counts down from a starting number of seconds to zero. It counts down by seconds and may be
-paused during the countdown.  This is ideal for triggering a callback after a certain amount of time or at a selected
- date or time.
+2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
+and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
+ of time or at a selected date or time.
 
 3.  __Timepicker__:  Gives the user the ability to select a time. 
 
@@ -100,82 +100,126 @@ the examples folder.
 ------
 
 
-## CountdownTimer
+## Timer
 
-The countdown timer is convenient way to enhance the UI of your Dash app.  It is similar to the dcc.Interval component, 
-but it counts down to zero from a starting time.  All times are in seconds. 
+The Timer is convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
+dcc.Interval component plus some new properties that include a timer that will either count up or count
+down.  This will allow you to do such things as:
+ 
+ - Specify custom messages that will display at certain times.
+ - Automatically convert milliseconds into human readable times (hrs, min, sec)
+ - Specify certain times to trigger a callback.  This allows you to start or stop jobs at a specified elapse time.
+ - Improve load and performance times because it is not necessary to fire a callback every second just to update a countdown/stopwatch message.
 
+ 
 
 #### Component Properties
 
-|Prop name|Description|Default value|Example values|
+|Prop name|Type & Default value|Description|Example values|
 |----|----|----|----|
-| id| id of component used to identify dash components in callbacks|n/a
-|starting_duration| The amount of time to count down in seconds| 0
-|remaining_duration| The amount of time remaining on the count down timer in seconds|0
-|pause| If True, the counter will no longer update.   If False, the timer will resume|True
+| id| string; optional|id of component used to identify dash components in callbacks|n/a
+|interval| number; default 1000| This component will increment the counter `n_intervals` every `interval` milliseconds|1000|
+|disabled |boolean; optional| If True, the n_interval counter  and the timer no longer updates.  This pauses the timer.| True or False|
+|n_intervals| number; default 0| Number of times the interval has passed (read-only)| |
+|max_intervals| number; default -1| Number of times the interval will be fired. If -1, then the interval has no limit and if 0 then the interval stops running.||
+|timer| number; default 0| When in countdown mode, the timer will count down to zero from the starting `duration` and will  show the number of milliseconds remaining.  When in stopwatch mode, the timer will count up from zero and show the number of milliseconds elapsed. (read only) | |
+|mode| 'stopwatch' or 'countdown'; default 'countdown'| The timer will count down to zero in `countdown` mode and count up from zero in `stopwatch` mode| |
+|duration| number; default -1|  Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration and if 0 then the timer stops running but may be reset.||
+|reset| boolean; default True| This will start the timer at the beginning with the given prop settings.| |
+|fire| list; optional| A list of the time(s) at which to fire a callback. This can be used to start a task at a given time without using the timer, which may be  set at a small interval like one second.  The time must be a multiple of the interval.| |
+|at_interval| number; optional| The timer is at one of the interval in the `fire` property.  (Read only)| |
+|rerun|boolean; default False| When True, the  timer repeats once it reaches the target.| |
+|messages|dict; optional| Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed. for example, {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000. Note:  `timer_format` will override `messages`.| |
+|timer_format|dict; optional| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |
+| | {'display': boolean}; default False|if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)|1337000000 milliseconds will display as: '15d 11h 23m 20s'|
+| | {'compact':boolean}; optional| Shows a compact timer display. If True, it will only show the first unit:| 1h 10m → 1h|
+| | {verbose: boolean}; optional; default False| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
+| | {colonNotation:boolean}; optional' default False|  Display time in a colon notation. Useful when you want to display time without the time units, similar to a digital watch. Will always shows time in at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
 
 
+#### Space shuttle app demo:
+This app uses the dmc.Timer component to launch the space shuttle.  It uses the `messages` prop to define messages to 
+show at given time intervals. The `fire` property specified the time to trigger a callback to start the launch.
+Even though this sequence is 50 seconds, it only fires one callback (at liftoff) All the other messages are handled 
+clientside by the component.
 
-#### countdown_quickstart.py
 
-![](./examples/images/countdown_quickstart.gif)
+![](./examples/images/shuttle.gif)
 
-
-
+#### Space shuttle app code:
 ```
 import dash
+from dash.dependencies import Input, Output
 import dash_more_components as dmc
-from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-import datetime as dt
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+shuttle = (
+    "https://cdn.pixabay.com/photo/2012/11/28/10/33/rocket-launch-67641_960_720.jpg"
+)
+
 app.layout = html.Div(
     [
-        dmc.CountdownTimer(id="countdown", pause=True, starting_duration=10),
-        dbc.RadioItems(
-            id="pause",
-            options=[{"label": i, "value": i} for i in (["Start", "Pause"])],
-            value="Pause",
+        dbc.Button("start", id="start", size="lg", color="danger", className="m-4"),
+        html.H1("Space Shuttle Endeavour T-50 seconds and counting"),
+        html.H3(
+            dmc.Timer(
+                id="shuttle_countdown",
+                mode="countdown",
+                disabled=True,
+                duration=51000,
+                fire=[0],
+                messages={
+                    50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
+                    31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
+                    16000: "(T-16 seconds) Activate launch pad sound suppression system",
+                    10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
+                    6000: "(T-6 seconds) Main engine start",
+                    5000: "Five",
+                    4000: "Four",
+                    3000: "Three",
+                    2000: "Two",
+                    1000: "One",
+                    0: "Solid Rocket Booster ignition and LIFTOFF!",
+                },
+            )
         ),
-        html.Span(dbc.Badge(id="badge_output", color="success", className="m-2")),
-        html.H3(id="timer_end_text"),
+        dbc.Modal(
+            dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
+            id="modal",
+            size="lg",
+            is_open=False,
+        ),
     ],
-    className="m-4",
 )
+
+@app.callback(
+    Output("shuttle_countdown", "disabled"),
+    Output("shuttle_countdown", "reset"),
+    Input("start", "n_clicks"),
+)
+def start(btn_clicks):
+    if btn_clicks and btn_clicks >= 0:
+        return False, True
+    else:
+        return dash.no_update
 
 
 @app.callback(
-    Output("badge_output", "children"),
-    Output("timer_end_text", "children"),
-    Output("countdown", "pause"),
-    Input("pause", "value"),
-    Input("countdown", "remaining_duration"),
+    Output("modal", "is_open"), Input("shuttle_countdown", "at_interval"),
 )
-def update_display(pause_selected, remaining_time):
-    pause = True if pause_selected == "Pause" else False
-
-    badge_text = (
-        f"Checking for updates in {str(dt.timedelta(seconds=remaining_time))}"
-        if remaining_time
-        else ""
-    )
-    timer_end_text = "Results are in!" if remaining_time == 0 else ""
-    return badge_text, timer_end_text, pause
+def blastoff(at_interval):
+    return at_interval == 0
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
 ```
-#### See more examples with countdown.py:
 
-![](./examples/images/countdown.png)
 
 
 ----------------------

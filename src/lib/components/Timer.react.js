@@ -14,7 +14,7 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
  *            how to handle when callbacks take longer than the interval timer
  *             change name 5 places if rename back to Interval
  *             dependency:  https://github.com/sindresorhus/pretty-ms
- *             find a different word for repeat
+ *             how to delete "ended" from auto generated timer.py
  *
  */
 
