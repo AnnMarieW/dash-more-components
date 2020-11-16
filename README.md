@@ -23,13 +23,16 @@ and stopwatch features to enhance UI and app performance.    This is ideal for t
 ## Timer
 
 The Timer is convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
-dcc.Interval component plus some new properties that include a timer that will either count up or count
-down.  This will allow you to do such things as:
+dcc.Interval component plus some new properties that includes a timer that either counts up or counts down. 
+ 
+It can  also format the timer _clientside_ . So this means there's less formatting you need to do,  and fewer callbacks 
+to get the timer or messsages to display a nice human readable format.  This will allow you to do such things as:
  
  - Specify custom messages that will display at certain times.
- - Automatically convert milliseconds into human readable times (hrs, min, sec)
+ - Automatically convert milliseconds into human readable times. 1337000000ms will display as: '15d 11h 23m 20s'
  - Specify certain times to trigger a callback.  This allows you to start or stop jobs at a specified elapse time.
- - Improve load and performance times because it is not necessary to fire a callback every second just to update a countdown/stopwatch message.
+ - Improve load and performance times because it is not necessary to fire a callback every second just to update 
+ a countdown/stopwatch message.
 
  
 
@@ -60,10 +63,9 @@ down.  This will allow you to do such things as:
 #### Quick Start
 
 Here are a few examples of the Timer component features.  See the reference for all the properties available. 
-
 These timers and messages are configured and formatted using the properties of the components only.  
 
-No callback are used!  
+The updates are all done clientside by the Timer component. No callback are used!  
 
 
 ![](./examples/images/timer_quickstart.gif)
@@ -115,6 +117,7 @@ clientside by the component.
 
 #### Space shuttle app code:
 ```
+
 import dash
 from dash.dependencies import Input, Output
 import dash_more_components as dmc
@@ -131,9 +134,9 @@ shuttle = (
 
 app.layout = html.Div(
     [
-        dbc.Button("start", id="start", size="lg", color="danger", className="m-4"),
+        dbc.Button("start", id="start", size="lg", color="info", className="m-4"),
         html.H1("Space Shuttle Endeavour T-50 seconds and counting"),
-        html.H3(
+        html.H3([
             dmc.Timer(
                 id="shuttle_countdown",
                 mode="countdown",
@@ -146,32 +149,31 @@ app.layout = html.Div(
                     16000: "(T-16 seconds) Activate launch pad sound suppression system",
                     10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
                     6000: "(T-6 seconds) Main engine start",
-                    5000: "Five",
-                    4000: "Four",
-                    3000: "Three",
-                    2000: "Two",
-                    1000: "One",
+                    5000: "",
                     0: "Solid Rocket Booster ignition and LIFTOFF!",
                 },
-            )
-        ),
+            ),
+        dmc.Timer(id='clock', duration=51000, timer_format={"display": True, "colonNotation": True}, disabled=True),
+        ]),
         dbc.Modal(
             dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
             id="modal",
-            size="lg",
             is_open=False,
         ),
     ],
+    className="mt-4 m-4 border p-4",
 )
+
 
 @app.callback(
     Output("shuttle_countdown", "disabled"),
     Output("shuttle_countdown", "reset"),
+    Output("clock", "disabled"),
     Input("start", "n_clicks"),
 )
 def start(btn_clicks):
     if btn_clicks and btn_clicks >= 0:
-        return False, True
+        return False, True, False
     else:
         return dash.no_update
 
@@ -185,6 +187,12 @@ def blastoff(at_interval):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+
+
+
+
+
+
 ```
 
 

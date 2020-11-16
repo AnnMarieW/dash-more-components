@@ -87,9 +87,9 @@ shuttle = (
 
 app.layout = html.Div(
     [
-        dbc.Button("start", id="start", size="lg", color="danger", className="m-4"),
+        dbc.Button("start", id="start", size="lg", color="info", className="m-4"),
         html.H1("Space Shuttle Endeavour T-50 seconds and counting"),
-        html.H3(
+        html.H3([
             dmc.Timer(
                 id="shuttle_countdown",
                 mode="countdown",
@@ -102,40 +102,41 @@ app.layout = html.Div(
                     16000: "(T-16 seconds) Activate launch pad sound suppression system",
                     10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
                     6000: "(T-6 seconds) Main engine start",
-                    5000: "Five",
-                    4000: "Four",
-                    3000: "Three",
-                    2000: "Two",
-                    1000: "One",
+                    5000: "",
                     0: "Solid Rocket Booster ignition and LIFTOFF!",
                 },
-            )
-        ),
+            ),
+        dmc.Timer(id='clock', duration=51000, timer_format={"display": True, "colonNotation": True}, disabled=True),
+        ]),
         dbc.Modal(
             dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
             id="modal",
-            size="lg",
             is_open=False,
         ),
     ],
+    className="mt-4 m-4 border p-4",
 )
+
 
 @app.callback(
     Output("shuttle_countdown", "disabled"),
     Output("shuttle_countdown", "reset"),
+    Output("clock", "disabled"),
     Input("start", "n_clicks"),
 )
 def start(btn_clicks):
     if btn_clicks and btn_clicks >= 0:
-        return False, True
+        return False, True, False
     else:
         return dash.no_update
+
 
 @app.callback(
     Output("modal", "is_open"), Input("shuttle_countdown", "at_interval"),
 )
 def blastoff(at_interval):
     return at_interval == 0
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
