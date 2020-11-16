@@ -5,11 +5,11 @@ Dash More Components is library of additional components to use in Plotly Dash a
 
 
 
-2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
+1. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
  of time or at a selected date or time.
 
-1.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
+2.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
 
 3.  __Timepicker__:  Gives the user the ability to select a time. 
 
