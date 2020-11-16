@@ -26,11 +26,11 @@ The Timer is convenient way to enhance the UI and the performance of your Dash a
 dcc.Interval component plus some new properties that includes a timer that either counts up or counts down. 
  
 It can  also format the timer _clientside_ . So this means there's less formatting you need to do,  and fewer callbacks 
-to get the timer or messsages to display a nice human readable format.  This will allow you to do such things as:
+to get the timer or a timer message to display in a nice human readable format.  This component will enable you to do such things as:
  
  - Specify custom messages that will display at certain times.
  - Automatically convert milliseconds into human readable times. 1337000000ms will display as: '15d 11h 23m 20s'
- - Specify certain times to trigger a callback.  This allows you to start or stop jobs at a specified elapse time.
+ - Specify certain times to trigger a callback.  This makes it easy to start or stop jobs at a specified elapse time.
  - Improve load and performance times because it is not necessary to fire a callback every second just to update 
  a countdown/stopwatch message.
 
@@ -50,7 +50,7 @@ to get the timer or messsages to display a nice human readable format.  This wil
 |duration| number; default -1|  Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration and if 0 then the timer stops running and may be reset.||
 |reset| boolean; default True| This will start the timer at the beginning with the given prop settings.| |
 |fire| list; optional| A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given time rather than using the timer.  Since the timer is typically set at a small interval like one second, using `fire` can reduce the number of times a callback is fired and can increase app performance.  The time(s) must be a multiple of the interval.| |
-|at_interval| number; optional| This number is updated when the timer reaches an interval in the `fire` property.  (Read only)| |
+|at_interval| number; optional| This number is updated when the timer reaches a time in milliseconds included in the `fire` property.  (Read only)| |
 |rerun|boolean; default False| When True, the  timer repeats once the timer has run for the number of milliseconds set in the `duration`.| |
 |messages|dict; optional| Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.  Note:  `timer_format` will override `messages`.| {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000.|
 |timer_format|dict; optional| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |

@@ -80,7 +80,7 @@ export default class Timer extends Component {
 
         const prettyMilliseconds = require('pretty-ms');
         const formatObj = Object.assign({}, timer_format);
-        if (formatObj.display === true) {
+        if (formatObj.display) {
             this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`;
         }
     } // end handleMessages
