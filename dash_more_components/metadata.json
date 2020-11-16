@@ -764,7 +764,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration. (the default)\nand if 0 then the timer stops running but may be reset.",
+        "description": "Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration. (the default)\nand if 0 then the timer stops running.",
         "defaultValue": {
           "value": "-1",
           "computed": false
@@ -789,7 +789,7 @@
           }
         },
         "required": false,
-        "description": "A list of the time(s) at which to fire a callback.\n This can be used to start a task at a given time without using the timer, which may be\n set at a small interval like one second.  The time must be a multiple of the interval.",
+        "description": "A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given\ntime rather than using the timer. Since the timer is typically set at a small interval like one second, using\nfire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a\nmultiple of the interval.",
         "defaultValue": {
           "value": "[]",
           "computed": false
@@ -800,7 +800,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "The timer is at one of the interval in the `fire` property.  (Read only)",
+        "description": "This number is updated when the timer reaches an interval in the fire property. (Read only)",
         "defaultValue": {
           "value": "null",
           "computed": false
@@ -811,7 +811,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "When True, the  timer repeats once it reaches the target.",
+        "description": "When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.",
         "defaultValue": {
           "value": "false",
           "computed": false
@@ -822,7 +822,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of:\n { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.\nfor example, {10000 : \"updating in 10 seconds\"} will display the message \"updating in 10 seconds\" once the\ntimer equals 10000\nNote:  `timer_format` will override `messages`.",
+        "description": "Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of:\n{integer: string} where integer is the time in milliseconds of when the string message is to be displayed.\nNote: timer_format will override messages. For example, {10000 : \"updating in 10 seconds\"} will display the message\n\"updating in 10 seconds\" once the timer equals 10000.",
         "defaultValue": {
           "value": "{}",
           "computed": false
@@ -834,7 +834,7 @@
           "value": {
             "display": {
               "name": "bool",
-              "description": "if False, then no timer will be displayed.  Timer `messages` will be displayed (if any).\nif True and no other keys are True, then the default display format is used. Default: False",
+              "description": "If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,\n1337000000 milliseconds will display as: '15d 11h 23m 20s'",
               "required": false
             },
             "compact": {
@@ -849,7 +849,7 @@
             },
             "colonNotation": {
               "name": "bool",
-              "description": "Display time in a colon notation. default: False\nExample - if true:  5h 1m 45s \u2192 5:01:45.\nWill always shows time in at least minutes: 1s \u2192 0:01\nUseful when you want to display time without the time units, similar to a digital watch.",
+              "description": "Display time in a colon notation. Useful when you want to display time without the time units, similar to\na digital watch. Will always shows time in at least minutes: 1s \u2192 0:01.  Example - 5h 1m 45s \u2192 5:01:45.",
               "required": false
             }
           }

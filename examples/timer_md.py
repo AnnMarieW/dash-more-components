@@ -1,30 +1,30 @@
-# import dash
-# import dash_more_components as dmc
-# import dash_html_components as html
-#
-# external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
-#
-# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#
-# app.layout = html.Div(
-#     [
-#         html.Div("Updating in...", style={"display": "inline-block"}),
-#         html.Div(
-#             dmc.Timer(
-#                 # Any output the Timer component generates will be displayed here
-#                 mode="stopwatch",  # 'countdown  | 'stopwatch'
-#                 duration=10000,
-#                 timer_format={"display": True, "verbose": True},
-#                 rerun=True,
-#             ),
-#             style={"display": "inline-block"},
-#         ),
-#     ],
-# )
-#
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
-#
+import dash
+import dash_more_components as dmc
+import dash_html_components as html
+
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+app.layout = html.Div(
+    [
+        html.Div("Updating in...", style={"display": "inline-block"}),
+        html.Div(
+            dmc.Timer(
+                # Any output the Timer component generates will be displayed here
+                mode="stopwatch",  # 'countdown  | 'stopwatch'
+                duration=10000,
+                timer_format={"display": True, "verbose": True},
+                rerun=True,
+            ),
+            style={"display": "inline-block"},
+        ),
+    ],
+)
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
+
 # """
 # ===============================================================================
 # task progress
@@ -37,7 +37,7 @@
 # external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 #
 # app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#
+# #
 # app.layout = html.Div(
 #     [
 #         html.H3("Track task Progress:", style={"margin": 5}),
@@ -45,7 +45,7 @@
 #             dmc.Timer(
 #                 mode="stopwatch",
 #                 duration=421000,
-#                 repeat=True,
+#                 rerun=True,
 #                 messages={
 #                     1000: "Task submitted! This will take around five minutes.",
 #                     10000: "Task submitted! This will take around five minutes. It has been 10 seconds.",
@@ -62,7 +62,7 @@
 #         ),
 #     ],
 # )
-#
+
 # if __name__ == "__main__":
 #     app.run_server(debug=True)
 #
@@ -139,124 +139,3 @@ def blastoff(at_interval):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
-#
-# #========================================================
-#
-# import dash
-# from dash.exceptions import PreventUpdate
-# import dash_more_components as dmc
-# import dash_core_components as dcc
-# from dash.dependencies import Input, Output, State
-# import dash_html_components as html
-# import dash_bootstrap_components as dbc
-# import datetime as dt
-#
-# external_stylesheets = [dbc.themes.BOOTSTRAP]
-#
-# # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-#
-# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#
-#
-# def formatted(milliseconds):
-#     return str(dt.timedelta(milliseconds=int(milliseconds)))
-#
-#
-# """
-# ===============================================================================
-# Markdown
-# """
-#
-# intro_text = dcc.Markdown(
-#     """
-# """
-# )
-#
-#
-# timer1_card = dbc.Card(
-#     [
-#         # dbc.CardHeader(html.H3("Updated clientside")),
-#         dbc.CardBody(
-#             [
-#                 html.H5("1.  Countdown timer"),
-#                 html.Div(
-#                     [
-#                         html.Div("Updating in...", style={"display": "inline-block"}),
-#                         html.Div(
-#                             dmc.Timer(
-#                                 # Any output the Timer component generates will be displayed here
-#                                 id="timer1",
-#                                 mode="stopwatch",  # 'countdown  | 'stopwatch'
-#                                 duration=10000,
-#                                 timer_format={"display": True, "verbose": True},
-#                                 messages={
-#                                     0: "zero",
-#                                     10000: "ten",
-#                                     2000: "udate 2 sec",
-#                                     8000: "update 8sec",
-#                                 },
-#                                 fire=[2000, 8000],
-#                                 rerun=True,
-#                             ),
-#                             className="d-inline-block",
-#                         ),
-#                     ],
-#                     className="m-4",
-#                 ),
-#                 html.Div(id="timer1_callback_output"),
-#             ],
-#         ),
-#     ],
-#     className="m-1",
-# )
-#
-#
-# """
-# ===============================================================================
-# Layout
-# """
-# app.layout = dbc.Container(
-#     [
-#         dbc.Row(
-#             [
-#                 dbc.Col(timer1_card),
-#                 #  dbc.Col(dash_callback_card, width=4),
-#                 # dbc.Col(clientside_card, width=4),
-#                 html.Div("test1"),
-#                 html.Div("test2"),
-#             ]
-#         ),
-#         # dbc.Row(
-#         #     [
-#         #         dbc.Col(
-#         #             [five_min_card, time_input_card],
-#         #             width={"size": 6, "order": 1, "offset": 4},
-#         #         )
-#         #     ]
-#         # ),
-#         # dbc.Row(intro_card),
-#     ],
-#     className="m-4",
-# )
-#
-#
-# """
-# ===============================================================================
-# Callbacks
-# """
-#
-#
-# @app.callback(
-#     Output("timer1_callback_output", "children"), Input("timer1", "at_interval"),
-# )
-# def timer1(at_interval):
-#     print(at_interval)
-#     if at_interval:
-#         return f"job started at  {dt.datetime.now().strftime('%I:%M:%S %p')}"
-#     else:
-#         raise PreventUpdate
-#
-#
-# if __name__ == "__main__":
-#     app.run_server(debug=True)

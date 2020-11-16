@@ -204,6 +204,7 @@ Timer.propTypes = {
      */
     max_intervals: PropTypes.number,
 
+
     /**
      * When in countdown mode, the timer will count down to zero from the starting `duration` and will show the number
      *  of milliseconds remaining.
@@ -219,7 +220,7 @@ Timer.propTypes = {
 
     /**
      * Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration. (the default)
-     * and if 0 then the timer stops running but may be reset.
+     * and if 0 then the timer stops running.
      */
     duration: PropTypes.number,
 
@@ -229,29 +230,29 @@ Timer.propTypes = {
     reset: PropTypes.bool,
 
     /**
-    * A list of the time(s) at which to fire a callback.
-    *  This can be used to start a task at a given time without using the timer, which may be
-    *  set at a small interval like one second.  The time must be a multiple of the interval.
+    * A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given
+     * time rather than using the timer. Since the timer is typically set at a small interval like one second, using
+     * fire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
+     * multiple of the interval.
     */
     fire: PropTypes.arrayOf(PropTypes.number),
 
 
     /**
-    * The timer is at one of the interval in the `fire` property.  (Read only)
+    * This number is updated when the timer reaches an interval in the fire property. (Read only)
     */
     at_interval: PropTypes.number,
 
     /**
-     * When True, the  timer repeats once it reaches the target.
+     * When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.
      */
     rerun: PropTypes.bool,
 
     /**
-     * Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of:
-     *  { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.
-     * for example, {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the
-     * timer equals 10000
-     * Note:  `timer_format` will override `messages`.
+     * Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of:
+     * {integer: string} where integer is the time in milliseconds of when the string message is to be displayed.
+     * Note: timer_format will override messages. For example, {10000 : "updating in 10 seconds"} will display the message
+     * "updating in 10 seconds" once the timer equals 10000.
      */
     messages: PropTypes.object,
 
@@ -261,8 +262,8 @@ Timer.propTypes = {
      */
     timer_format: PropTypes.exact({
         /**
-         * if False, then no timer will be displayed.  Timer `messages` will be displayed (if any).
-         * if True and no other keys are True, then the default display format is used. Default: False
+         * If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,
+         * 1337000000 milliseconds will display as: '15d 11h 23m 20s'
          */
         display: PropTypes.bool,
 
@@ -279,10 +280,8 @@ Timer.propTypes = {
         verbose: PropTypes.bool,
 
         /**
-         * Display time in a colon notation. default: False
-         * Example - if true:  5h 1m 45s → 5:01:45.
-         * Will always shows time in at least minutes: 1s → 0:01
-         * Useful when you want to display time without the time units, similar to a digital watch.
+         * Display time in a colon notation. Useful when you want to display time without the time units, similar to
+         * a digital watch. Will always shows time in at least minutes: 1s → 0:01.  Example - 5h 1m 45s → 5:01:45.
          */
         colonNotation: PropTypes.bool,
     }),

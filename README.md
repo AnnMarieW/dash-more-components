@@ -4,11 +4,12 @@
 Dash More Components is library of additional components to use in Plotly Dash apps
 
 
-1.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
 
 2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
  of time or at a selected date or time.
+
+1.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
 
 3.  __Timepicker__:  Gives the user the ability to select a time. 
 
@@ -18,87 +19,6 @@ and stopwatch features to enhance UI and app performance.    This is ideal for t
 
 --------
 ---------
-## Geolocation 
-
-The Geolocation component uses the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) 
-to call navigator.geolocation.  This will cause the user's browser to ask them for permission to access their location data.
- If they accept, then the browser will use the best available functionality on the device to access this information 
- (for example, GPS).
-
-
-#### Component Properties
-
-|Prop name|Description|Default value|Example values|
-|----|----|----|----|
-| id| id of component|n/a
-|local_date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
-|timestamp| The timestamp when the date and time was updated||
-|position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy of the lat/lon in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading in degrees<br>speed in meters per sec|n/a||
-|watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
-|update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
-|high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If false the device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
-|maximum_age|The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,it means that the device cannot use a cached position and must attempt to retrieve the real current position.  If set to Infinity the device must return a cached position regardless of its age.| 0|
-|timeout| The maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that data will not be return until the position is available.| Infinity|
-  
-
-
-
-#### Geolocation quickstart:
-
-```
-import dash_more_components as dmc
-import dash
-from dash.dependencies import Input, Output
-import dash_html_components as html
-
-app = dash.Dash(__name__)
-
-app.layout = html.Div(
-    [
-        html.Button("Update Position", id="update_btn"),
-        dmc.Geolocation(id="geolocation"),
-        html.Div(id="text_position"),
-    ]
-)
-
-
-@app.callback(Output("geolocation", "update_now"), Input("update_btn", "n_clicks"))
-def update_now(click):
-    return True if click and click > 0 else False
-
-
-@app.callback(
-    Output("text_position", "children"),
-    Input("geolocation", "local_date"),
-    Input("geolocation", "position"),
-)
-def display_output(date, pos):
-    if pos:
-        return html.P(
-            f"As of {date} your location was: lat {pos['lat']},lon {pos['lon']}, accuracy {pos['accuracy']} meters",
-        )
-    else:
-        return "No position data available"
-
-
-if __name__ == "__main__":
-    app.run_server(debug=True)
-```
-
-#### Using Geolocation to show address and position on a map
-
-The quickstart example above just returns a string with the date, time ,latitude, longitude and accuracy.
-This app shows how to plot the location on a map and to get the address.  See geolocation.py in 
-the examples folder.  
-
-
-![](./examples/images/geolocation.png)
-
-
-
--------
-------
-
 
 ## Timer
 
@@ -117,30 +37,77 @@ down.  This will allow you to do such things as:
 
 |Prop name|Type & Default value|Description|Example values|
 |----|----|----|----|
-| id| string; optional|id of component used to identify dash components in callbacks|n/a
-|interval| number; default 1000| This component will increment the counter `n_intervals` every `interval` milliseconds|1000|
-|disabled |boolean; optional| If True, the n_interval counter  and the timer no longer updates.  This pauses the timer.| True or False|
+| id| string; optional|id of component used to identify dash components in callbacks| |
+|interval| number; default 1000| This component will increment the counter `n_intervals` every `interval` milliseconds| |
+|disabled |boolean; optional| If True, the n_interval counter  and the timer no longer updates.  This pauses the timer.| |
 |n_intervals| number; default 0| Number of times the interval has passed (read-only)| |
 |max_intervals| number; default -1| Number of times the interval will be fired. If -1, then the interval has no limit and if 0 then the interval stops running.||
 |timer| number; default 0| When in countdown mode, the timer will count down to zero from the starting `duration` and will  show the number of milliseconds remaining.  When in stopwatch mode, the timer will count up from zero and show the number of milliseconds elapsed. (read only) | |
 |mode| 'stopwatch' or 'countdown'; default 'countdown'| The timer will count down to zero in `countdown` mode and count up from zero in `stopwatch` mode| |
-|duration| number; default -1|  Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration and if 0 then the timer stops running but may be reset.||
+|duration| number; default -1|  Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration and if 0 then the timer stops running and may be reset.||
 |reset| boolean; default True| This will start the timer at the beginning with the given prop settings.| |
-|fire| list; optional| A list of the time(s) at which to fire a callback. This can be used to start a task at a given time without using the timer, which may be  set at a small interval like one second.  The time must be a multiple of the interval.| |
-|at_interval| number; optional| The timer is at one of the interval in the `fire` property.  (Read only)| |
-|rerun|boolean; default False| When True, the  timer repeats once it reaches the target.| |
-|messages|dict; optional| Timer messages to be displayed by the component rather than the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed. for example, {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000. Note:  `timer_format` will override `messages`.| |
+|fire| list; optional| A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given time rather than using the timer.  Since the timer is typically set at a small interval like one second, using `fire` can reduce the number of times a callback is fired and can increase app performance.  The time(s) must be a multiple of the interval.| |
+|at_interval| number; optional| This number is updated when the timer reaches an interval in the `fire` property.  (Read only)| |
+|rerun|boolean; default False| When True, the  timer repeats once the timer has run for the number of milliseconds set in the `duration`.| |
+|messages|dict; optional| Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.  Note:  `timer_format` will override `messages`.| {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000.|
 |timer_format|dict; optional| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |
-| | {'display': boolean}; default False|if False, then no timer will be displayed.  Timer `messages` will be displayed (if any)|1337000000 milliseconds will display as: '15d 11h 23m 20s'|
+| | {'display': boolean}; default False|If False, then no timer will be displayed.  Timer `messages` will be displayed (if any).  If True, for example, 1337000000 milliseconds will display as: '15d 11h 23m 20s'|'15d 11h 23m 20s'|
 | | {'compact':boolean}; optional| Shows a compact timer display. If True, it will only show the first unit:| 1h 10m → 1h|
 | | {verbose: boolean}; optional; default False| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
 | | {colonNotation:boolean}; optional' default False|  Display time in a colon notation. Useful when you want to display time without the time units, similar to a digital watch. Will always shows time in at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
 
 
+#### Quick Start
+
+Here are a few examples of the Timer component features.  See the reference for all the properties available. 
+
+These timers and messages are configured and formatted using the properties of the components only.  
+
+No callback are used!  
+
+
+![](./examples/images/timer_quickstart.gif)
+
+```
+import dash
+import dash_more_components as dmc
+import dash_html_components as html
+
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+app.layout = html.Div(
+    [
+        html.Div("Updating in...", style={"display": "inline-block"}),
+        html.Div(
+            dmc.Timer(
+                # Any output the Timer component generates will be displayed here
+                mode="stopwatch",  # 'countdown  | 'stopwatch'
+                duration=10000,
+                timer_format={"display": True, "verbose": True},
+                rerun=True,
+            ),
+            style={"display": "inline-block"},
+        ),
+    ],
+)
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
+
+
+
+
+
+```
+
+
+
 #### Space shuttle app demo:
-This app uses the dmc.Timer component to launch the space shuttle.  It uses the `messages` prop to define messages to 
-show at given time intervals. The `fire` property specified the time to trigger a callback to start the launch.
-Even though this sequence is 50 seconds, it only fires one callback (at liftoff) All the other messages are handled 
+This app uses the dmc.Timer component to launch the space shuttle.  It uses the `messages` prop to define the messages that will 
+automatically be displayed at given time. The `fire` property specifies the time to trigger a callback to start the launch.
+Even though the timer runs for 50 seconds (n_intervals = 50, interval=1000), it only fires the callback one time (at liftoff) All the other messages are handled 
 clientside by the component.
 
 
@@ -224,6 +191,87 @@ if __name__ == "__main__":
 
 ----------------------
 --------------------
+
+## Geolocation 
+
+The Geolocation component uses the [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) 
+to call navigator.geolocation.  This will cause the user's browser to ask them for permission to access their location data.
+ If they accept, then the browser will use the best available functionality on the device to access this information 
+ (for example, GPS).
+
+
+#### Component Properties
+
+|Prop name|Description|Default value|Example values|
+|----|----|----|----|
+| id| id of component|n/a
+|local_date|The local date and time that the device position was updated| datetime string|10/20/2020, 7:02:48 AM|
+|timestamp| The timestamp when the date and time was updated||
+|position| A dictionary with the following keys: <br> latitude in degrees<br> longitude in degrees<br> accuracy of the lat/lon in meters<br><br>When available:<br>altitude in meters<br>altitudeAccuracy in meters<br> heading in degrees<br>speed in meters per sec|n/a||
+|watch_position|If false, position is obtained as an asynchronous request.  If true, then  position data is updated when either the location changes or more accurate information becomes available|False| either True or False|
+|update_now| Forces a one-time update to the position data.   If set to True in a callback, the browser will update the position data and reset update_now back to False.  This can, for example, be used to update the position with a button click or an interval timer.|False|True or False|
+|high_accuracy|If true and if the device is able to provide a more accurate position,it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). If false the device can take the liberty to save resources by responding more quickly and/or using less power.|False|True or False|
+|maximum_age|The maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0,it means that the device cannot use a cached position and must attempt to retrieve the real current position.  If set to Infinity the device must return a cached position regardless of its age.| 0|
+|timeout| The maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that data will not be return until the position is available.| Infinity|
+  
+
+
+
+#### Geolocation quickstart:
+
+```
+import dash_more_components as dmc
+import dash
+from dash.dependencies import Input, Output
+import dash_html_components as html
+
+app = dash.Dash(__name__)
+
+app.layout = html.Div(
+    [
+        html.Button("Update Position", id="update_btn"),
+        dmc.Geolocation(id="geolocation"),
+        html.Div(id="text_position"),
+    ]
+)
+
+
+@app.callback(Output("geolocation", "update_now"), Input("update_btn", "n_clicks"))
+def update_now(click):
+    return True if click and click > 0 else False
+
+
+@app.callback(
+    Output("text_position", "children"),
+    Input("geolocation", "local_date"),
+    Input("geolocation", "position"),
+)
+def display_output(date, pos):
+    if pos:
+        return html.P(
+            f"As of {date} your location was: lat {pos['lat']},lon {pos['lon']}, accuracy {pos['accuracy']} meters",
+        )
+    else:
+        return "No position data available"
+
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
+```
+
+#### Using Geolocation to show address and position on a map
+
+The quickstart example above just returns a string with the date, time ,latitude, longitude and accuracy.
+This app shows how to plot the location on a map and to get the address.  See geolocation.py in 
+the examples folder.  
+
+
+![](./examples/images/geolocation.png)
+
+
+
+-------
+------
 
 
 ## Timepicker
