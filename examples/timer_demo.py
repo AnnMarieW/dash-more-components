@@ -36,7 +36,7 @@ Countdown card
 
 timer_countdown_card = dbc.Card(
     [
-        dbc.CardHeader(html.H3("Timer - Countdown Mode")),
+        dbc.CardHeader(html.H3('Timer - mode="countdown"')),
         dbc.CardBody(
             [
                 #  "timer_format={'verbose':True}",
@@ -112,7 +112,7 @@ Stopwatch
 
 timer_stopwatch_card = dbc.Card(
     [
-        dbc.CardHeader(html.H3("Timer - Stopwatch Mode")),
+        dbc.CardHeader(html.H3('Timer - mode="stopwatch"')),
         dbc.CardBody(
             [
                 # "timer_format={'verbose':True}",
@@ -190,29 +190,73 @@ shuttle_card = html.Div(
     [
         dbc.Button("start", id="start", size="lg", color="info", className="m-4"),
         html.H1("Space Shuttle Endeavour T-50 seconds and counting"),
-        html.H3([
-            dmc.Timer(
-                id="shuttle_countdown",
-                mode="countdown",
-                disabled=True,
-                duration=51000,
-                fire=[0],
-                messages={
-                    50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
-                    31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
-                    16000: "(T-16 seconds) Activate launch pad sound suppression system",
-                    10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
-                    6000: "(T-6 seconds) Main engine start",
-                    5000: "",
-                    0: "Solid Rocket Booster ignition and LIFTOFF!",
-                },
-            ),
-        dmc.Timer(id='clock', duration=51000, timer_format={"display": True, "colonNotation": True}, disabled=True),
-        ]),
+        html.H3(
+            [
+                dmc.Timer(
+                    id="shuttle_countdown",
+                    mode="countdown",
+                    disabled=True,
+                    duration=51000,
+                    fire=[0],
+                    messages={
+                        50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
+                        31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
+                        16000: "(T-16 seconds) Activate launch pad sound suppression system",
+                        10000: "(T-10 seconds) Activate main engine hydrogen burnoff system",
+                        6000: "(T-6 seconds) Main engine start",
+                        5000: "",
+                        0: "Solid Rocket Booster ignition and LIFTOFF!",
+                    },
+                ),
+                dmc.Timer(
+                    id="clock",
+                    duration=51000,
+                    timer_format={"display": True, "colonNotation": True},
+                    disabled=True,
+                ),
+            ]
+        ),
         dbc.Modal(
             dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
             id="modal",
             is_open=False,
+        ),
+    ],
+    className="mt-4 m-4 border p-4",
+)
+
+"""
+===============================================================================
+Live Stage Progress
+"""
+
+stages_card = dbc.Card(
+    [
+        dbc.CardHeader(
+            html.H3("Timer  - fire property to start jobs and show progress")
+        ),
+        dbc.CardBody(
+            [
+                dmc.Timer(
+                    id="stages_timer",
+                    fire=[2000, 6000, 12000, 18000],
+                    duration=20000,
+                    rerun=True,
+                    mode="stopwatch",
+                ),
+                dbc.ButtonGroup(
+                    [
+                        dbc.Button(
+                            "stage " + str(i),
+                            id="stage" + str(i),
+                            color="white",
+                            className="m-5 rounded-circle border",
+                        )
+                        for i in range(1, 5)
+                    ],
+                    size="lg",
+                ),
+            ],
         ),
     ],
     className="mt-4 m-4 border p-4",
@@ -226,6 +270,7 @@ Layout
 app.layout = dbc.Container(
     [
         dbc.Row([dbc.Col(timer_countdown_card), dbc.Col(timer_stopwatch_card),]),
+        dbc.Row(stages_card),
         dbc.Row(shuttle_card),
     ],
     className="m-4",
@@ -256,6 +301,27 @@ def start(btn_clicks):
 )
 def blastoff(at_interval):
     return at_interval == 0
+
+
+@app.callback(
+    [Output("stage" + str(i), "color") for i in range(1, 5)],
+    [Output("stage" + str(i), "children") for i in range(1, 5)],
+    Input("stages_timer", "at_interval"),
+)
+def update_stages(at_interval):
+    colors = {2000: "white", 6000: "white", 12000: "white", 18000: "white"}
+    stage_colors = {2000: "primary", 6000: "success", 12000: "warning", 18000: "info"}
+    stage_names = {
+        2000: "Stage 1",
+        6000: "Stage 2",
+        12000: "Stage 3",
+        18000: "   Stage 4",
+    }
+
+    if at_interval:
+        colors[at_interval] = stage_colors[at_interval]
+        stage_names[at_interval] = "On " + stage_names[at_interval]
+    return list(colors.values()) + list(stage_names.values())
 
 
 if __name__ == "__main__":

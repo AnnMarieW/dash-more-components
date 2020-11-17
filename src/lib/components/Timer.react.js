@@ -104,13 +104,9 @@ export default class Timer extends Component {
         this.handleMessages(this.props, new_timer);
         setProps({timer: new_timer});
 
-
         if (includes(new_timer, fire)) {
             setProps({at_interval: new_timer})
-        } else {
-            setProps({at_interval: null})
         }
-
     } // end report interval
 
     initTimer(props) {

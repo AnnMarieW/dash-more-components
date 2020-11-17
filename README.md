@@ -72,6 +72,8 @@ The updates are all done clientside by the Timer component. No callback are used
 
 ![](./examples/images/timer_quickstart.gif)
 
+
+![](./examples/images/fire.gif)
 See the code for all the examples [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
 ```
 import dash
