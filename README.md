@@ -22,6 +22,8 @@ and stopwatch features to enhance UI and app performance.    This is ideal for t
 
 ## Timer
 
+This component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857)
+
 The Timer is convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
 dcc.Interval component plus some new properties that includes a timer that either counts up or counts down. 
  
@@ -70,6 +72,7 @@ The updates are all done clientside by the Timer component. No callback are used
 
 ![](./examples/images/timer_quickstart.gif)
 
+See the code for all the examples [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
 ```
 import dash
 import dash_more_components as dmc
