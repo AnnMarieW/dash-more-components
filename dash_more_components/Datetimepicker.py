@@ -6,6 +6,7 @@ from dash.development.base_component import Component, _explicitize_args
 class Datetimepicker(Component):
     """A Datetimepicker component.
 TODO:  more checking for valid dates.
+         do I need to specify defaults for them to show up automatically in the docstring?
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
@@ -31,14 +32,22 @@ although React-DateTime-Picker will ensure that no earlier date is selected.
 IEFE language tag. https://en.wikipedia.org/wiki/IETF_language_tag
 Default from User's browser settings.
 - returnValue (a value equal to: "start", "end", "range"; optional): Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.
-Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed."""
+Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed.
+- required (boolean; optional): Whether datetime input should be required
+- yearPlaceholder (string; optional): aria-label for the year input.
+- monthPlaceholder (string; optional): aria-label for the month input.
+- dayPlaceholder (string; optional): aria-label for the day input.
+- hourPlaceholder (string; optional): aria-label for the hour input.
+- minutePlaceholder (string; optional): aria-label for the minute input.
+- secondPlaceholder (string; optional): aria-label for the second input.
+- closeWidgets (boolean; optional): Whether to close the widgets on value selection.  Default: True"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, value=Component.UNDEFINED, setValue=Component.UNDEFINED, format=Component.UNDEFINED, maxDetail=Component.UNDEFINED, minDetail=Component.UNDEFINED, maxTime=Component.UNDEFINED, minTime=Component.UNDEFINED, maxDate=Component.UNDEFINED, minDate=Component.UNDEFINED, disabled=Component.UNDEFINED, disableClock=Component.UNDEFINED, locale=Component.UNDEFINED, returnValue=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
+    def __init__(self, id=Component.UNDEFINED, value=Component.UNDEFINED, setValue=Component.UNDEFINED, format=Component.UNDEFINED, maxDetail=Component.UNDEFINED, minDetail=Component.UNDEFINED, maxTime=Component.UNDEFINED, minTime=Component.UNDEFINED, maxDate=Component.UNDEFINED, minDate=Component.UNDEFINED, disabled=Component.UNDEFINED, disableClock=Component.UNDEFINED, locale=Component.UNDEFINED, returnValue=Component.UNDEFINED, required=Component.UNDEFINED, yearPlaceholder=Component.UNDEFINED, monthPlaceholder=Component.UNDEFINED, dayPlaceholder=Component.UNDEFINED, hourPlaceholder=Component.UNDEFINED, minutePlaceholder=Component.UNDEFINED, secondPlaceholder=Component.UNDEFINED, closeWidgets=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue', 'required', 'yearPlaceholder', 'monthPlaceholder', 'dayPlaceholder', 'hourPlaceholder', 'minutePlaceholder', 'secondPlaceholder', 'closeWidgets']
         self._type = 'Datetimepicker'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue']
+        self.available_properties = ['id', 'value', 'setValue', 'format', 'maxDetail', 'minDetail', 'maxTime', 'minTime', 'maxDate', 'minDate', 'disabled', 'disableClock', 'locale', 'returnValue', 'required', 'yearPlaceholder', 'monthPlaceholder', 'dayPlaceholder', 'hourPlaceholder', 'minutePlaceholder', 'secondPlaceholder', 'closeWidgets']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

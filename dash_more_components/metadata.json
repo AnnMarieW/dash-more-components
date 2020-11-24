@@ -156,7 +156,7 @@
     }
   },
   "src/lib/components/Datetimepicker.react.js": {
-    "description": "TODO:  more checking for valid dates.",
+    "description": "TODO:  more checking for valid dates.\n         do I need to specify defaults for them to show up automatically in the docstring?",
     "displayName": "Datetimepicker",
     "methods": [
       {
@@ -316,6 +316,62 @@
         },
         "required": false,
         "description": "Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.\nCan be \"start\", \"end\" or \"range\". The latter will cause an array with start and end values to be passed."
+      },
+      "required": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether datetime input should be required"
+      },
+      "yearPlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the year input."
+      },
+      "monthPlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the month input."
+      },
+      "dayPlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the day input."
+      },
+      "hourPlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the hour input."
+      },
+      "minutePlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the minute input."
+      },
+      "secondPlaceholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "aria-label for the second input."
+      },
+      "closeWidgets": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to close the widgets on value selection.  Default: True"
       },
       "setProps": {
         "type": {

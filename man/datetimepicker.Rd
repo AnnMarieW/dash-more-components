@@ -6,14 +6,18 @@
 \title{Datetimepicker component}
 
 \description{
-TODO:  more checking for valid dates.
+TODO:  more checking for valid dates.          do I need to specify defaults for them to show up automatically in the docstring?
 }
 
 \usage{
 datetimepicker(id=NULL, value=NULL, setValue=NULL, format=NULL,
 maxDetail=NULL, minDetail=NULL, maxTime=NULL, minTime=NULL,
 maxDate=NULL, minDate=NULL, disabled=NULL,
-disableClock=NULL, locale=NULL, returnValue=NULL)
+disableClock=NULL, locale=NULL, returnValue=NULL,
+required=NULL, yearPlaceholder=NULL, monthPlaceholder=NULL,
+dayPlaceholder=NULL, hourPlaceholder=NULL,
+minutePlaceholder=NULL, secondPlaceholder=NULL,
+closeWidgets=NULL)
 }
 
 \arguments{
@@ -54,6 +58,22 @@ Default from User's browser settings.}
 
 \item{returnValue}{A value equal to: "start", "end", "range". Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.
 Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed.}
+
+\item{required}{Logical. Whether datetime input should be required}
+
+\item{yearPlaceholder}{Character. aria-label for the year input.}
+
+\item{monthPlaceholder}{Character. aria-label for the month input.}
+
+\item{dayPlaceholder}{Character. aria-label for the day input.}
+
+\item{hourPlaceholder}{Character. aria-label for the hour input.}
+
+\item{minutePlaceholder}{Character. aria-label for the minute input.}
+
+\item{secondPlaceholder}{Character. aria-label for the second input.}
+
+\item{closeWidgets}{Logical. Whether to close the widgets on value selection.  Default: True}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

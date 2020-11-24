@@ -7,6 +7,7 @@ export datetimepicker
 
 A Datetimepicker component.
 TODO:  more checking for valid dates.
+         do I need to specify defaults for them to show up automatically in the docstring?
 Keyword arguments:
 - `id` (String; optional): The ID used to identify this component in Dash callbacks.
 - `value` (Bool | Real | String | Dict | Array; optional): value is the selected datetime.   type:  datetime objec
@@ -32,9 +33,17 @@ IEFE language tag. https://en.wikipedia.org/wiki/IETF_language_tag
 Default from User's browser settings.
 - `returnValue` (a value equal to: "start", "end", "range"; optional): Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.
 Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed.
+- `required` (Bool; optional): Whether datetime input should be required
+- `yearPlaceholder` (String; optional): aria-label for the year input.
+- `monthPlaceholder` (String; optional): aria-label for the month input.
+- `dayPlaceholder` (String; optional): aria-label for the day input.
+- `hourPlaceholder` (String; optional): aria-label for the hour input.
+- `minutePlaceholder` (String; optional): aria-label for the minute input.
+- `secondPlaceholder` (String; optional): aria-label for the second input.
+- `closeWidgets` (Bool; optional): Whether to close the widgets on value selection.  Default: True
 """
 function datetimepicker(; kwargs...)
-        available_props = Symbol[:id, :value, :setValue, :format, :maxDetail, :minDetail, :maxTime, :minTime, :maxDate, :minDate, :disabled, :disableClock, :locale, :returnValue]
+        available_props = Symbol[:id, :value, :setValue, :format, :maxDetail, :minDetail, :maxTime, :minTime, :maxDate, :minDate, :disabled, :disableClock, :locale, :returnValue, :required, :yearPlaceholder, :monthPlaceholder, :dayPlaceholder, :hourPlaceholder, :minutePlaceholder, :secondPlaceholder, :closeWidgets]
         wild_props = Symbol[]
         return Component("datetimepicker", "Datetimepicker", "dash_more_components", available_props, wild_props; kwargs...)
 end

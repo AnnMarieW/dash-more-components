@@ -25,13 +25,13 @@ and stopwatch features to enhance UI and app performance.    This is ideal for t
 This component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857)
 
 The Timer is convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
-dcc.Interval component plus some new properties that includes a timer that either counts up or counts down. 
+dcc.Interval component plus some new properties including a timer that either counts up or counts down. 
  
-It can  also format the timer _clientside_ . So this means there's less formatting you need to do,  and fewer callbacks 
-to get the timer or a timer message to display in a nice human readable format.  This component will enable you to do such things as:
+This component will enable you to do such things as:
  
  - Specify custom messages that will display at certain times.
- - Automatically convert milliseconds into human readable times. 1337000000ms will display as: '15d 11h 23m 20s'
+ - Automatically convert milliseconds into human readable times. 1337000000ms can be display as: '15d 11h 23m 20s'
+ see other available formats in the `timer_format` prop.
  - Specify certain times to trigger a callback.  This makes it easy to start or stop jobs at a specified elapse time.
  - Improve load and performance times because it is not necessary to fire a callback every second just to update 
  a countdown/stopwatch message.
@@ -65,9 +65,8 @@ to get the timer or a timer message to display in a nice human readable format. 
 #### Quick Start
 
 Here are a few examples of the Timer component features.  See the reference for all the properties available. 
-These timers and messages are configured and formatted using the properties of the components only.  
-
-The updates are all done clientside by the Timer component. No callback are used!  
+These timers and messages are configured and formatted using the properties of the components only.  The 
+updates are all done clientside by the Timer component. No callback are used!  
 
 
 ![](./examples/images/timer_quickstart.gif)
@@ -185,7 +184,8 @@ def start(btn_clicks):
     else:
         return dash.no_update
 
-
+# `at_interval` is updated when the countdown timer reaches the time set in the `fire` prop.
+#  in this callback, when the timer reaches 0, it will open the modal.
 @app.callback(
     Output("modal", "is_open"), Input("shuttle_countdown", "at_interval"),
 )

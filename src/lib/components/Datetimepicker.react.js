@@ -13,6 +13,7 @@ import DateTimePicker from 'react-datetime-picker';
  
  /**
  *   TODO:  more checking for valid dates.
+ *          do I need to specify defaults for them to show up automatically in the docstring?
 *
  *          
  *          
@@ -43,8 +44,9 @@ export default class Datetimepicker extends Component {
 
     render() {
         const {id, value, format, maxDetail,minDetail, maxTime, minTime, disabled, disableClock,
-        minDate, maxDate, disableCalendar, returnValue, setValue, setProps,
-        
+        minDate, maxDate, disableCalendar, returnValue, setValue, required, yearPlaceholder,
+        monthPlaceholder, dayPlaceholder, hourPlaceholder, minutePlaceholder, secondPlaceholder,
+        setProps
         } = this.props;
 
         const newvalue = this.convertDate(value)
@@ -64,12 +66,19 @@ export default class Datetimepicker extends Component {
                     minDetail={minDetail}
                     maxTime={maxTime}
                     minTime={minTime}
-                    maxDate={maxDate}
-                    minDate={minDate}
+                    maxDate={this.convertDate(maxDate)}
+                    minDate={this.convertDate(minDate)}
                     disabled={disabled}
                     disableClock={disableClock}
                     disableCalendar={disableCalendar}
                     returnValue={returnValue}
+                    required={required}
+                    yearPlaceholder={yearPlaceholder}
+                    monthPlaceholder={monthPlaceholder}
+                    dayPlaceholder={dayPlaceholder}
+                    hourPlaceholder={hourPlaceholder}
+                    minutePlaceholder= {minutePlaceholder}
+                    secondPlaceholder={secondPlaceholder}
                     onChange={value => setProps({ value})}
                     
                 />
@@ -169,6 +178,48 @@ Datetimepicker.propTypes = {
     * Can be "start", "end" or "range". The latter will cause an array with start and end values to be passed.
     */
     returnValue: PropTypes.oneOf(["start", "end", "range"]),
+
+    /**
+    * Whether datetime input should be required
+    */
+    required: PropTypes.bool,
+
+    /**
+    * aria-label for the year input.
+    */
+    yearPlaceholder: PropTypes.string,
+
+    /**
+    * aria-label for the month input.
+    */
+    monthPlaceholder: PropTypes.string,
+
+    /**
+    * aria-label for the day input.
+    */
+    dayPlaceholder: PropTypes.string,
+
+    /**
+    * aria-label for the hour input.
+    */
+    hourPlaceholder: PropTypes.string,
+
+    /**
+    * aria-label for the minute input.
+    */
+    minutePlaceholder: PropTypes.string,
+
+    /**
+    * aria-label for the second input.
+    *
+    */
+    secondPlaceholder: PropTypes.string,
+
+    /**
+    *  Whether to close the widgets on value selection.  Default: True
+    */
+    closeWidgets: PropTypes.bool,
+
     
     /**
      * Dash-assigned callback that should be called to report property changes
