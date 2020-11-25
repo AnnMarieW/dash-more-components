@@ -105,7 +105,7 @@ export default class Timer extends Component {
         setProps({timer: new_timer});
 
         if (includes(new_timer, fire)) {
-            setProps({at_interval: new_timer})
+            setProps({at_fire_interval: new_timer})
         }
     } // end report interval
 
@@ -237,7 +237,7 @@ Timer.propTypes = {
     /**
     * This number is updated when the timer reaches an interval in the fire property. (Read only)
     */
-    at_interval: PropTypes.number,
+    at_fire_interval: PropTypes.number,
 
     /**
      * When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.
@@ -299,5 +299,5 @@ Timer.defaultProps = {
     rerun: false,
     messages: {},
     fire:[],
-    at_interval:null,
+    at_fire_interval:null,
 };

@@ -851,7 +851,7 @@
           "computed": false
         }
       },
-      "at_interval": {
+      "at_fire_interval": {
         "type": {
           "name": "number"
         },

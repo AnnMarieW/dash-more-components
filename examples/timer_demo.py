@@ -233,7 +233,7 @@ Live Stage Progress
 stages_card = dbc.Card(
     [
         dbc.CardHeader(
-            html.H3("Timer  - fire property to start jobs and show progress")
+            html.H3("Timer  - `fire` property to start jobs and show progress")
         ),
         dbc.CardBody(
             [
@@ -297,18 +297,18 @@ def start(btn_clicks):
 
 
 @app.callback(
-    Output("modal", "is_open"), Input("shuttle_countdown", "at_interval"),
+    Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_interval"),
 )
-def blastoff(at_interval):
-    return at_interval == 0
+def blastoff(at_fire_interval):
+    return at_fire_interval == 0
 
 
 @app.callback(
     [Output("stage" + str(i), "color") for i in range(1, 5)],
     [Output("stage" + str(i), "children") for i in range(1, 5)],
-    Input("stages_timer", "at_interval"),
+    Input("stages_timer", "at_fire_interval"),
 )
-def update_stages(at_interval):
+def update_stages(at_fire_interval):
     colors = {2000: "white", 6000: "white", 12000: "white", 18000: "white"}
     stage_colors = {2000: "primary", 6000: "success", 12000: "warning", 18000: "info"}
     stage_names = {
@@ -318,9 +318,9 @@ def update_stages(at_interval):
         18000: "   Stage 4",
     }
 
-    if at_interval:
-        colors[at_interval] = stage_colors[at_interval]
-        stage_names[at_interval] = "On " + stage_names[at_interval]
+    if at_fire_interval:
+        colors[at_fire_interval] = stage_colors[at_fire_interval]
+        stage_names[at_fire_interval] = "On " + stage_names[at_fire_interval]
     return list(colors.values()) + list(stage_names.values())
 
 

@@ -33,7 +33,7 @@ and if 0 then the timer stops running.
 time rather than using the timer. Since the timer is typically set at a small interval like one second, using
 fire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
 multiple of the interval.
-- at_interval (number; optional): This number is updated when the timer reaches an interval in the fire property. (Read only)
+- at_fire_interval (number; optional): This number is updated when the timer reaches an interval in the fire property. (Read only)
 - rerun (boolean; default False): When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.
 - messages (dict; optional): Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of:
 {integer: string} where integer is the time in milliseconds of when the string message is to be displayed.
@@ -51,12 +51,12 @@ If True, it will only show the first unit: 1h 10m → 1h.
   - colonNotation (boolean; optional): Display time in a colon notation. Useful when you want to display time without the time units, similar to
 a digital watch. Will always shows time in at least minutes: 1s → 0:01.  Example - 5h 1m 45s → 5:01:45."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, interval=Component.UNDEFINED, disabled=Component.UNDEFINED, n_intervals=Component.UNDEFINED, max_intervals=Component.UNDEFINED, timer=Component.UNDEFINED, mode=Component.UNDEFINED, duration=Component.UNDEFINED, reset=Component.UNDEFINED, fire=Component.UNDEFINED, at_interval=Component.UNDEFINED, rerun=Component.UNDEFINED, messages=Component.UNDEFINED, timer_format=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire', 'at_interval', 'rerun', 'messages', 'timer_format']
+    def __init__(self, id=Component.UNDEFINED, interval=Component.UNDEFINED, disabled=Component.UNDEFINED, n_intervals=Component.UNDEFINED, max_intervals=Component.UNDEFINED, timer=Component.UNDEFINED, mode=Component.UNDEFINED, duration=Component.UNDEFINED, reset=Component.UNDEFINED, fire=Component.UNDEFINED, at_fire_interval=Component.UNDEFINED, rerun=Component.UNDEFINED, messages=Component.UNDEFINED, timer_format=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire', 'at_fire_interval', 'rerun', 'messages', 'timer_format']
         self._type = 'Timer'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire', 'at_interval', 'rerun', 'messages', 'timer_format']
+        self.available_properties = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire', 'at_fire_interval', 'rerun', 'messages', 'timer_format']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

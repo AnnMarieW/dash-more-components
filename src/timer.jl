@@ -33,7 +33,7 @@ and if 0 then the timer stops running.
 time rather than using the timer. Since the timer is typically set at a small interval like one second, using
 fire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
 multiple of the interval.
-- `at_interval` (Real; optional): This number is updated when the timer reaches an interval in the fire property. (Read only)
+- `at_fire_interval` (Real; optional): This number is updated when the timer reaches an interval in the fire property. (Read only)
 - `rerun` (Bool; optional): When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.
 - `messages` (Dict; optional): Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of:
 {integer: string} where integer is the time in milliseconds of when the string message is to be displayed.
@@ -52,7 +52,7 @@ If True, it will only show the first unit: 1h 10m → 1h.
 a digital watch. Will always shows time in at least minutes: 1s → 0:01.  Example - 5h 1m 45s → 5:01:45.
 """
 function timer(; kwargs...)
-        available_props = Symbol[:id, :interval, :disabled, :n_intervals, :max_intervals, :timer, :mode, :duration, :reset, :fire, :at_interval, :rerun, :messages, :timer_format]
+        available_props = Symbol[:id, :interval, :disabled, :n_intervals, :max_intervals, :timer, :mode, :duration, :reset, :fire, :at_fire_interval, :rerun, :messages, :timer_format]
         wild_props = Symbol[]
         return Component("timer", "Timer", "dash_more_components", available_props, wild_props; kwargs...)
 end

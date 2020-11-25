@@ -12,7 +12,7 @@ A component that repeatedly increments a counter `n_intervals` with a fixed time
 \usage{
 timer(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL,
 max_intervals=NULL, timer=NULL, mode=NULL, duration=NULL,
-reset=NULL, fire=NULL, at_interval=NULL, rerun=NULL,
+reset=NULL, fire=NULL, at_fire_interval=NULL, rerun=NULL,
 messages=NULL, timer_format=NULL)
 }
 
@@ -49,7 +49,7 @@ time rather than using the timer. Since the timer is typically set at a small in
 fire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
 multiple of the interval.}
 
-\item{at_interval}{Numeric. This number is updated when the timer reaches an interval in the fire property. (Read only)}
+\item{at_fire_interval}{Numeric. This number is updated when the timer reaches an interval in the fire property. (Read only)}
 
 \item{rerun}{Logical. When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.}
 
