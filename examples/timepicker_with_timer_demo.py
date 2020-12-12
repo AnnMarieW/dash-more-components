@@ -1,9 +1,3 @@
-"""
- TODO -
-
-"""
-
-
 import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output, State
@@ -15,7 +9,6 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-
 time_input_card = html.Div(
     dbc.Card(
         [
@@ -24,9 +17,7 @@ time_input_card = html.Div(
                 dbc.Col(
                     [
                         dmc.Timepicker(
-                            id="time_picker",
-                            value="12:00:00",
-                            maxDetail="second",
+                            id="time_picker", value="12:00:00", maxDetail="second",
                         ),
                         dbc.Button(
                             "Start countdown timer",
@@ -46,37 +37,43 @@ time_input_card = html.Div(
 
 app.layout = dbc.Container(
     [
-        dmc.CountdownTimer(id="countdown", pause=True, starting_duration=0),
         time_input_card,
-        dbc.Badge(id="countdown_to_time", color="success", className="m-2"),
+        html.Div("Results ready in:", className="m-2"),
+        dbc.Badge(
+            children=dmc.Timer(
+                id="countdown",
+                disabled=True,
+                mode="countdown",
+                timer_format={"display": True, "verbose": True},
+                fire=[0],
+            ),
+            color="success",
+            className="m-2",
+            style={"minWidth": 250},
+        ),
     ],
     fluid=True,
 )
 
 
 @app.callback(
-    Output("countdown_to_time", "children"),
-    Output("countdown", "starting_duration"),
-    Output("countdown", "pause"),
-    Input("countdown", "remaining_duration"),
+    Output("countdown", "duration"),
+    Output("countdown", "disabled"),
+    Input("countdown", "fire"),
     Input("start_btn", "n_clicks"),
     State("time_picker", "value"),
 )
-def update_date_countdown(remaining, click, time_selected):
+def update_date_countdown(fire, click, time_selected):
     ctx = dash.callback_context
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-    text = f"Checking at: {time_selected}...    Results in: {str(dt.timedelta(seconds=remaining))}"
-
     if input_id == "start_btn":
         time_obj = dt.datetime.strptime(time_selected, "%H:%M:%S")
         time_now = dt.datetime.now()
         time_dif = time_obj - time_now
-        starting_duration = time_dif.seconds
-        return text, starting_duration, False
+        starting_duration = time_dif.seconds * 1000
+        return starting_duration, False
     else:
-        text = text if click > 0 else ""
-        return text, dash.no_update, dash.no_update
+        return dash.no_update, dash.no_update
 
 
 if __name__ == "__main__":

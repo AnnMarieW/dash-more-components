@@ -61,7 +61,7 @@ Note: timer_format will override messages. For example, {10000 : "updating in 10
 \item{timer_format}{Lists containing elements 'display', 'compact', 'verbose', 'colonnotation'.
 those elements have the following types:
   - display (logical; optional): if false, then no timer will be displayed. timer messages will be displayed (if any). if true, for example,
-1337000000 milliseconds will display as: '15d 11h 23m 20s'
+1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)
   - compact (logical; optional): shows a compact timer display.  default: false
 if true, it will only show the first unit: 1h 10m → 1h.
   - verbose (logical; optional): verbose will display full-length units. default: false

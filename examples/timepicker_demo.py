@@ -10,7 +10,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(
     [
-        html.H4("Formatting examples from timepicker.py"),
+        html.H4("Formatting examples from timepicker_demo.py"),
         html.Div(
             [
                 "Default Timepicker with initial time set:",

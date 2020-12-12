@@ -233,7 +233,7 @@ Live Stage Progress
 stages_card = dbc.Card(
     [
         dbc.CardHeader(
-            html.H3("Timer  - `fire` property to start jobs and show progress")
+            html.H3("Update at  `fire_times` ")
         ),
         dbc.CardBody(
             [
@@ -265,6 +265,49 @@ stages_card = dbc.Card(
 
 """
 ===============================================================================
+Update at a time of day
+"""
+
+time_of_day_card = dbc.Card(
+    [
+        dbc.CardHeader(
+            html.H3("Timer - Job update with time of day")
+        ),
+        dbc.CardBody(
+            [
+                html.Div(
+                    [
+                        dbc.Button("start", id="start_job", size="lg", color="info", className="m-4"),
+                        html.H3(id='job_started'),
+                        html.H4(id='next_update',
+                            style={"display": "inline-block", "color": "#34558b "},
+                        ),
+                        html.H5(['Next update in:',
+                          #  style={"display": "inline-block", "color": "#34558b "}),
+                            dmc.Timer(
+                                id="time_of_day_timer",
+                                disabled=True,
+                                fire=[0],
+                                mode="countdown",
+                                duration=900000,
+                                timer_format={"display": True, "verbose": True},
+                                rerun=True,
+                            ),
+                           ], style={"display": "inline-block", "color": "#34558b "},
+                        ),
+                    ],
+                    className="mx-3 mt-4 p-3 border",
+                ),
+            ],
+        ),
+    ],
+    className="mt-4 m-4 border p-4",
+)
+
+
+
+"""
+===============================================================================
 Layout
 """
 app.layout = dbc.Container(
@@ -272,6 +315,7 @@ app.layout = dbc.Container(
         dbc.Row([dbc.Col(timer_countdown_card), dbc.Col(timer_stopwatch_card),]),
         dbc.Row(stages_card),
         dbc.Row(shuttle_card),
+        dbc.Row(time_of_day_card),
     ],
     className="m-4",
 )
@@ -322,6 +366,37 @@ def update_stages(at_fire_interval):
         colors[at_fire_interval] = stage_colors[at_fire_interval]
         stage_names[at_fire_interval] = "On " + stage_names[at_fire_interval]
     return list(colors.values()) + list(stage_names.values())
+
+
+@app.callback(
+    Output("job_started", "children"),
+    Output("time_of_day_timer",'disabled'),
+    Input("start_job", "n_clicks"),
+)
+def time_of_day_job_starter(start_btn_clicks):
+    if start_btn_clicks is None:
+        raise PreventUpdate
+    if start_btn_clicks > 1:
+        raise PreventUpdate
+    # if start_btn_clicks == 0:
+    #     msg = 'Start Job'
+    #     pause = True
+    if start_btn_clicks ==1:
+        start_time = dt.datetime.now().time().strftime('%I:%M %p')
+        msg= 'Job started at ' + start_time + '  Updates every 15 minutes'
+        pause = False
+
+    return msg, pause
+
+@app.callback(
+    Output("next_update", "children"),
+    Input("time_of_day_timer", "at_fire_interval"),
+    prevent_initial_call=True
+
+)
+def update_time_of_day_job(at_fire_interval):
+    next_update = dt.datetime.now() + dt.timedelta(seconds=900)
+    return f'Next update at {next_update}'
 
 
 if __name__ == "__main__":

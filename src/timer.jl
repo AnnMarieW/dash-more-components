@@ -43,7 +43,7 @@ Note: timer_format will override messages. For example, {10000 : "updating in 10
 readable formats.  For example: 1337000000 milliseconds will display the default format: '15d 11h 23m 20s'.. timer_format has the following type: lists containing elements 'display', 'compact', 'verbose', 'colonNotation'.
 Those elements have the following types:
   - `display` (Bool; optional): If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,
-1337000000 milliseconds will display as: '15d 11h 23m 20s'
+1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)
   - `compact` (Bool; optional): Shows a compact timer display.  default: False
 If True, it will only show the first unit: 1h 10m → 1h.
   - `verbose` (Bool; optional): Verbose will display full-length units. default: False

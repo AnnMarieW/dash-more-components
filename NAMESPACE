@@ -1,8 +1,7 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-export(CountdownTimer)
+export(Clipboard)
 export(CreditCard)
-export(Datetimepicker)
 export(Geolocation)
 export(Timepicker)
 export(Timer)
@@ -14,4 +13,6 @@ export(currentLocation)
 export(datetimePicker)
 export(timepicker)
 export(geolocation)
+export(clipboard)
 export(countdownTimer)
+export(exampleComponent)

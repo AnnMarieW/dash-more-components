@@ -5,9 +5,8 @@ using Dash
 const resources_path = realpath(joinpath( @__DIR__, "..", "deps"))
 const version = "0.0.1"
 
-include("countdowntimer.jl")
+include("clipboard.jl")
 include("creditcard.jl")
-include("datetimepicker.jl")
 include("geolocation.jl")
 include("timepicker.jl")
 include("timer.jl")

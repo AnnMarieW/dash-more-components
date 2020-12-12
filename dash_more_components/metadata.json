@@ -1,41 +1,24 @@
 {
-  "src/lib/components/CountdownTimer.react.js": {
-    "description": "This component is a countdown timer.  The starting duration and\n    remaining duration are in seconds",
-    "displayName": "CountdownTimer",
+  "src/lib/components/Clipboard.react.js": {
+    "description": "The Clipboard component copies text to the clipboard",
+    "displayName": "Clipboard",
     "methods": [
       {
-        "name": "handleTimer",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "props",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "resetTimer",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "props",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "clearTimer",
+        "name": "copySuccess",
         "docblock": null,
         "modifiers": [],
         "params": [],
         "returns": null
       },
       {
-        "name": "reportInterval",
+        "name": "getText",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "copyToClipboard",
         "docblock": null,
         "modifiers": [],
         "params": [],
@@ -48,47 +31,21 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+        "description": "The ID used to identify this component."
       },
-      "starting_duration": {
+      "target_id": {
         "type": {
-          "name": "number"
+          "name": "string"
         },
-        "required": false,
-        "description": "The amount of time to count down in seconds",
-        "defaultValue": {
-          "value": "0",
-          "computed": false
-        }
-      },
-      "pause": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "If True, the counter will no longer update. If False, the timer will resume.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "remaining_duration": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "remaining time left on countdown timer in seconds",
-        "defaultValue": {
-          "value": "0",
-          "computed": false
-        }
+        "required": true,
+        "description": "id of component containing text to copy to the clipboard.\n The inner text of the children will be copied to the clipboard.  If none, then the text from the\n value property will be copied."
       },
       "setProps": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": "Dash assigned callback"
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
       }
     }
   },
@@ -152,233 +109,6 @@
         },
         "required": false,
         "description": "localization text - like the words 'valid thru' on card"
-      }
-    }
-  },
-  "src/lib/components/Datetimepicker.react.js": {
-    "description": "TODO:  more checking for valid dates.\n         do I need to specify defaults for them to show up automatically in the docstring?",
-    "displayName": "Datetimepicker",
-    "methods": [
-      {
-        "name": "convertDate",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "value",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
-    "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID used to identify this component in Dash callbacks."
-      },
-      "value": {
-        "type": {
-          "name": "any"
-        },
-        "required": false,
-        "description": "value is the selected datetime.   type:  datetime objec"
-      },
-      "setValue": {
-        "type": {
-          "name": "any"
-        },
-        "required": false,
-        "description": "string value of date.  from app. need to convert to datetime object"
-      },
-      "format": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Input format based on Unicode Technical Standard #35.  This changes how the date and time is displayed.\nSupported values are: y, M, MM, MMM, MMMM, d, dd, H, HH, h, hh, m, mm, s, ss, a\n     \n     example:  y-MM-dd h:mm:ss a   isodate:y-MM-dd HH:mm:ss"
-      },
-      "maxDetail": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "'hour'",
-              "computed": false
-            },
-            {
-              "value": "'minute'",
-              "computed": false
-            },
-            {
-              "value": "'second'",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": "(string, one of 'hour', 'minute', 'second, Default: 'minute')\n  The level of detail to show on the datetime picker. View defined here also becomes the one on which\n  clicking an item in the calendar will select a date."
-      },
-      "minDetail": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "\"month\"",
-              "computed": false
-            },
-            {
-              "value": "\"year\"",
-              "computed": false
-            },
-            {
-              "value": "\"decade\"",
-              "computed": false
-            },
-            {
-              "value": "\"century\"",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": "The least detailed calendar view that the user shall see."
-      },
-      "maxTime": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Maximum time the user can select"
-      },
-      "minTime": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Minimum time the user can select"
-      },
-      "maxDate": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Maximum date that the user can select. Periods partially overlapped by maxDate will also be selectable,\nalthough React-DateTime-Picker will ensure that no later date is selected."
-      },
-      "minDate": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Minimum date that the user can select. Periods partially overlapped by minDate will also be selectable,\nalthough React-DateTime-Picker will ensure that no earlier date is selected."
-      },
-      "disabled": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether the time picker should be disables"
-      },
-      "disableClock": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "When set to true will remove the clock and the button toggling its visibility"
-      },
-      "locale": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Locale that should be used by the time picker and the clock.  Can be any\nIEFE language tag. https://en.wikipedia.org/wiki/IETF_language_tag\nDefault from User's browser settings."
-      },
-      "returnValue": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "\"start\"",
-              "computed": false
-            },
-            {
-              "value": "\"end\"",
-              "computed": false
-            },
-            {
-              "value": "\"range\"",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": "Which dates shall be passed by the calendar to the onChange function and onClick{Period} functions.\nCan be \"start\", \"end\" or \"range\". The latter will cause an array with start and end values to be passed."
-      },
-      "required": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether datetime input should be required"
-      },
-      "yearPlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the year input."
-      },
-      "monthPlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the month input."
-      },
-      "dayPlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the day input."
-      },
-      "hourPlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the hour input."
-      },
-      "minutePlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the minute input."
-      },
-      "secondPlaceholder": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "aria-label for the second input."
-      },
-      "closeWidgets": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether to close the widgets on value selection.  Default: True"
-      },
-      "setProps": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
       }
     }
   },
@@ -890,7 +620,7 @@
           "value": {
             "display": {
               "name": "bool",
-              "description": "If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,\n1337000000 milliseconds will display as: '15d 11h 23m 20s'",
+              "description": "If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,\n1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)",
               "required": false
             },
             "compact": {

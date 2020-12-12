@@ -79,7 +79,7 @@ form = dbc.Form([number_input, name_input, expiry_input, cvc_input], className="
 
 app.layout = dbc.Container(
     [
-        dbc.Row(html.H3("Cool Credit Card Data Entry Widget")),
+        dbc.Row(html.H3("Cool Credit Card Data Entry Form")),
         dbc.Row(
             [
                 dbc.Col(

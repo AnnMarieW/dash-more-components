@@ -124,8 +124,6 @@ export default class Timer extends Component {
         } else { // stopwatch
             startTime = 0
         }
-
-
         setProps({timer: startTime});
     }
 
@@ -177,6 +175,7 @@ Timer.propTypes = {
      * components in an app.
      */
     id: PropTypes.string,
+
     /**
      * This component will increment the counter `n_intervals` every
      * `interval` milliseconds
@@ -259,7 +258,7 @@ Timer.propTypes = {
     timer_format: PropTypes.exact({
         /**
          * If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,
-         * 1337000000 milliseconds will display as: '15d 11h 23m 20s'
+         * 1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)
          */
         display: PropTypes.bool,
 

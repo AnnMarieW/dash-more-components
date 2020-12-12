@@ -1,37 +1,77 @@
 # Dash More Components
-### Note:  This is a pre-release preview - question, comments, suggestions are welcome :-)
+### Note:  This is a pre-release preview.  Question, comments, suggestions are welcome :-)
 
 Dash More Components is library of additional components to use in Plotly Dash apps
 
+1. __Clipboard__:  Copies text to the clipboard.  Simply place the component where you would like to display
+the copy icon.  When clicked on, it copies the text in a target component to the clipboard.  No callbacks required!  
+   
 
-
-1. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
+2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
- of time or at a selected date or time.
+ of time or at a selected date or time. 
+   
 
-2.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.
+3.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.   
 
-3.  __Timepicker__:  Gives the user the ability to select a time. 
 
-4.  Datetimepicker: Coming soon!
+4.  __Timepicker__:  Gives the user the ability to select a time with a nice clock display.
 
-5. __CreditCard__:  Cool credit card data entry component.
+
+5. __CreditCard__:  Cool credit card data entry form.
 
 --------
----------
+--------
+
+## Clipboard
+
+This component is based on the request in [#1009](https://github.com/plotly/dash-docs/issues/1009). 
+The copy to clipboard component allows the user to copy text from the app to the clipboard by clicking on a
+copy icon.  
+
+This component is very easy to use:
+- Place the component in the layout where you would like the copy icon located.
+- Specify the `target_id` of the component with text to copy.
+- Style the icon by wrapping it in another component such as a html.Div.  The icon inherits the style of the parent container.
+
+When the icon is clicked-on, the component will copy the text to the clipboard and briefly update the icon to show the copy
+was successful.   No callbacks required!
+
+This component uses the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText).  Some
+older browsers do not support this functionality. In this case, the component will send an alert when the app starts,
+and the copy icon will not be displayed. 
+
+
+
+
+#### Component Properties
+
+|Prop name|Type & Default value|Description|Example values|
+|----|----|----|----|
+| id| string; optional|id of component used to identify dash components in callbacks| |
+|target_id|string; required|id of target component containing text to copy to the clipboard. The inner text of the children will be copied to the clipboard.  If none, then the text from the value property will be copied.
+
+---
+
+![](./examples/images/clipboard.gif)
+
+
+
+-------
+-------
 
 ## Timer
 
-This component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857)
+This component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857).  
 
-The Timer is convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
-dcc.Interval component plus some new properties including a timer that either counts up or counts down. 
+The Timer is a convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
+dcc.Interval component plus some new properties - such as a timer that either counts up or counts down. 
  
-This component will enable you to do such things as:
+This component will enable you to:
  
- - Specify custom messages that will display at certain times.
- - Automatically convert milliseconds into human readable times. 1337000000ms can be display as: '15d 11h 23m 20s'
- see other available formats in the `timer_format` prop.
+ - Specify custom messages to display at certain times
+ - Automatically convert milliseconds into human readable times.  For example, 1337000000ms can be display as:
+  '15d 11h 23m 20s'  See other available formats in the `timer_format` prop.
  - Specify certain times to trigger a callback.  This makes it easy to start or stop jobs at a specified elapse time.
  - Improve load and performance times because it is not necessary to fire a callback every second just to update 
  a countdown/stopwatch message.
@@ -317,7 +357,9 @@ Based on react time picker:   https://github.com/wojtekmaj/react-time-picker
 
 
 
-countdown_timepicker.py
+timepicker_with_timer_demo.py
+
+
 ```
 import dash_more_components as dmc
 import dash
@@ -330,7 +372,6 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-
 time_input_card = html.Div(
     dbc.Card(
         [
@@ -339,9 +380,7 @@ time_input_card = html.Div(
                 dbc.Col(
                     [
                         dmc.Timepicker(
-                            id="time_picker",
-                            value="12:00:00",
-                            maxDetail="second",
+                            id="time_picker", value="12:00:00", maxDetail="second",
                         ),
                         dbc.Button(
                             "Start countdown timer",
@@ -361,45 +400,49 @@ time_input_card = html.Div(
 
 app.layout = dbc.Container(
     [
-        dmc.CountdownTimer(id="countdown", pause=True, starting_duration=0),
         time_input_card,
-        dbc.Badge(id="countdown_to_time", color="success", className="m-2"),
+        html.Div("Results ready in:", className="m-2"),
+        dbc.Badge(
+            children=dmc.Timer(
+                id="countdown",
+                disabled=True,
+                mode="countdown",
+                timer_format={"display": True, "verbose": True},
+                fire=[0],
+            ),
+            color="success",
+            className="m-2",
+            style={"minWidth": 250},
+        ),
     ],
     fluid=True,
 )
 
 
 @app.callback(
-    Output("countdown_to_time", "children"),
-    Output("countdown", "starting_duration"),
-    Output("countdown", "pause"),
-    Input("countdown", "remaining_duration"),
+    Output("countdown", "duration"),
+    Output("countdown", "disabled"),
+    Input("countdown", "fire"),
     Input("start_btn", "n_clicks"),
     State("time_picker", "value"),
 )
-def update_date_countdown(remaining, click, time_selected):
+def update_date_countdown(fire, click, time_selected):
     ctx = dash.callback_context
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-    text = f"Checking at: {time_selected}...    Results in: {str(dt.timedelta(seconds=remaining))}"
-
     if input_id == "start_btn":
         time_obj = dt.datetime.strptime(time_selected, "%H:%M:%S")
         time_now = dt.datetime.now()
         time_dif = time_obj - time_now
-        starting_duration = time_dif.seconds
-        return text, starting_duration, False
+        starting_duration = time_dif.seconds * 1000
+        return starting_duration, False
     else:
-        text = text if click > 0 else ""
-        return text, dash.no_update, dash.no_update
+        return dash.no_update, dash.no_update
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
 
 ```
-
-#### See more examples in countdown.py in the examples folder
 
 
 -----------
@@ -509,7 +552,7 @@ form = dbc.Form([number_input, name_input, expiry_input, cvc_input], className="
 
 app.layout = dbc.Container(
     [
-        dbc.Row(html.H3("Cool Credit Card Data Entry Widget")),
+        dbc.Row(html.H3("Cool Credit Card Data Entry Form")),
         dbc.Row(
             [
                 dbc.Col(
