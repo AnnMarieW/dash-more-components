@@ -3,9 +3,7 @@
 
 Dash More Components is library of additional components to use in Plotly Dash apps
 
-1. __Clipboard__:  Copies text to the clipboard.  Simply place the component where you would like to display
-the copy icon.  When clicked on, it copies the text in a target component to the clipboard.  No callbacks required!  
-   
+1. __Clipboard__:  Copies text to the clipboard.  
 
 2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
@@ -54,6 +52,38 @@ and the copy icon will not be displayed.
 ---
 
 ![](./examples/images/clipboard.gif)
+
+See the app for the demo above [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/clipboard_demo.py)
+#### Copy to Clipboard quickstart app
+```python
+import dash
+import dash_more_components as dmc
+import dash_core_components as dcc
+import dash_html_components as html
+import dash_bootstrap_components as dbc
+
+external_stylesheets = [dbc.themes.BOOTSTRAP]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+app.layout = dbc.Container(
+    dbc.Row(
+        dbc.Col(
+            [
+                html.H3("Copy To Clipboard Demo"),
+                dcc.Input(id="input_id", value=""),
+                html.Div(
+                    dmc.Clipboard(target_id="input_id"),
+                    className="d-inline-block text-white  p-1  bg-secondary",
+                    title="copy",
+                ),
+            ],className='m-4'
+        ),
+    ),fluid=True
+)
+
+
+```
 
 
 
@@ -117,7 +147,9 @@ updates are all done clientside by the Timer component. No callbacks are used!
 
 
 See the code for all the examples [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
-```
+
+#### Timer component quickstart app:
+```python
 import dash
 import dash_more_components as dmc
 import dash_html_components as html
@@ -147,13 +179,11 @@ if __name__ == "__main__":
 
 
 
-
-
 ```
 
 
 
-#### Space shuttle app demo:
+#### Space shuttle app - Timer demo:
 This app uses the dmc.Timer component to launch the space shuttle.  It uses the `messages` prop to define the messages that will 
 automatically be displayed at given time. The `fire` property specifies the time to trigger a callback to start the launch.
 Even though the timer runs for 50 seconds (n_intervals = 50, interval=1000), it only fires the callback one time (at liftoff) All the other messages are handled 
@@ -163,7 +193,7 @@ clientside by the component.
 ![](./examples/images/shuttle.gif)
 
 #### Space shuttle app code:
-```
+```python
 
 import dash
 from dash.dependencies import Input, Output
@@ -275,7 +305,7 @@ to call navigator.geolocation.  This will cause the user's browser to ask them f
 
 #### Geolocation quickstart:
 
-```
+```python
 import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output
@@ -360,7 +390,7 @@ Based on react time picker:   https://github.com/wojtekmaj/react-time-picker
 timepicker_with_timer_demo.py
 
 
-```
+```python
 import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output, State
@@ -470,7 +500,7 @@ CreditCard component provides beautiful credit cards for your payment forms.  Ba
 
 #### creditcard.py:
 
-```
+```python
 import dash_more_components as dmc
 import dash
 from dash.dependencies import Input, Output
