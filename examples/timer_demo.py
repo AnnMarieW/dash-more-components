@@ -39,7 +39,7 @@ timer_countdown_card = dbc.Card(
         dbc.CardHeader(html.H3('Timer - mode="countdown"')),
         dbc.CardBody(
             [
-                #  "timer_format={'verbose':True}",
+
                 html.Div(
                     [
                         html.Div(
@@ -50,33 +50,33 @@ timer_countdown_card = dbc.Card(
                             dmc.Timer(
                                 mode="countdown",
                                 duration=30000,
-                                timer_format={"display": True, "verbose": True},
+                                timer_format="verbose",
                                 rerun=True,
                             ),
                             className="d-inline-block",
                         ),
                     ],
-                    className="mx-3 mt-4",
+                    className="mx-2 my-4",
                 ),
                 html.Div(
                     [
                         html.H4(
-                            "Next event starts in in...",
+                            "Next event starts in...",
                             style={"display": "inline-block", "color": "#34558b "},
                         ),
                         html.H5(
                             dmc.Timer(
                                 mode="countdown",
                                 duration=100000000,
-                                timer_format={"display": True, "verbose": True},
+                                timer_format="verbose",
                                 rerun=True,
                             ),
                             style={"display": "inline-block", "color": "#34558b "},
                         ),
                     ],
-                    className="mx-3 mt-4 p-3 border",
+                    className="mx-2 my-4 p-3 border",
                 ),
-                #  "timer_format={'display': True}  (default)",
+
                 html.Div(
                     [
                         html.H3(
@@ -88,7 +88,7 @@ timer_countdown_card = dbc.Card(
                                 dmc.Timer(
                                     mode="countdown",
                                     duration=10000000,
-                                    timer_format={"display": True},
+                                    timer_format="display",
                                     rerun=True,
                                 ),
                                 className="d-inline-block",
@@ -96,7 +96,7 @@ timer_countdown_card = dbc.Card(
                             )
                         ),
                     ],
-                    className="mx-3 mt-4",
+                    className="mx-2 my-4",
                 ),
             ],
         ),
@@ -115,7 +115,7 @@ timer_stopwatch_card = dbc.Card(
         dbc.CardHeader(html.H3('Timer - mode="stopwatch"')),
         dbc.CardBody(
             [
-                # "timer_format={'verbose':True}",
+
                 html.Div(
                     [
                         html.Div(
@@ -126,15 +126,15 @@ timer_stopwatch_card = dbc.Card(
                             dmc.Timer(
                                 mode="stopwatch",
                                 duration=30000,
-                                timer_format={"display": True, "verbose": True},
+                                timer_format="verbose",
                                 rerun=True,
                             ),
                             className="d-inline-block",
                         ),
                     ],
-                    className="mx-3 mt-4",
+                    className="mx-2 mt-4",
                 ),
-                # "timer_format={'colonNotation':True}",
+
                 html.Div(
                     [
                         html.Div("Updating in...", style={"display": "inline-block"}),
@@ -142,13 +142,13 @@ timer_stopwatch_card = dbc.Card(
                             dmc.Timer(
                                 mode="stopwatch",
                                 duration=10000000,
-                                timer_format={"display": True, "colonNotation": True},
+                                timer_format="colonNotation",
                                 rerun=True,
                             ),
                             className="d-inline-block",
                         ),
                     ],
-                    className="mx-3 mt-4 mb-4",
+                    className="mx-2 mt-4 mb-4",
                 ),
                 html.H4(
                     dmc.Timer(
@@ -169,7 +169,7 @@ timer_stopwatch_card = dbc.Card(
                             420000: "Task submitted! This should have taken around five minutes. It is taking much longer than expected. Something might've gone wrong. Reach out to eli@acme.corp.",
                         },
                     ),
-                    className="mx-3 mt-4 p-3 border",
+                    className="mx-2 mt-4 p-3 border",
                     style={"color": "#34558b"},
                 ),
             ],
@@ -197,7 +197,7 @@ shuttle_card = html.Div(
                     mode="countdown",
                     disabled=True,
                     duration=51000,
-                    fire=[0],
+                    fire_times=[0],
                     messages={
                         50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
                         31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
@@ -211,13 +211,13 @@ shuttle_card = html.Div(
                 dmc.Timer(
                     id="clock",
                     duration=51000,
-                    timer_format={"display": True, "colonNotation": True},
+                    timer_format="colonNotation",
                     disabled=True,
                 ),
             ]
         ),
         dbc.Modal(
-            dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
+            dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"})),
             id="modal",
             is_open=False,
         ),
@@ -233,13 +233,13 @@ Live Stage Progress
 stages_card = dbc.Card(
     [
         dbc.CardHeader(
-            html.H3("Update at  `fire_times` ")
+           # html.H3("Update at  `fire_times` property to start jobs and show progress")
         ),
         dbc.CardBody(
             [
                 dmc.Timer(
                     id="stages_timer",
-                    fire=[2000, 6000, 12000, 18000],
+                    fire_times=[2000, 6000, 12000, 18000],
                     duration=20000,
                     rerun=True,
                     mode="stopwatch",
@@ -287,10 +287,10 @@ time_of_day_card = dbc.Card(
                             dmc.Timer(
                                 id="time_of_day_timer",
                                 disabled=True,
-                                fire=[0],
+                                fire_times=[0],
                                 mode="countdown",
                                 duration=900000,
-                                timer_format={"display": True, "verbose": True},
+                                timer_format="verbose",
                                 rerun=True,
                             ),
                            ], style={"display": "inline-block", "color": "#34558b "},
@@ -341,18 +341,18 @@ def start(btn_clicks):
 
 
 @app.callback(
-    Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_interval"),
+    Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_time"),
 )
-def blastoff(at_fire_interval):
-    return at_fire_interval == 0
+def blastoff(at_fire_time):
+    return at_fire_time == 0
 
 
 @app.callback(
     [Output("stage" + str(i), "color") for i in range(1, 5)],
     [Output("stage" + str(i), "children") for i in range(1, 5)],
-    Input("stages_timer", "at_fire_interval"),
+    Input("stages_timer", "at_fire_time"),
 )
-def update_stages(at_fire_interval):
+def update_stages(at_fire_time):
     colors = {2000: "white", 6000: "white", 12000: "white", 18000: "white"}
     stage_colors = {2000: "primary", 6000: "success", 12000: "warning", 18000: "info"}
     stage_names = {
@@ -362,9 +362,9 @@ def update_stages(at_fire_interval):
         18000: "   Stage 4",
     }
 
-    if at_fire_interval:
-        colors[at_fire_interval] = stage_colors[at_fire_interval]
-        stage_names[at_fire_interval] = "On " + stage_names[at_fire_interval]
+    if at_fire_time:
+        colors[at_fire_time] = stage_colors[at_fire_time]
+        stage_names[at_fire_time] = "On " + stage_names[at_fire_time]
     return list(colors.values()) + list(stage_names.values())
 
 
@@ -378,9 +378,6 @@ def time_of_day_job_starter(start_btn_clicks):
         raise PreventUpdate
     if start_btn_clicks > 1:
         raise PreventUpdate
-    # if start_btn_clicks == 0:
-    #     msg = 'Start Job'
-    #     pause = True
     if start_btn_clicks ==1:
         start_time = dt.datetime.now().time().strftime('%I:%M %p')
         msg= 'Job started at ' + start_time + '  Updates every 15 minutes'
@@ -390,11 +387,11 @@ def time_of_day_job_starter(start_btn_clicks):
 
 @app.callback(
     Output("next_update", "children"),
-    Input("time_of_day_timer", "at_fire_interval"),
+    Input("time_of_day_timer", "at_fire_time"),
     prevent_initial_call=True
 
 )
-def update_time_of_day_job(at_fire_interval):
+def update_time_of_day_job(at_fire_time):
     next_update = dt.datetime.now() + dt.timedelta(seconds=900)
     return f'Next update at {next_update}'
 

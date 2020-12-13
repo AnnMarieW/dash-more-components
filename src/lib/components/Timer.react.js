@@ -2,6 +2,19 @@ import {includes} from 'ramda';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
+function getFormat(format_type) {
+    switch (format_type) {
+        case 'default':
+            return {};
+        case 'verbose':
+            return {'verbose': true};
+        case 'colonNotation':
+            return {'colonNotation': true};
+        case 'compact':
+            return {'compact': true};
+    }
+}
+
 /**
  * A component that repeatedly increments a counter `n_intervals`
  * with a fixed time delay between each increment.
@@ -12,11 +25,13 @@ import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 /*
  *     TODO:  change to ComponentDidUpdate *
  *            how to handle when callbacks take longer than the interval timer
- *             change name 5 places if rename back to Interval
+ *             change name back to Interval?
  *             dependency:  https://github.com/sindresorhus/pretty-ms
- *             how to delete "ended" from auto generated timer.py
+ *
  *
  */
+
+
 
 export default class Timer extends Component {
     constructor(props) {
@@ -37,7 +52,7 @@ export default class Timer extends Component {
             n_intervals,
             max_intervals,
             disabled,
-            reset,
+            
             rerun,
             interval,
         } = this.props;
@@ -79,17 +94,18 @@ export default class Timer extends Component {
         }
 
         const prettyMilliseconds = require('pretty-ms');
-        const formatObj = Object.assign({}, timer_format);
-        if (formatObj.display) {
-            this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`;
+          if (timer_format !== 'none') {
+             const formatObj = getFormat(timer_format)
+             this.renderMessage = `${prettyMilliseconds(new_timer, formatObj)}`
         }
     } // end handleMessages
 
+
     reportInterval() {
-        const {setProps, n_intervals, interval, mode, duration, fire, timer} = this.props;
+        const {setProps, n_intervals, interval, mode, duration, fire_times} = this.props;
 
         const new_n_intervals = n_intervals + 1;
-        setProps({n_intervals: new_n_intervals});
+        const updateProps = {n_intervals: new_n_intervals};
 
 
         this.countdown = duration - interval * new_n_intervals;
@@ -102,20 +118,17 @@ export default class Timer extends Component {
         }
 
         this.handleMessages(this.props, new_timer);
-        setProps({timer: new_timer});
+        updateProps.timer = new_timer
 
-        if (includes(new_timer, fire)) {
-            setProps({at_fire_interval: new_timer})
+
+        if (includes(new_timer, fire_times)) {
+            updateProps.at_fire_time = new_timer
         }
+        setProps(updateProps)
     } // end report interval
 
-    initTimer(props) {
-        const {setProps, duration, mode, rerun} = this.props;
-
-        setProps({
-            n_intervals: 0,
-            reset: false,
-        });
+    initTimer() {
+        const {setProps, duration, mode} = this.props;
 
         this.countdown = duration;
         let startTime;
@@ -124,7 +137,11 @@ export default class Timer extends Component {
         } else { // stopwatch
             startTime = 0
         }
-        setProps({timer: startTime});
+        setProps({
+            n_intervals: 0,
+            reset: false,
+            timer: startTime
+        });
     }
 
     resetTimer(props) {
@@ -199,7 +216,6 @@ Timer.propTypes = {
      */
     max_intervals: PropTypes.number,
 
-
     /**
      * When in countdown mode, the timer will count down to zero from the starting `duration` and will show the number
      *  of milliseconds remaining.
@@ -227,16 +243,16 @@ Timer.propTypes = {
     /**
     * A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given
      * time rather than using the timer. Since the timer is typically set at a small interval like one second, using
-     * fire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
+     * fire_times can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a
      * multiple of the interval.
     */
-    fire: PropTypes.arrayOf(PropTypes.number),
+    fire_times: PropTypes.arrayOf(PropTypes.number),
 
 
     /**
-    * This number is updated when the timer reaches an interval in the fire property. (Read only)
+    * This number is updated when the timer it reaches a time in the  fire_times property. (Read only)
     */
-    at_fire_interval: PropTypes.number,
+    at_fire_time: PropTypes.number,
 
     /**
      * When True, the timer repeats once the timer has run for the number of milliseconds set in the duration.
@@ -253,33 +269,16 @@ Timer.propTypes = {
 
     /**
      * If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human
-     * readable formats.  For example: 1337000000 milliseconds will display the default format: '15d 11h 23m 20s'.
+     * readable formats.  The options are:
+     *  `'none'`: no timer will be displayed;
+     *  `'display'`:  example - 1337000000 milliseconds will display as: '15d 11h 23m 20s';
+     *  `'compact'`: will show only the first unit: 1h 10m → 1h ;
+     *  `'verbose'`: will show full-length units. Example --  5 hours 1 minute 45 seconds
+     *  `'colonNotation'`: Useful when you want to show time without the time units, similar to
+     *                   a digital watch. Will always shows time in at least minutes: 1s → 0:01.
+     *                   Example - 5h 1m 45s → 5:01:45.
      */
-    timer_format: PropTypes.exact({
-        /**
-         * If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,
-         * 1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)
-         */
-        display: PropTypes.bool,
-
-        /**
-         * Shows a compact timer display.  default: False
-         * If True, it will only show the first unit: 1h 10m → 1h.
-         */
-        compact: PropTypes.bool,
-
-        /**
-         * Verbose will display full-length units. default: False
-         *  Example - if true: 5h 1m 45s → 5 hours 1 minute 45 seconds
-         */
-        verbose: PropTypes.bool,
-
-        /**
-         * Display time in a colon notation. Useful when you want to display time without the time units, similar to
-         * a digital watch. Will always shows time in at least minutes: 1s → 0:01.  Example - 5h 1m 45s → 5:01:45.
-         */
-        colonNotation: PropTypes.bool,
-    }),
+    timer_format: PropTypes.oneOf(['none', 'display', 'compact', 'verbose', 'colonNotation']),
 
     /**
      * Dash assigned callback
@@ -297,6 +296,7 @@ Timer.defaultProps = {
     reset: true,
     rerun: false,
     messages: {},
-    fire:[],
-    at_fire_interval:null,
+    fire_times:[],
+    at_fire_time:null,
+    timer_format:'none'
 };

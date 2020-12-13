@@ -44,8 +44,8 @@ app.layout = dbc.Container(
                 id="countdown",
                 disabled=True,
                 mode="countdown",
-                timer_format={"display": True, "verbose": True},
-                fire=[0],
+                timer_format="verbose",
+                fire_times=[0],
             ),
             color="success",
             className="m-2",
@@ -59,11 +59,10 @@ app.layout = dbc.Container(
 @app.callback(
     Output("countdown", "duration"),
     Output("countdown", "disabled"),
-    Input("countdown", "fire"),
     Input("start_btn", "n_clicks"),
     State("time_picker", "value"),
 )
-def update_date_countdown(fire, click, time_selected):
+def update_date_countdown( click, time_selected):
     ctx = dash.callback_context
     input_id = ctx.triggered[0]["prop_id"].split(".")[0]
     if input_id == "start_btn":

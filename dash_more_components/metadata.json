@@ -38,7 +38,7 @@
           "name": "string"
         },
         "required": true,
-        "description": "id of component containing text to copy to the clipboard.\n The inner text of the children will be copied to the clipboard.  If none, then the text from the\n value property will be copied."
+        "description": "id of target component containing text to copy to the clipboard.\n The inner text of the children will be copied to the clipboard.  If none, then the text from the\n value property will be copied."
       },
       "setProps": {
         "type": {
@@ -437,12 +437,7 @@
         "name": "initTimer",
         "docblock": null,
         "modifiers": [],
-        "params": [
-          {
-            "name": "props",
-            "type": null
-          }
-        ],
+        "params": [],
         "returns": null
       },
       {
@@ -567,7 +562,7 @@
           "computed": false
         }
       },
-      "fire": {
+      "fire_times": {
         "type": {
           "name": "arrayOf",
           "value": {
@@ -575,18 +570,18 @@
           }
         },
         "required": false,
-        "description": "A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given\ntime rather than using the timer. Since the timer is typically set at a small interval like one second, using\nfire can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a\nmultiple of the interval.",
+        "description": "A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given\ntime rather than using the timer. Since the timer is typically set at a small interval like one second, using\nfire_times can reduce the number of times a callback is fired and can increase app performance. The time(s) must be a\nmultiple of the interval.",
         "defaultValue": {
           "value": "[]",
           "computed": false
         }
       },
-      "at_fire_interval": {
+      "at_fire_time": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "This number is updated when the timer reaches an interval in the fire property. (Read only)",
+        "description": "This number is updated when the timer it reaches a time in the  fire_times property. (Read only)",
         "defaultValue": {
           "value": "null",
           "computed": false
@@ -616,32 +611,36 @@
       },
       "timer_format": {
         "type": {
-          "name": "exact",
-          "value": {
-            "display": {
-              "name": "bool",
-              "description": "If False, then no timer will be displayed. Timer messages will be displayed (if any). If True, for example,\n1337000000 milliseconds will display as: '15d 11h 23m 20s' (the default format)",
-              "required": false
+          "name": "enum",
+          "value": [
+            {
+              "value": "'none'",
+              "computed": false
             },
-            "compact": {
-              "name": "bool",
-              "description": "Shows a compact timer display.  default: False\nIf True, it will only show the first unit: 1h 10m \u2192 1h.",
-              "required": false
+            {
+              "value": "'display'",
+              "computed": false
             },
-            "verbose": {
-              "name": "bool",
-              "description": "Verbose will display full-length units. default: False\n Example - if true: 5h 1m 45s \u2192 5 hours 1 minute 45 seconds",
-              "required": false
+            {
+              "value": "'compact'",
+              "computed": false
             },
-            "colonNotation": {
-              "name": "bool",
-              "description": "Display time in a colon notation. Useful when you want to display time without the time units, similar to\na digital watch. Will always shows time in at least minutes: 1s \u2192 0:01.  Example - 5h 1m 45s \u2192 5:01:45.",
-              "required": false
+            {
+              "value": "'verbose'",
+              "computed": false
+            },
+            {
+              "value": "'colonNotation'",
+              "computed": false
             }
-          }
+          ]
         },
         "required": false,
-        "description": "If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human\nreadable formats.  For example: 1337000000 milliseconds will display the default format: '15d 11h 23m 20s'."
+        "description": "If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human\nreadable formats.  The options are:\n `'none'`: no timer will be displayed;\n `'display'`:  example - 1337000000 milliseconds will display as: '15d 11h 23m 20s';\n `'compact'`: will show only the first unit: 1h 10m \u2192 1h ;\n `'verbose'`: will show full-length units. Example --  5 hours 1 minute 45 seconds\n `'colonNotation'`: Useful when you want to show time without the time units, similar to\n                  a digital watch. Will always shows time in at least minutes: 1s \u2192 0:01.\n                  Example - 5h 1m 45s \u2192 5:01:45.",
+        "defaultValue": {
+          "value": "'none'",
+          "computed": false
+        }
       },
       "setProps": {
         "type": {

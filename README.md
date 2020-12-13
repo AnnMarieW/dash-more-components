@@ -3,7 +3,8 @@
 
 Dash More Components is library of additional components to use in Plotly Dash apps
 
-1. __Clipboard__:  Copies text to the clipboard.  
+1. __Clipboard__:  Copies text to the clipboard.   
+
 
 2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
@@ -83,6 +84,10 @@ app.layout = dbc.Container(
 )
 
 
+if __name__ == "__main__":
+    app.run_server(debug=True)
+
+
 ```
 
 
@@ -121,15 +126,16 @@ This component will enable you to:
 |mode| 'stopwatch' or 'countdown'; default 'countdown'| The timer will count down to zero in `countdown` mode and count up from zero in `stopwatch` mode| |
 |duration| number; default -1|  Sets the number of milliseconds the timer will run.  If -1 the timer will not be limited by the duration and if 0 then the timer stops running and may be reset.||
 |reset| boolean; default True| This will start the timer at the beginning with the given prop settings.| |
-|fire| list; optional| A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given time rather than using the timer.  Since the timer is typically set at a small interval like one second, using `fire` can reduce the number of times a callback is fired and can increase app performance.  The time(s) must be a multiple of the interval.| |
-|at_fire_interval| number; optional| This number is updated when the timer reaches a time in milliseconds included in the `fire` property.  (Read only)| |
+|fire_times| list; optional| A list of the time(s) in milliseconds at which to fire a callback. This can be used to start a task at a given time rather than using the timer.  Since the timer is typically set at a small interval like one second, using `fire` can reduce the number of times a callback is fired and can increase app performance.  The time(s) must be a multiple of the interval.| |
+|at_fire_time| number; optional| This number is updated when the timer reaches a time in milliseconds included in the `fire` property.  (Read only)| |
 |rerun|boolean; default False| When True, the  timer repeats once the timer has run for the number of milliseconds set in the `duration`.| |
 |messages|dict; optional| Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.  Note:  `timer_format` will override `messages`.| {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000.|
-|timer_format|dict; optional| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |
-| | {'display': boolean}; default False|If False, then no timer will be displayed.  Timer `messages` will be displayed (if any).  If True, for example, 1337000000 milliseconds will display as: '15d 11h 23m 20s'|'15d 11h 23m 20s'|
-| | {'compact':boolean}; optional| Shows a compact timer display. If True, it will only show the first unit:| 1h 10m → 1h|
-| | {verbose: boolean}; optional; default False| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
-| | {colonNotation:boolean}; optional' default False|  Display time in a colon notation. Useful when you want to display time without the time units, similar to a digital watch. Will always shows time in at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
+|timer_format|string; optional.  One of:| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |
+| | 'none'; default| No timer will be displayed.  Timer messages will be shown.
+| | 'display'| Display timer in default format.  For example, 1337000000 milliseconds will display as: '15d 11h 23m 20s'|'15d 11h 23m 20s'|
+| | 'compact'| Shows a compact timer display. It will only show the first unit| 1h 10m → 1h|
+| | 'verbose'| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
+| | 'colonNotation'|  Display time in a colon notation. Useful when you want to display time without the time units, similar to a digital watch. Will always shows time in at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
 
 
 #### Quick Start
@@ -140,11 +146,6 @@ updates are all done clientside by the Timer component. No callbacks are used!
 
 
 ![](./examples/images/timer_quickstart.gif)
-
-
-![](./examples/images/fire.gif)
-
-
 
 See the code for all the examples [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
 
@@ -166,7 +167,7 @@ app.layout = html.Div(
                 # Any output the Timer component generates will be displayed here
                 mode="stopwatch",  # 'countdown  | 'stopwatch'
                 duration=10000,
-                timer_format={"display": True, "verbose": True},
+                timer_format="verbose",
                 rerun=True,
             ),
             style={"display": "inline-block"},
@@ -219,7 +220,7 @@ app.layout = html.Div(
                 mode="countdown",
                 disabled=True,
                 duration=51000,
-                fire=[0],
+                fire_times=[0],
                 messages={
                     50000: "(T-50 seconds) Orbiter transfers from ground to internal power",
                     31000: "(T-31 seconds) Ground Launch Sequencer is go for auto sequence start",
@@ -230,7 +231,7 @@ app.layout = html.Div(
                     0: "Solid Rocket Booster ignition and LIFTOFF!",
                 },
             ),
-        dmc.Timer(id='clock', duration=51000, timer_format={"display": True, "colonNotation": True}, disabled=True),
+        dmc.Timer(id='clock', duration=51000, timer_format="colonNotation", disabled=True),
         ]),
         dbc.Modal(
             dbc.ModalBody(html.Img(src=shuttle, style={"width": "100%"}),),
@@ -257,16 +258,14 @@ def start(btn_clicks):
 # `at_fire_interval` is updated when the countdown timer reaches the time set in the `fire` prop.
 #  in this callback, when the timer reaches 0, it will open the modal.
 @app.callback(
-    Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_interval"),
+    Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_time"),
 )
-def blastoff(at_fire_interval):
-    return at_fire_interval == 0
+def blastoff(at_fire_time):
+    return at_fire_time == 0
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
-
 
 
 
