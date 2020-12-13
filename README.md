@@ -6,12 +6,12 @@ Dash More Components is library of additional components to use in Plotly Dash a
 1. __Clipboard__:  Copies text to the clipboard.   
 
 
-2. __Timer__:  This component has all of the features of dcc.Interval plus some new properties that add countdown
+2. __Timer__:  This component has all the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
  of time or at a selected date or time. 
    
 
-3.  __Geolocation__:  Uses the browsers geolocation to get the current position of the device running a Dash app.   
+3.  __Geolocation__:  Uses the browser's geolocation to get the current position of the device running a Dash app.   
 
 
 4.  __Timepicker__:  Gives the user the ability to select a time with a nice clock display.
@@ -36,9 +36,9 @@ This component is very easy to use:
 When the icon is clicked-on, the component will copy the text to the clipboard and briefly update the icon to show the copy
 was successful.   No callbacks required!
 
-This component uses the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText).  Some
-older browsers do not support this functionality. In this case, the component will send an alert when the app starts,
-and the copy icon will not be displayed. 
+The Clipboard component uses the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText).  Some
+older browsers do not support the Clipboard API. In this case, the component sends an alert when the app starts,
+and the copy icon is not displayed. 
 
 
 
@@ -48,7 +48,7 @@ and the copy icon will not be displayed.
 |Prop name|Type & Default value|Description|Example values|
 |----|----|----|----|
 | id| string; optional|id of component used to identify dash components in callbacks| |
-|target_id|string; required|id of target component containing text to copy to the clipboard. The inner text of the children will be copied to the clipboard.  If none, then the text from the value property will be copied.
+|target_id|string; required|id of target component containing text to copy to the clipboard. The inner text of the `children` prop will be copied to the clipboard.  If none, then the text from the `value` prop will be copied.
 
 ---
 
@@ -135,7 +135,7 @@ This component will enable you to:
 | | 'display'| Display timer in default format.  For example, 1337000000 milliseconds will display as: '15d 11h 23m 20s'|'15d 11h 23m 20s'|
 | | 'compact'| Shows a compact timer display. It will only show the first unit| 1h 10m → 1h|
 | | 'verbose'| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
-| | 'colonNotation'|  Display time in a colon notation. Useful when you want to display time without the time units, similar to a digital watch. Will always shows time in at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
+| | 'colonNotation'|  Use this when you want to display time without the time units, similar to a digital watch. It will always show at least minutes: 1s → 0:01|5h 1m 45s → 5:01:45|
 
 
 #### Quick Start
@@ -186,7 +186,7 @@ if __name__ == "__main__":
 
 #### Space shuttle app - Timer demo:
 This app uses the dmc.Timer component to launch the space shuttle.  It uses the `messages` prop to define the messages that will 
-automatically be displayed at given time. The `fire` property specifies the time to trigger a callback to start the launch.
+automatically be displayed at given time. The `fire_times` property specifies the time to trigger a callback to start the launch.
 Even though the timer runs for 50 seconds (n_intervals = 50, interval=1000), it only fires the callback one time (at liftoff) All the other messages are handled 
 clientside by the component.
 
@@ -255,7 +255,7 @@ def start(btn_clicks):
     else:
         return dash.no_update
 
-# `at_fire_interval` is updated when the countdown timer reaches the time set in the `fire` prop.
+# `at_fire_interval` is updated when the countdown timer reaches the time set in the `fire_times` prop.
 #  in this callback, when the timer reaches 0, it will open the modal.
 @app.callback(
     Output("modal", "is_open"), Input("shuttle_countdown", "at_fire_time"),
@@ -385,94 +385,9 @@ Based on react time picker:   https://github.com/wojtekmaj/react-time-picker
 
 
 
+See the code for this demo [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timepicker_with_timer_demo.py)
 
-timepicker_with_timer_demo.py
-
-
-```python
-import dash_more_components as dmc
-import dash
-from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_bootstrap_components as dbc
-import datetime as dt
-
-external_stylesheets = [dbc.themes.BOOTSTRAP]
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-time_input_card = html.Div(
-    dbc.Card(
-        [
-            html.H4("Check for results at: "),
-            dbc.Row(
-                dbc.Col(
-                    [
-                        dmc.Timepicker(
-                            id="time_picker", value="12:00:00", maxDetail="second",
-                        ),
-                        dbc.Button(
-                            "Start countdown timer",
-                            id="start_btn",
-                            n_clicks=0,
-                            color="primary",
-                            size="sm",
-                        ),
-                    ],
-                ),
-            ),
-        ],
-        body=True,
-        className="m-3",
-    )
-)
-
-app.layout = dbc.Container(
-    [
-        time_input_card,
-        html.Div("Results ready in:", className="m-2"),
-        dbc.Badge(
-            children=dmc.Timer(
-                id="countdown",
-                disabled=True,
-                mode="countdown",
-                timer_format={"display": True, "verbose": True},
-                fire=[0],
-            ),
-            color="success",
-            className="m-2",
-            style={"minWidth": 250},
-        ),
-    ],
-    fluid=True,
-)
-
-
-@app.callback(
-    Output("countdown", "duration"),
-    Output("countdown", "disabled"),
-    Input("countdown", "fire"),
-    Input("start_btn", "n_clicks"),
-    State("time_picker", "value"),
-)
-def update_date_countdown(fire, click, time_selected):
-    ctx = dash.callback_context
-    input_id = ctx.triggered[0]["prop_id"].split(".")[0]
-    if input_id == "start_btn":
-        time_obj = dt.datetime.strptime(time_selected, "%H:%M:%S")
-        time_now = dt.datetime.now()
-        time_dif = time_obj - time_now
-        starting_duration = time_dif.seconds * 1000
-        return starting_duration, False
-    else:
-        return dash.no_update, dash.no_update
-
-
-if __name__ == "__main__":
-    app.run_server(debug=True)
-
-```
-
+To see examples of different ways to format the clock and the input fields, see [this app](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timepicker_demo.py)
 
 -----------
 ----------

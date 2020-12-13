@@ -83,11 +83,10 @@ Clipboard.propTypes = {
      */
     id: PropTypes.string,
 
-
     /**
      * id of target component containing text to copy to the clipboard.
-     *  The inner text of the children will be copied to the clipboard.  If none, then the text from the
-     *  value property will be copied.
+     *  The inner text of the `children` prop will be copied to the clipboard.  If none, then the text from the
+     *  `value` prop will be copied.
      */
      target_id: PropTypes.string.isRequired,
 
