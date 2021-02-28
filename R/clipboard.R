@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-clipboard <- function(id=NULL, target_id=NULL) {
+clipboard <- function(id=NULL, target_id=NULL, title=NULL, style=NULL, className=NULL) {
     
-    props <- list(id=id, target_id=target_id)
+    props <- list(id=id, target_id=target_id, title=title, style=style, className=className)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ clipboard <- function(id=NULL, target_id=NULL) {
         props = props,
         type = 'Clipboard',
         namespace = 'dash_more_components',
-        propNames = c('id', 'target_id'),
+        propNames = c('id', 'target_id', 'title', 'style', 'className'),
         package = 'dashMoreComponents'
         )
 

@@ -54,20 +54,31 @@ export default class Clipboard extends React.Component {
     if (!navigator.clipboard) {
       this.setState({hasNavigator: false})
       alert('Copy to clipboard not available with this browser')
-      // include instruction in message on how to enable or upgrade?)
     }
   }
 
   render() {
+    const {
+            id,
+            title,
+            className,
+            style,
+        } = this.props;
     const copyIcon = <FontAwesomeIcon icon={faCopy}  />
     const copiedIcon = <FontAwesomeIcon icon={faCheckCircle} />
     const btnIcon = this.state.copied ? copiedIcon : copyIcon
 
     return (this.state.hasNavigator) ? (
-            <div>
-                <i onClick={() => this.copyToClipboard()}>               
+            <div
+                id={id}
+                title={title}
+                style={style}
+                className={className}
+            >
+                <i onClick={() => this.copyToClipboard()}>
                    {btnIcon}
                 </i>
+
             </div>
     ) : (null)
   }
@@ -89,6 +100,21 @@ Clipboard.propTypes = {
      *  `value` prop will be copied.
      */
      target_id: PropTypes.string.isRequired,
+
+     /**
+      * The text shown as a tooltip when hovering over the copy icon.
+      */
+     title: PropTypes.string,
+
+     /**
+      * The icon's styles
+      */
+     style: PropTypes.object,
+
+     /**
+      * The class  name of the icon element
+      */
+     className: PropTypes.string,
 
 
     /**

@@ -38,7 +38,28 @@
           "name": "string"
         },
         "required": true,
-        "description": "id of target component containing text to copy to the clipboard.\n The inner text of the children will be copied to the clipboard.  If none, then the text from the\n value property will be copied."
+        "description": "id of target component containing text to copy to the clipboard.\n The inner text of the `children` prop will be copied to the clipboard.  If none, then the text from the\n `value` prop will be copied."
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The text shown as a tooltip when hovering over the copy icon."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The icon's styles"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class  name of the icon element"
       },
       "setProps": {
         "type": {

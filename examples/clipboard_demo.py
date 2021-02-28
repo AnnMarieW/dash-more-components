@@ -113,28 +113,45 @@ import dash
 import dash_more_components as dmc
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_bootstrap_components as dbc
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-app.layout = dbc.Container(
-    dbc.Row(
-        dbc.Col(
+app.layout = html.Div(
+    [
+        html.H3("Copy To Clipboard Demo"),
+        html.Div(
             [
-                html.H3("Copy To Clipboard Demo"),
                 dcc.Input(id="input_id", value=""),
-                html.Div(
-                    dmc.Clipboard(target_id="input_id"),
-                    className="d-inline-block text-white  p-1  bg-secondary",
+                dmc.Clipboard(
+                    target_id="input_id",
                     title="copy",
+                    className='button',
+                    style={
+                        "padding-right": 2,
+                        "padding-left": 2,
+                        "fontSize": 20,
+                     },
                 ),
-            ],className='m-4'
+            ], style={"margin-bottom": 10}
         ),
-    ),fluid=True
+        dcc.Textarea(id="textarea_id", value=""),
+        dmc.Clipboard(
+            target_id="textarea_id",
+            title="copy",
+            style={
+                "display": "inline-block",
+                "fontSize": 30,
+                "padding-right": 5,
+                "padding-left": 5,
+                "border-radius": 4,
+                "backgroundColor": "gainsboro",
+                "vertical-align": "top",
+            },
+        ),
+    ]
 )
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)

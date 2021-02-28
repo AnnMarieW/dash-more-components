@@ -6,7 +6,7 @@ Dash More Components is library of additional components to use in Plotly Dash a
 1. __Clipboard__:  Copies text to the clipboard.   
 
 
-2. __Timer__:  This component has all the features of dcc.Interval plus some new properties that add countdown
+2. __Timer__:  The Timer component has all the features of dcc.Interval plus some new properties that add countdown
 and stopwatch features to enhance UI and app performance.    This is ideal for triggering a callback after a certain amount
  of time or at a selected date or time. 
    
@@ -24,7 +24,7 @@ and stopwatch features to enhance UI and app performance.    This is ideal for t
 
 ## Clipboard
 
-This component is based on the request in [#1009](https://github.com/plotly/dash-docs/issues/1009). 
+The Clipboard component is based on the request in [#1009](https://github.com/plotly/dash-docs/issues/1009). 
 The copy to clipboard component allows the user to copy text from the app to the clipboard by clicking on a
 copy icon.  
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
 ## Timer
 
-This component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857).  
+The Timer component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857).  
 
 The Timer is a convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
 dcc.Interval component plus some new properties - such as a timer that either counts up or counts down. 
@@ -108,7 +108,7 @@ This component will enable you to:
  - Automatically convert milliseconds into human readable times.  For example, 1337000000ms can be display as:
   '15d 11h 23m 20s'  See other available formats in the `timer_format` prop.
  - Specify certain times to trigger a callback.  This makes it easy to start or stop jobs at a specified elapse time.
- - Improve load and performance times because it is not necessary to fire a callback every second just to update 
+ - Improve load and performance times because updates can happen clientside and it is not necessary to fire a callback every second just to update 
  a countdown/stopwatch message.
 
  
@@ -131,7 +131,7 @@ This component will enable you to:
 |rerun|boolean; default False| When True, the  timer repeats once the timer has run for the number of milliseconds set in the `duration`.| |
 |messages|dict; optional| Timer messages to be displayed by the component rather than showing the timer. It is a dictionary in the form of: { integer: string} where integer is the time in milliseconds of when the `string` message is to be displayed.  Note:  `timer_format` will override `messages`.| {10000 : "updating in 10 seconds"} will display the message "updating in 10 seconds" once the timer equals 10000.|
 |timer_format|string; optional.  One of:| If a timer is displayed, it will override timer `messages`.  This formats the timer (milliseconds) into human readable formats.| |
-| | 'none'; default| No timer will be displayed.  Timer messages will be shown.
+| | 'none'; default| No timer will be displayed.  Timer `messages` will be shown.
 | | 'display'| Display timer in default format.  For example, 1337000000 milliseconds will display as: '15d 11h 23m 20s'|'15d 11h 23m 20s'|
 | | 'compact'| Shows a compact timer display. It will only show the first unit| 1h 10m → 1h|
 | | 'verbose'| Verbose will display full-length units.|5h 1m 45s → 5 hours 1 minute 45 seconds|
@@ -147,7 +147,7 @@ updates are all done clientside by the Timer component. No callbacks are used!
 
 ![](./examples/images/timer_quickstart.gif)
 
-See the code for all the examples [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
+See the code for the examples above [here](https://github.com/AnnMarieW/dash-more-components/blob/master/examples/timer_demo.py)
 
 #### Timer component quickstart app:
 ```python
@@ -361,7 +361,7 @@ the examples folder.
 
 ## Timepicker
 
-Displays an input field complete with custom inputs and a clock.
+The Timepicker component displays an input field complete with custom time inputs and a clock.
 Based on react time picker:   https://github.com/wojtekmaj/react-time-picker
 
 

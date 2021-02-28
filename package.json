@@ -23,7 +23,6 @@
     "pretty-ms": "^7.0.1",
     "ramda": "^0.26.1",
     "react-credit-cards": "^0.8.3",
-    "react-datetime-picker": "^3.0.4",
     "react-time-picker": "^4.0.1"
   },
   "devDependencies": {
