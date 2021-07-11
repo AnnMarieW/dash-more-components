@@ -6,14 +6,15 @@
 \title{Timer component}
 
 \description{
-A component that repeatedly increments a counter `n_intervals` with a fixed time delay between each increment. Interval is good for triggering a component on a recurring basis. The time delay is set with the property "interval" in milliseconds.
+The Timer component has all the functionality of the Interval component plus the following additional features:  Operate in either `countdown` or `stopwatch` (count up) modes. Display custom messages, or start/stop jobs at specified times. Convert milliseconds into human readable times. Update messages clientside to help improve app performance. Specify the elapsed times to fire a callback rather than every interval
 }
 
 \usage{
 timer(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL,
 max_intervals=NULL, timer=NULL, mode=NULL, duration=NULL,
 reset=NULL, fire_times=NULL, at_fire_time=NULL, rerun=NULL,
-messages=NULL, timer_format=NULL)
+messages=NULL, timer_format=NULL, style=NULL,
+class_name=NULL)
 }
 
 \arguments{
@@ -67,6 +68,10 @@ readable formats.  The options are:
  `'colonNotation'`: Useful when you want to show time without the time units, similar to
                   a digital watch. Will always shows time in at least minutes: 1s → 0:01.
                   Example - 5h 1m 45s → 5:01:45.}
+
+\item{style}{Named list. The messages styles}
+
+\item{class_name}{Character. The class  name of the messages container}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

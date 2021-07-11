@@ -63,7 +63,7 @@ available before the timeout.   If set to zero, it will not use a cached data.
 7. __Recenter__ and zoom to button will recenter the map and set the zoom to specified level.  The map uses uirevision 
 to hold the user settings for pan, zoom etc, so those won't change when the position data is updated.  Note that in 
 order for this to update, a new zoom number must be entered, because if it's the same, Dash will not update the map 
-(It thinks no data has changed)
+
 
 8.  The __dates and times__ are when the position data was obtained.  The date reflects the
  current system time from the computer running the browser.  The accuracy is dependant on this being set correctly
@@ -137,7 +137,7 @@ input_card = html.Div(
                         className="m-2",
                         color="secondary",
                     ),
-                    dcc.Checklist(
+                    dbc.Checklist(
                         id="options_checklist",
                         options=[
                             {"label": "Include Address", "value": "address"},
@@ -145,7 +145,6 @@ input_card = html.Div(
                             {"label": "Enable High Accuracy", "value": "high_accuracy"},
                             {"label": "Show errors as alert", "value": "alert"},
                         ],
-                        inputClassName="m-1",
                         className="mt-4",
                     ),
                     dbc.InputGroup(

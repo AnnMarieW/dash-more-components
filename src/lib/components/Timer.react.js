@@ -2,33 +2,27 @@ import {includes} from 'ramda';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react'; // eslint-disable-line no-unused-vars
 
+
 function getFormat(format_type) {
-    switch (format_type) {
-        case 'default':
-            return {};
-        case 'verbose':
-            return {'verbose': true};
-        case 'colonNotation':
-            return {'colonNotation': true};
-        case 'compact':
-            return {'compact': true};
-    }
+    let formats = {
+        "default": {},
+        "verbose": {verbose: true},
+        "colonNotation": {colonNotation: true},
+        "compact": {compact: true},
+    };
+    return formats[format_type];
 }
 
-/**
- * A component that repeatedly increments a counter `n_intervals`
- * with a fixed time delay between each increment.
- * Interval is good for triggering a component on a recurring basis.
- * The time delay is set with the property "interval" in milliseconds.
- */
 
-/*
- *     TODO:  change to ComponentDidUpdate *
- *            how to handle when callbacks take longer than the interval timer
- *             change name back to Interval?
- *             dependency:  https://github.com/sindresorhus/pretty-ms
+/**
+ * The Timer component has all the functionality of the Interval component plus
+ * the following additional features:
  *
- *
+ * Operate in either `countdown` or `stopwatch` (count up) modes.
+ * Display custom messages, or start/stop jobs at specified times.
+ * Convert milliseconds into human readable times.
+ * Update messages clientside to help improve app performance.
+ * Specify the elapsed times to fire a callback rather than every interval
  */
 
 
@@ -52,7 +46,7 @@ export default class Timer extends Component {
             n_intervals,
             max_intervals,
             disabled,
-            
+
             rerun,
             interval,
         } = this.props;
@@ -180,8 +174,17 @@ export default class Timer extends Component {
         this.clearTimer();
     }
 
+
     render() {
-        return <div>{this.renderMessage}</div>;
+        const {id, class_name, style} = this.props;
+        return <div
+                id={id}
+                style={style}
+                className={class_name}
+            >
+                <div>{this.renderMessage}</div>
+            </div>
+
     }
 }
 
@@ -279,6 +282,17 @@ Timer.propTypes = {
      *                   Example - 5h 1m 45s → 5:01:45.
      */
     timer_format: PropTypes.oneOf(['none', 'display', 'compact', 'verbose', 'colonNotation']),
+
+     /**
+     * The messages styles
+     */
+    style: PropTypes.object,
+
+    /**
+     * The class  name of the messages container
+     */
+    class_name: PropTypes.string,
+
 
     /**
      * Dash assigned callback

@@ -61,8 +61,7 @@ available before the timeout.   If set to zero, it will not use a cached data.
 
 7. __Recenter__ and zoom to button will recenter the map and set the zoom to specified level.  The map uses uirevision 
 to hold the user settings for pan, zoom etc, so those won't change when the position data is updated.  Note that in 
-order for this to update, a new zoom number must be entered, because if it's the same, Dash will not update the map 
-(It thinks no data has changed)
+order for this to update, a new zoom number must be entered, because if it's the same, Dash will not update the map.
 
 8.  The __dates and times__ are when the position data was obtained.  The date reflects the
  current system time from the computer running the browser.  The accuracy is dependant on this being set correctly
@@ -152,7 +151,7 @@ input_card = html.Div(
                             dbc.InputGroupAddon("Max age", addon_type="prepend"),
                             dbc.Input(
                                 id="max_age",
-                                placeholder=f"milliseconds",
+                                placeholder="milliseconds",
                                 type="number",
                                 debounce=True,
                                 value=0,

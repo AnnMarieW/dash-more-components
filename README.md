@@ -97,19 +97,17 @@ if __name__ == "__main__":
 
 ## Timer
 
-The Timer component is based on the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857).  
+The Timer component is in response to the discussion in [#857](https://github.com/plotly/dash-core-components/issues/857).  
 
-The Timer is a convenient way to enhance the UI and the performance of your Dash app.  It has all of the features of the
-dcc.Interval component plus some new properties - such as a timer that either counts up or counts down. 
- 
-This component will enable you to:
- 
- - Specify custom messages to display at certain times
+dcc.Timer() is based on the dcc.Interval component.  It has all the functionality of dcc.Interval plus these new features:
+
+ - Operate the timer in either `countdown` or `stopwatch` (count up) modes.
+ - Specify custom messages to display at certain times.
  - Automatically convert milliseconds into human readable times.  For example, 1337000000ms can be display as:
   '15d 11h 23m 20s'  See other available formats in the `timer_format` prop.
  - Specify certain times to trigger a callback.  This makes it easy to start or stop jobs at a specified elapse time.
- - Improve load and performance times because updates can happen clientside and it is not necessary to fire a callback every second just to update 
- a countdown/stopwatch message.
+ - Improve load and performance times because updates can happen clientside.  This makes it unnecessary to fire a callback
+   frequently (ie every interval) just to update a countdown/stopwatch message.
 
  
 

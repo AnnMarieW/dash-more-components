@@ -226,7 +226,7 @@
           }
         },
         "required": false,
-        "description": "(dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included\nwhen available, otherwise it will be NaN.\nA dictionary with the following keys:\n      lat:  latitude in degrees,\n      lon: longitude in degrees,\n      accuracy: accuracy of the lat/lon in meters,\n\n      When available:\n      alt:  altitude above mean sea level in meters,\n      altAccuracy:  accuracy of the altitude  in meters,\n      heading: compass heading in degrees,\n      speed:  speed in meters per sec,"
+        "description": "The position of the device.  `lat`, `lon`, and `accuracy` will always be returned.  The other data will be included\nwhen available, otherwise it will be NaN.\n\n      `lat` is latitude in degrees.\n      `lon` is longitude in degrees.\n      `accuracy` is the accuracy of the lat/lon in meters.    *\n\n      `alt` is altitude above mean sea level in meters.\n      `altAccuracy` is the accuracy of the altitude  in meters.\n      `heading` is the compass heading in degrees.\n      `speed` is the  speed in meters per second."
       },
       "position_error": {
         "type": {
@@ -260,23 +260,12 @@
           "computed": false
         }
       },
-      "watch_position": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "(boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data\nis updated when either the location changes or more accurate information becomes available",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
       "update_now": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "(boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser\n  will update the position data and reset update_now back to False.  This can, for example, be used to update the\n position with a button or an interval timer.",
+        "description": "Forces a one-time update of the position data.   If set to True in a callback, the browser\n  will update the position data and reset update_now back to False.  This can, for example, be used to update the\n position with a button or an interval timer.",
         "defaultValue": {
           "value": "false",
           "computed": false
@@ -287,7 +276,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "(boolean; default False).   If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can save resources by\n responding more quickly and/or using less power.",
+        "description": "If true and if the device is able to provide a more accurate position,\n it will do so. Note that this can result in slower response times or increased power consumption (with a GPS\n chip on a mobile device for example). If false (the default value), the device can save resources by\n responding more quickly and/or using less power.",
         "defaultValue": {
           "value": "false",
           "computed": false
@@ -416,7 +405,7 @@
     }
   },
   "src/lib/components/Timer.react.js": {
-    "description": "A component that repeatedly increments a counter `n_intervals`\nwith a fixed time delay between each increment.\nInterval is good for triggering a component on a recurring basis.\nThe time delay is set with the property \"interval\" in milliseconds.",
+    "description": "The Timer component has all the functionality of the Interval component plus\nthe following additional features:\n\nOperate in either `countdown` or `stopwatch` (count up) modes.\nDisplay custom messages, or start/stop jobs at specified times.\nConvert milliseconds into human readable times.\nUpdate messages clientside to help improve app performance.\nSpecify the elapsed times to fire a callback rather than every interval",
     "displayName": "Timer",
     "methods": [
       {
@@ -662,6 +651,20 @@
           "value": "'none'",
           "computed": false
         }
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The messages styles"
+      },
+      "class_name": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class  name of the messages container"
       },
       "setProps": {
         "type": {

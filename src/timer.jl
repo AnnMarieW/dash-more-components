@@ -6,10 +6,14 @@ export timer
     timer(;kwargs...)
 
 A Timer component.
-A component that repeatedly increments a counter `n_intervals`
-with a fixed time delay between each increment.
-Interval is good for triggering a component on a recurring basis.
-The time delay is set with the property "interval" in milliseconds.
+The Timer component has all the functionality of the Interval component plus
+the following additional features:
+
+Operate in either `countdown` or `stopwatch` (count up) modes.
+Display custom messages, or start/stop jobs at specified times.
+Convert milliseconds into human readable times.
+Update messages clientside to help improve app performance.
+Specify the elapsed times to fire a callback rather than every interval
 Keyword arguments:
 - `id` (String; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
@@ -48,9 +52,11 @@ readable formats.  The options are:
  `'colonNotation'`: Useful when you want to show time without the time units, similar to
                   a digital watch. Will always shows time in at least minutes: 1s → 0:01.
                   Example - 5h 1m 45s → 5:01:45.
+- `style` (Dict; optional): The messages styles
+- `class_name` (String; optional): The class  name of the messages container
 """
 function timer(; kwargs...)
-        available_props = Symbol[:id, :interval, :disabled, :n_intervals, :max_intervals, :timer, :mode, :duration, :reset, :fire_times, :at_fire_time, :rerun, :messages, :timer_format]
+        available_props = Symbol[:id, :interval, :disabled, :n_intervals, :max_intervals, :timer, :mode, :duration, :reset, :fire_times, :at_fire_time, :rerun, :messages, :timer_format, :style, :class_name]
         wild_props = Symbol[]
         return Component("timer", "Timer", "dash_more_components", available_props, wild_props; kwargs...)
 end

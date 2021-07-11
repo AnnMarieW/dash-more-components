@@ -5,10 +5,14 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Timer(Component):
     """A Timer component.
-A component that repeatedly increments a counter `n_intervals`
-with a fixed time delay between each increment.
-Interval is good for triggering a component on a recurring basis.
-The time delay is set with the property "interval" in milliseconds.
+The Timer component has all the functionality of the Interval component plus
+the following additional features:
+
+Operate in either `countdown` or `stopwatch` (count up) modes.
+Display custom messages, or start/stop jobs at specified times.
+Convert milliseconds into human readable times.
+Update messages clientside to help improve app performance.
+Specify the elapsed times to fire a callback rather than every interval
 
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
@@ -47,14 +51,16 @@ readable formats.  The options are:
  `'verbose'`: will show full-length units. Example --  5 hours 1 minute 45 seconds
  `'colonNotation'`: Useful when you want to show time without the time units, similar to
                   a digital watch. Will always shows time in at least minutes: 1s → 0:01.
-                  Example - 5h 1m 45s → 5:01:45."""
+                  Example - 5h 1m 45s → 5:01:45.
+- style (dict; optional): The messages styles
+- class_name (string; optional): The class  name of the messages container"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, interval=Component.UNDEFINED, disabled=Component.UNDEFINED, n_intervals=Component.UNDEFINED, max_intervals=Component.UNDEFINED, timer=Component.UNDEFINED, mode=Component.UNDEFINED, duration=Component.UNDEFINED, reset=Component.UNDEFINED, fire_times=Component.UNDEFINED, at_fire_time=Component.UNDEFINED, rerun=Component.UNDEFINED, messages=Component.UNDEFINED, timer_format=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire_times', 'at_fire_time', 'rerun', 'messages', 'timer_format']
+    def __init__(self, id=Component.UNDEFINED, interval=Component.UNDEFINED, disabled=Component.UNDEFINED, n_intervals=Component.UNDEFINED, max_intervals=Component.UNDEFINED, timer=Component.UNDEFINED, mode=Component.UNDEFINED, duration=Component.UNDEFINED, reset=Component.UNDEFINED, fire_times=Component.UNDEFINED, at_fire_time=Component.UNDEFINED, rerun=Component.UNDEFINED, messages=Component.UNDEFINED, timer_format=Component.UNDEFINED, style=Component.UNDEFINED, class_name=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire_times', 'at_fire_time', 'rerun', 'messages', 'timer_format', 'style', 'class_name']
         self._type = 'Timer'
         self._namespace = 'dash_more_components'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire_times', 'at_fire_time', 'rerun', 'messages', 'timer_format']
+        self.available_properties = ['id', 'interval', 'disabled', 'n_intervals', 'max_intervals', 'timer', 'mode', 'duration', 'reset', 'fire_times', 'at_fire_time', 'rerun', 'messages', 'timer_format', 'style', 'class_name']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

@@ -11,9 +11,8 @@ The CurrentLocation component gets geolocation of the device from the web browse
 
 \usage{
 geolocation(id=NULL, local_date=NULL, timestamp=NULL, position=NULL,
-position_error=NULL, show_alert=NULL, watch_position=NULL,
-update_now=NULL, high_accuracy=NULL, maximum_age=NULL,
-timeout=NULL)
+position_error=NULL, show_alert=NULL, update_now=NULL,
+high_accuracy=NULL, maximum_age=NULL, timeout=NULL)
 }
 
 \arguments{
@@ -32,18 +31,17 @@ those elements have the following types:
   - alt (numeric; optional)
   - altaccuracy (numeric; optional)
   - heading (numeric; optional)
-  - speed (numeric; optional). (dict)The position of the device.  Lat, lon, and accuracy will always be returned.  The other data will be included
+  - speed (numeric; optional). The position of the device.  `lat`, `lon`, and `accuracy` will always be returned.  The other data will be included
 when available, otherwise it will be NaN.
-A dictionary with the following keys:
-      lat:  latitude in degrees,
-      lon: longitude in degrees,
-      accuracy: accuracy of the lat/lon in meters,
 
-      When available:
-      alt:  altitude above mean sea level in meters,
-      altAccuracy:  accuracy of the altitude  in meters,
-      heading: compass heading in degrees,
-      speed:  speed in meters per sec,}
+      `lat` is latitude in degrees.
+      `lon` is longitude in degrees.
+      `accuracy` is the accuracy of the lat/lon in meters.    *
+
+      `alt` is altitude above mean sea level in meters.
+      `altAccuracy` is the accuracy of the altitude  in meters.
+      `heading` is the compass heading in degrees.
+      `speed` is the  speed in meters per second.}
 
 \item{position_error}{Lists containing elements 'code', 'message'.
 those elements have the following types:
@@ -52,14 +50,11 @@ those elements have the following types:
 
 \item{show_alert}{Logical. If true, error messages will be displayed as an alert}
 
-\item{watch_position}{Logical. (boolean; default False).  If false, position is obtained as an asynchronous request.  If true, then  position data
-is updated when either the location changes or more accurate information becomes available}
-
-\item{update_now}{Logical. (boolean; default False).  Forces a one-time update to the position data.   If set to True in a callback, the browser
+\item{update_now}{Logical. Forces a one-time update of the position data.   If set to True in a callback, the browser
   will update the position data and reset update_now back to False.  This can, for example, be used to update the
  position with a button or an interval timer.}
 
-\item{high_accuracy}{Logical. (boolean; default False).   If true and if the device is able to provide a more accurate position,
+\item{high_accuracy}{Logical. If true and if the device is able to provide a more accurate position,
  it will do so. Note that this can result in slower response times or increased power consumption (with a GPS
  chip on a mobile device for example). If false (the default value), the device can save resources by
  responding more quickly and/or using less power.}
