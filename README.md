@@ -1,7 +1,20 @@
 # Dash More Components
-### Note:  This is a pre-release preview.  Question, comments, suggestions are welcome :-)
 
-Dash More Components is library of additional components to use in Plotly Dash apps
+>Note:  This is a library is for experimenting with new components for use in Plotly Dash apps. 
+This library is unpublished and these components are not intended for use in a production environment.  
+
+>Based on this preliminary work, I was invited to do a pull request to add `Clipboard`, `Geolocation` and `Timer` to
+the Dash Core Components library.  Clipboard was added to Dash in release 1.21.  The other pull requests are stalled near
+> the finishline, but may make their way into Dash 2.x.  Please see the latest versions of the components here:
+> - dcc.Geolocation: https://github.com/plotly/dash-core-components/pull/962
+>- dcc.Timer:  https://github.com/plotly/dash-core-components/pull/961
+> 
+
+
+
+Question, comments, suggestions are welcome :-)
+
+Dash More Components:
 
 1. __Clipboard__:  Copies text to the clipboard.   
 
