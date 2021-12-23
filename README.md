@@ -1,6 +1,6 @@
 # Dash More Components
 
->Note:  This is a library is for experimenting with new components for use in Plotly Dash apps. 
+>Note:  This library is for experimenting with creating new components for use in Plotly Dash apps. 
 This library is unpublished and these components are not intended for use in a production environment.  
 
 >Based on this preliminary work, I was invited to do a pull request to add `Clipboard`, `Geolocation` and `Timer` to
